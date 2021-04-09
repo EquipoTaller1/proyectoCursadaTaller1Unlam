@@ -5,6 +5,8 @@ public class CajaFuerte {
 	private boolean estaAbierto;
 
 	private int codigoSeteado;
+	
+	private int prueba;
 
 	public CajaFuerte() {
 		this.estaAbierto = true;
