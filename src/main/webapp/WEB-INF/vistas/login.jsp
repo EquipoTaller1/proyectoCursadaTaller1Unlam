@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Bootstrap core CSS -->
 	    <link href="css/bootstrap.min.css" rel="stylesheet" >
 	    <!-- Bootstrap theme -->
@@ -22,7 +24,7 @@
 					<form:input path="email" id="email" type="email" class="form-control" />
 					<form:input path="password" type="password" id="password" class="form-control"/>     		  
 					
-					<button class="btn btn-lg btn-primary btn-block" Type="Submit"/>Iniciar Sesión</button>
+					<button class="btn btn-lg btn-primary btn-block" Type="Submit"/>Iniciar Sesi&oacute;n</button>
 				</form:form>
 
 				<%--Bloque que es visible si el elemento error no está vacío	--%>
