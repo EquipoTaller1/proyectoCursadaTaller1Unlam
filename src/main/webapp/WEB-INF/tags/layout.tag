@@ -7,6 +7,8 @@
 --%>
 <%@tag description="Layout de las paginas" pageEncoding="UTF-8"%>
 <%@attribute name="title" fragment="true" %>
+<%@attribute name="style" fragment="true" required="false" %>
+<%@attribute name="script" fragment="true" required="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -28,6 +30,8 @@
     <link href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- Argon CSS -->
     <link type="text/css" href="assets/css/argon.css?v=1.0.0" rel="stylesheet">
+
+    <jsp:invoke fragment="style"/>
 </head>
 
 <body>
@@ -157,6 +161,7 @@
 <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Argon JS -->
 <script src="assets/js/argon.js?v=1.0.0"></script>
+<jsp:invoke fragment="script"/>
 </body>
 
 </html>

@@ -9,7 +9,7 @@
 <!-- Navigation -->
 <ul class="navbar-nav">
     <li class="nav-item">
-        <a class="nav-link" href="../index.html">
+        <a class="nav-link" href="${pageContext.request.contextPath}/home">
             <i class="ni ni-tv-2 text-primary"></i> Dashboard
         </a>
     </li>
@@ -19,7 +19,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="../examples/maps.html">
+        <a class="nav-link" href="${pageContext.request.contextPath}/map">
             <i class="ni ni-pin-3 text-orange"></i> Maps
         </a>
     </li>
