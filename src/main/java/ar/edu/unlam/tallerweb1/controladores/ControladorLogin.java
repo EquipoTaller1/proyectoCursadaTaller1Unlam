@@ -63,10 +63,16 @@ public class ControladorLogin {
 	}*/
 
 	// Escucha la URL /home por GET, y redirige a una vista.
-	@RequestMapping(path = "/home", method = RequestMethod.GET)
-	public ModelAndView irAHome()
+	@RequestMapping(path = "/medico", method = RequestMethod.GET)
+	public ModelAndView irAHomeMedico()
 	{
-		return new ModelAndView("home/home");
+		return new ModelAndView("home/home-medico");
+	}
+
+	@RequestMapping(path = "/paciente", method = RequestMethod.GET)
+	public ModelAndView irAHomePaciente()
+	{
+		return new ModelAndView("home/home-paciente");
 	}
 
 	// Escucha la url /, y redirige a la URL /login, es lo mismo que si se invoca la url /login directamente.

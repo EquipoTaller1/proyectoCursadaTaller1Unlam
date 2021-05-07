@@ -49,7 +49,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	@Override
 	public void createUser(Usuario usuario) {
 		final Session session = sessionFactory.getCurrentSession();
-		usuario.setRol("user");
+		usuario.setRol("Paciente");
 		usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
 		session.save(usuario);
 	}

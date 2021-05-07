@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!-- Navigation -->
 <ul class="navbar-nav">
     <li class="nav-item">
@@ -43,6 +44,20 @@
             <i class="ni ni-circle-08 text-pink"></i> Register
         </a>
     </li>
+    <sec:authorize access="hasRole('Medico')">
+        <li class="nav-item">
+            <a class="nav-link" href="../examples/register.html">
+                <i class="ni ni-circle-08 text-pink"></i> Solo para medicos
+            </a>
+        </li>
+    </sec:authorize>
+    <sec:authorize access="hasRole('Paciente')">
+        <li class="nav-item">
+            <a class="nav-link" href="../examples/register.html">
+                <i class="ni ni-circle-08 text-pink"></i> Solo para pacientes
+            </a>
+        </li>
+    </sec:authorize>
 </ul>
 <!-- Divider -->
 <hr class="my-3">
