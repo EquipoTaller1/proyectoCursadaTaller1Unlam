@@ -31,5 +31,8 @@
                 </div>
             </div>
         </div>
+
+        <div id="jsonMedicosHidden" hidden>${jsonMedicos}</div>
+
     </jsp:body>
 </t:layout>

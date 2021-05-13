@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			var latitude = position.coords.latitude;
 			var longitude = position.coords.longitude;
 
+			infoMedicos = document.getElementById("jsonMedicosHidden");
+			var jsonMedicos = infoMedicos.innerHTML;
+			console.log(jsonMedicos);
+
 			//instanciar map
 			var mymap = L.map('mapaPaciente', {
 				center: [latitude, longitude],
