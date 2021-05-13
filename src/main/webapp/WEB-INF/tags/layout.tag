@@ -22,14 +22,14 @@
         <jsp:invoke fragment="title"/>
     </title>
     <!-- Favicon -->
-    <link href="assets/img/brand/favicon.png" rel="icon" type="image/png">
+    <link href="${pageContext.request.contextPath}/assets/img/brand/favicon.png" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->
-    <link href="assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-    <link href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- Argon CSS -->
-    <link type="text/css" href="assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <link type="text/css" href="${pageContext.request.contextPath}/assets/css/argon.css?v=1.0.0" rel="stylesheet">
 
     <jsp:invoke fragment="style"/>
 </head>
@@ -63,7 +63,7 @@
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg">
+                <img alt="Image placeholder" src="${pageContext.request.contextPath}/assets/img/theme/team-1-800x800.jpg">
               </span>
                     </div>
                 </a>
@@ -128,7 +128,7 @@
                     <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="assets/img/theme/team-4-800x800.jpg">
+                  <img alt="Image placeholder" src="${pageContext.request.contextPath}/assets/img/theme/team-4-800x800.jpg">
                 </span>
                             <div class="media-body ml-2 d-none d-lg-block">
                                 <span class="mb-0 text-sm  font-weight-bold">
@@ -157,10 +157,10 @@
 </div>
 <!-- Argon Scripts -->
 <!-- Core -->
-<script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-<script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Argon JS -->
-<script src="assets/js/argon.js?v=1.0.0"></script>
+<script src="${pageContext.request.contextPath}/assets/js/argon.js?v=1.0.0"></script>
 <jsp:invoke fragment="script"/>
 </body>
 

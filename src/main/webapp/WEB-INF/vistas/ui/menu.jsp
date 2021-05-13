@@ -10,11 +10,27 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!-- Navigation -->
 <ul class="navbar-nav">
-	<li class="nav-item"><a class="nav-link"
-		href="${pageContext.request.contextPath}/home"> <i
-			class="ni ni-tv-2 text-primary"></i> Dashboard
-	</a></li>
-	<li class="nav-item"><a class="nav-link"
+	<sec:authorize access="hasRole('Medico')">
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/medico/home"> <i
+				class="ni ni-tv-2 text-primary"></i> Home
+		</a></li>
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/medico/mapa"> <i
+				class="ni ni-pin-3 text-orange"></i> Maps
+		</a></li>
+	</sec:authorize>
+	<sec:authorize access="hasRole('Paciente')">
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/paciente/home">
+			<i class="ni ni-tv-2 text-primary"></i> Home
+		</a></li>
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/paciente/mapa"> <i
+				class="ni ni-pin-3 text-orange"></i> Maps
+		</a></li>
+	</sec:authorize>
+	<%--<li class="nav-item"><a class="nav-link"
 		href="../examples/icons.html"> <i class="ni ni-planet text-blue"></i>
 			Icons
 	</a></li>
@@ -34,27 +50,7 @@
 	<li class="nav-item"><a class="nav-link"
 		href="../examples/register.html"> <i
 			class="ni ni-circle-08 text-pink"></i> Register
-	</a></li>
-	<sec:authorize access="hasRole('Medico')">
-		<li class="nav-item"><a class="nav-link"
-			href="${pageContext.request.contextPath}/mapaMedico"> <i
-				class="ni ni-pin-3 text-orange"></i> Maps
-		</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="../examples/register.html"> <i
-				class="ni ni-circle-08 text-pink"></i> Solo para medicos
-		</a></li>
-	</sec:authorize>
-	<sec:authorize access="hasRole('Paciente')">
-		<li class="nav-item"><a class="nav-link"
-			href="${pageContext.request.contextPath}/mapaPaciente"> <i
-				class="ni ni-pin-3 text-orange"></i> Maps
-		</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="../examples/register.html"> <i
-				class="ni ni-circle-08 text-pink"></i> Solo para pacientes
-		</a></li>
-	</sec:authorize>
+	</a></li>--%>
 </ul>
 <!-- Divider -->
 <hr class="my-3">

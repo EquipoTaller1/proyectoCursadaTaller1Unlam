@@ -31,6 +31,8 @@ public class ConfiguracionSpringSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/assets/**", "/css/**", "/fonts/**", "/js/**").permitAll()
                 .antMatchers("/", "/login", "/registro/**").permitAll()
+                .antMatchers("/paciente/**").hasRole("Paciente")
+                .antMatchers("/medico/**").hasRole("Medico")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

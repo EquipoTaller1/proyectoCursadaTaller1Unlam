@@ -16,7 +16,7 @@
                 integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
                 crossorigin=""></script>
         <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-        <script src="js/maps/mapaPaciente.js"></script>
+        <script src="${pageContext.request.contextPath}/js/maps/mapaPaciente.js"></script>
     </jsp:attribute>
     <jsp:body>
         <div class="row">
