@@ -42,6 +42,8 @@ public class ControladorRegistro {
             model.put("error", "El email ya se encuentra registrado");
             return new ModelAndView("auth/register", model);
         }
+        
+        
 
         servicioLogin.createUsuario(user);
         model.put("message", "Usuario creado correctamente");

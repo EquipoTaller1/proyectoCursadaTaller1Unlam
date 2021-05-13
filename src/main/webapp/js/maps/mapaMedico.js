@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var longitude = position.coords.longitude;
 
             //instanciar map
-            var mymap = L.map('mapa', {
+            var mymap = L.map('mapaMedico', {
                 center: [latitude, longitude],
                 zoom: 12
             });

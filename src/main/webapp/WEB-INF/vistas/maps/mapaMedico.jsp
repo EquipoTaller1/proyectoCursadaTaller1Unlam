@@ -1,16 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: enzo-
-  Date: 2/5/2021
-  Time: 20:16
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:layout>
     <jsp:attribute name="title">
-        Maps
+        Medico
     </jsp:attribute>
     <jsp:attribute name="style">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -23,17 +16,17 @@
                 integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
                 crossorigin=""></script>
         <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-        <script src="js/maps/map.js"></script>
+        <script src="js/maps/mapaMedico.js"></script>
     </jsp:attribute>
     <jsp:body>
         <div class="row">
             <div class="col">
                 <div class="card shadow">
                     <div class="card-header border-0">
-                        <h3 class="mb-0">Buscar consultorio</h3>
+                        <h3 class="mb-0">Hoja de ruta medico</h3>
                     </div>
                     <div class="card-body">
-                        <div id="mapa" class="h-100vh"></div>
+                        <div id="mapaMedico" class="h-100vh"></div>
                     </div>
                 </div>
             </div>
