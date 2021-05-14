@@ -27,12 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
 					response.data.forEach( medico => {
 						var ruta = L.Routing.control({
 							waypoints: [
-								L.latLng(latitude, longitude),
-								L.latLng(medico.lat_actual, medico.long_actual)
+								L.latLng(medico.lat_actual, medico.long_actual),
+								L.latLng(latitude, longitude)
 							],
+							draggableWaypoints: false, // Ruta no editable
+							lineOptions : { addWaypoints: false	}, // Ruta no editable
 							language: 'es'
 						});
 						ruta.addTo(mymap);
+						ruta.hide(); //minimiza las instrucciones
+
+						//Marcador con popup para el paciente
+						var marker = new L.marker([latitude, longitude]).addTo(mymap);
+						marker.bindPopup("Usted está aquí").openPopup();
 
 						//Obtengo tiempo y distancia y lo muestro en un popUp con datos del Medico
 						ruta.on('routesfound', function(e) {
