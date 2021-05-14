@@ -25,13 +25,30 @@ document.addEventListener('DOMContentLoaded', () => {
 				.then(response => {
 
 					response.data.forEach( medico => {
-						L.Routing.control({
+						var ruta = L.Routing.control({
 							waypoints: [
 								L.latLng(latitude, longitude),
 								L.latLng(medico.lat_actual, medico.long_actual)
 							],
 							language: 'es'
-						}).addTo(mymap);
+						});
+						ruta.addTo(mymap);
+
+						//Obtengo tiempo y distancia y lo muestro en un popUp con datos del Medico
+						ruta.on('routesfound', function(e) {
+							var rutasEncontradas = e.routes;
+							var summary = rutasEncontradas[0].summary;
+
+							var distanciaTotal = Math.round(summary.totalDistance / 1000);
+							var tiempoEstimado = Math.round(summary.totalTime % 3600 / 60);
+
+							var marker = L.marker([medico.lat_actual, medico.long_actual]).addTo(mymap);
+							var txtPopUp = "<br>Especialidad: " + medico.especialidad + "</br><br>Edad: "
+								+ medico.edad + "</br><br>Demora: " + tiempoEstimado + " minutos</br><br>Distancia: "
+								+ distanciaTotal + " Km</br>";
+							marker.bindPopup(txtPopUp).openPopup();
+						});
+
 					})
 				})
 				.catch(error => {
