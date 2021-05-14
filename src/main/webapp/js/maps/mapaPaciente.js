@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			var latitude = position.coords.latitude;
 			var longitude = position.coords.longitude;
 
-			infoMedicos = document.getElementById("jsonMedicosHidden");
+			/*infoMedicos = document.getElementById("jsonMedicosHidden");
 			var jsonMedicos = infoMedicos.innerHTML;
-			console.log(jsonMedicos);
+			console.log(jsonMedicos);*/
 
 			//instanciar map
 			var mymap = L.map('mapaPaciente', {
@@ -21,62 +21,26 @@ document.addEventListener('DOMContentLoaded', () => {
 				id: 'mapbox/streets-v11'
 			}).addTo(mymap);
 
+			axios.get('/proyecto_limpio_spring_war_exploded/api/medicos')
+				.then(response => {
 
-
-			//agregar ruta de medico
-			L.Routing.control({
-				waypoints: [
-								
-					L.latLng(latitude, longitude),
-					L.latLng(-34.6699, -58.5622) //        -->>1
-					
-				],
-				language: 'es'
-				
-				
-			}).addTo(mymap);
-			
-			L.Routing.control({
-				waypoints: [
-								
-					L.latLng(latitude, longitude),
-					L.latLng(-34.7148928,-58.5826893) // -->>2
-					
-				],
-				language: 'es'
-				
-				
-			}).addTo(mymap);
-			
-			L.Routing.control({
-				waypoints: [		
-				
-					L.latLng(latitude, longitude),
-					L.latLng(-34.6824033,-58.5121902) // -->>3
-					
-				],
-				language: 'es'
-				
-				
-			}).addTo(mymap);
-			
-			L.Routing.control({
-				waypoints: [
-				
-				
-					L.latLng(latitude, longitude),
-					L.latLng(-34.5992347,-58.46747) // -->>4
-					
-
-
-				],
-				language: 'es'
-				
-				
-			}).addTo(mymap);
+					response.data.forEach( medico => {
+						L.Routing.control({
+							waypoints: [
+								L.latLng(latitude, longitude),
+								L.latLng(medico.lat_actual, medico.long_actual)
+							],
+							language: 'es'
+						}).addTo(mymap);
+					})
+				})
+				.catch(error => {
+					console.log("error api")
+				})
 		});
 	}
 	else {
 		console.log("no funca geolocalizacion")
 	}
+
 })
