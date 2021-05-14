@@ -30,12 +30,6 @@ public class ControladorPaciente {
     @RequestMapping("/mapa")
     public ModelAndView mapaPaciente(){
 
-        List<Medico> medicos = servicioMapa.obtenerMedicosTodos();
-        String jsonMedicos = new Gson().toJson(medicos);
-
-        ModelMap model = new ModelMap();
-        model.put("jsonMedicos", jsonMedicos);
-
-        return new ModelAndView("maps/mapaPaciente", model);
+        return new ModelAndView("maps/mapaPaciente");
     }
 }

@@ -5,9 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			var latitude = position.coords.latitude;
 			var longitude = position.coords.longitude;
 
-			/*infoMedicos = document.getElementById("jsonMedicosHidden");
-			var jsonMedicos = infoMedicos.innerHTML;
-			console.log(jsonMedicos);*/
 
 			//instanciar map
 			var mymap = L.map('mapaPaciente', {
@@ -24,7 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			axios.get('/proyecto_limpio_spring_war_exploded/api/medicos')
 				.then(response => {
 
+					var customIcon = new L.Icon({
+						iconUrl: '/proyecto_limpio_spring_war_exploded/imagenes/iconos/doctor.png',
+						iconSize: [40, 50]
+					});
+
 					response.data.forEach( medico => {
+						var markerPaciente = new L.marker([latitude, longitude]).bindPopup("Usted está aquí").openPopup();
+
+						var markerMedico = new L.marker([medico.lat_actual, medico.long_actual], {icon: customIcon})
+
 						var ruta = L.Routing.control({
 							waypoints: [
 								L.latLng(medico.lat_actual, medico.long_actual),
@@ -32,14 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
 							],
 							draggableWaypoints: false, // Ruta no editable
 							lineOptions : { addWaypoints: false	}, // Ruta no editable
-							language: 'es'
+							language: 'es',
+							createMarker: function (i, waypoint, number) {
+								if (i !== 0){
+									return markerMedico
+								}else {
+									return markerPaciente
+								}
+							}
 						});
 						ruta.addTo(mymap);
 						ruta.hide(); //minimiza las instrucciones
-
-						//Marcador con popup para el paciente
-						var marker = new L.marker([latitude, longitude]).addTo(mymap);
-						marker.bindPopup("Usted está aquí").openPopup();
 
 						//Obtengo tiempo y distancia y lo muestro en un popUp con datos del Medico
 						ruta.on('routesfound', function(e) {
@@ -49,11 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
 							var distanciaTotal = Math.round(summary.totalDistance / 1000);
 							var tiempoEstimado = Math.round(summary.totalTime % 3600 / 60);
 
-							var marker = L.marker([medico.lat_actual, medico.long_actual]).addTo(mymap);
 							var txtPopUp = "<br>Especialidad: " + medico.especialidad + "</br><br>Edad: "
 								+ medico.edad + "</br><br>Demora: " + tiempoEstimado + " minutos</br><br>Distancia: "
 								+ distanciaTotal + " Km</br>";
-							marker.bindPopup(txtPopUp).openPopup();
+
+							markerMedico.bindPopup(txtPopUp).openPopup();
 						});
 
 					})
