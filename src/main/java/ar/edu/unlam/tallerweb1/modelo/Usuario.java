@@ -1,10 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -22,24 +19,15 @@ public class Usuario {
 	private Long id;
 	// para el resto de los atributo no se usan anotaciones entonces se usa el default de hibernate: la columna se llama igual que
 	// el atributo, la misma admite nulos, y el tipo de dato se deduce del tipo de dato de java.
-	@NotBlank(message = "El campo nombre es obligatorio")
-	private String name;
-
-	@Email(message = "El campo debe ser tipo email")
-	@NotBlank(message = "El campo email es obligatorio")
 	private String email;
-
-	@NotBlank(message = "El campo password es obligatorio")
 	private String password;
-
+	@OneToOne()
+	@JoinColumn(name = "persona_id")
+	private Persona persona;
 	private String rol;
+	@OneToOne(mappedBy = "usuario")
+	private Ubicacion ubicacion;
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public Long getId() {
 		return id;
@@ -62,11 +50,26 @@ public class Usuario {
 		this.password = password;
 	}
 
+	public Persona getPersona() {
+		return persona;
+	}
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
+
 	public String getRol() {
 		return rol;
 	}
 	public void setRol(String rol) {
 		this.rol = rol;
+	}
+
+	public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
+
+	public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 
 	@Override
@@ -75,7 +78,6 @@ public class Usuario {
 		if (!(o instanceof Usuario)) return false;
 		Usuario usuario = (Usuario) o;
 		return Objects.equals(getId(), usuario.getId()) &&
-				Objects.equals(getName(), usuario.getName()) &&
 				Objects.equals(getEmail(), usuario.getEmail()) &&
 				Objects.equals(getPassword(), usuario.getPassword()) &&
 				Objects.equals(getRol(), usuario.getRol());
@@ -83,6 +85,6 @@ public class Usuario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getId(), getName(), getEmail(), getPassword(), getRol());
+		return Objects.hash(getId(), getEmail(), getPassword(), getRol());
 	}
 }

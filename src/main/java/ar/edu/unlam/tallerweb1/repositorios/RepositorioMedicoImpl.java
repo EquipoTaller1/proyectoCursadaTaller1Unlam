@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import ar.edu.unlam.tallerweb1.modelo.Medico;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -20,12 +20,12 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
     }
 
     @Override
-    public List<Medico> obtenerTodos()
+    public List<Usuario> obtenerTodos()
     {
         final Session session = sessionFactory.getCurrentSession();
 
-        return (List<Medico>) session.createCriteria(Medico.class)
-                        .add(Restrictions.isNotNull("id")).list();
+        return (List<Usuario>) session.createCriteria(Usuario.class)
+                        .add(Restrictions.eq("rol", "Medico")).list();
     }
 
 }

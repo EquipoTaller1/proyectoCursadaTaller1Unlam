@@ -54,4 +54,11 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 		session.save(usuario);
 	}
 
+	@Override
+	public Usuario consultarId(Long id) {
+		return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+				.add(Restrictions.eq("persona", id))
+				.uniqueResult();
+	}
+
 }

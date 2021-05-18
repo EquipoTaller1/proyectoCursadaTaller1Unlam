@@ -10,4 +10,6 @@ public interface RepositorioUsuario {
 	Usuario userByEmail (String email);
 
 	void createUser(Usuario usuario);
+
+	Usuario consultarId(Long id);
 }

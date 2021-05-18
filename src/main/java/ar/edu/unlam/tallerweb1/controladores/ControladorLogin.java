@@ -36,15 +36,18 @@ public class ControladorLogin {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
-								  @RequestParam(value = "logout", required = false) String logout) {
+								  @RequestParam(value = "logout", required = false) String logout,
+								  @RequestParam(value = "exito", required = false) String exito) {
 
 		ModelMap model = new ModelMap();
 		if (error != null) {
 			model.put("error", "Usuario o clave incorrecta");
 		}
-
 		if (logout != null) {
 			model.put("message", "Cerraste sesion correctamente");
+		}
+		if (exito != null){
+			model.put("message", "Registro existoso");
 		}
 
 		return new ModelAndView("auth/login", model);

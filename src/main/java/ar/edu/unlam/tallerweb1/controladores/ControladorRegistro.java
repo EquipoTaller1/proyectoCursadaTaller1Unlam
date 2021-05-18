@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,9 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
-
 
 @Controller
 public class ControladorRegistro {
@@ -25,28 +23,22 @@ public class ControladorRegistro {
         if (message != null){
             model.put("message", message);
         }
-        model.put("usuario", new Usuario());
+
+        model.put("formularioPaciente", new FormularioRegistroPaciente());
 
         return new ModelAndView("auth/register", model);
     }
 
     @RequestMapping("/registro/store")
-    public ModelAndView store(@Valid Usuario user, BindingResult result){
-        ModelMap model = new ModelMap();
+    public ModelAndView store(@Valid FormularioRegistroPaciente formulario, BindingResult result){
+        ModelMap model = servicioLogin.registrarPaciente(formulario, result);
 
-        if (result.hasErrors()){
-            model.put("usuario", user);
+        if (model.containsKey("errores")){
+            model.put("formularioPaciente", formulario);
             return new ModelAndView("auth/register", model);
         }
-        else if (servicioLogin.consultarUsuarioEmail(user.getEmail()) != null){
-            model.put("error", "El email ya se encuentra registrado");
-            return new ModelAndView("auth/register", model);
-        }
-        
-        
 
-        servicioLogin.createUsuario(user);
-        model.put("message", "Usuario creado correctamente");
-        return new ModelAndView("redirect:/registro", model);
+        return new ModelAndView("redirect:/login?exito", model);
     }
+
 }

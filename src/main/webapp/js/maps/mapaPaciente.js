@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
 					response.data.forEach( medico => {
 						var markerPaciente = new L.marker([latitude, longitude]).bindPopup("Usted está aquí").openPopup();
 
-						var markerMedico = new L.marker([medico.lat_actual, medico.long_actual], {icon: customIcon})
+						var markerMedico = new L.marker([medico.ubicacion.lat_actual, medico.ubicacion.long_actual], {icon: customIcon})
 
 						var ruta = L.Routing.control({
 							waypoints: [
-								L.latLng(medico.lat_actual, medico.long_actual),
+								L.latLng(medico.ubicacion.lat_actual, medico.ubicacion.long_actual),
 								L.latLng(latitude, longitude)
 							],
 							draggableWaypoints: false, // Ruta no editable
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
 							var distanciaTotal = Math.round(summary.totalDistance / 1000);
 							var tiempoEstimado = Math.round(summary.totalTime % 3600 / 60);
 
-							var txtPopUp = "<br>Especialidad: " + medico.especialidad + "</br><br>Edad: "
-								+ medico.edad + "</br><br>Demora: " + tiempoEstimado + " minutos</br><br>Distancia: "
+							var txtPopUp = "Dr " + medico.persona.apellido + "</br><br>" +
+								"Demora: " + tiempoEstimado + " minutos</br><br>Distancia: "
 								+ distanciaTotal + " Km</br>";
 
 							markerMedico.bindPopup(txtPopUp).openPopup();

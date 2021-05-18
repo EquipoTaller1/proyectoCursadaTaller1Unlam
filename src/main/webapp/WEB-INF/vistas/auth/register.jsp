@@ -99,10 +99,15 @@
                             </div>
                         </div>
                     </c:if>
-                    <c:if test="${not empty error}">
+                    <c:if test="${not empty errores}">
                         <div class="card-header border-0">
                             <div class="alert alert-danger" role="alert">
-                                    ${error}
+                                <p>Corrigue los siguientes errores:</p>
+                                <ul>
+                                    <c:forEach items="${errores}" var="error">
+                                        <li>${error}</li>
+                                    </c:forEach>
+                                </ul>
                             </div>
                         </div>
                     </c:if>
@@ -110,15 +115,14 @@
                         <div class="text-center text-muted mb-4">
                             <small>Or sign up with credentials</small>
                         </div>
-                        <form:form role="form" action="${pageContext.request.contextPath}/registro/store" method="post" modelAttribute="usuario">
+                        <form:form role="form" action="${pageContext.request.contextPath}/registro/store" method="post" modelAttribute="formularioPaciente">
                             <div class="form-group">
                                 <div class="input-group input-group-alternative mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                                     </div>
-                                    <form:input path="name" class="form-control" cssErrorClass="form-control border-danger" placeholder="Name" type="text"/>
+                                    <form:input path="afiliado" class="form-control" cssErrorClass="form-control border-danger" placeholder="Numero afiliado" type="text"/>
                                 </div>
-                                <small><form:errors path="name" cssClass="text-danger"/></small>
                             </div>
                             <div class="form-group">
                                 <div class="input-group input-group-alternative mb-3">
@@ -127,7 +131,6 @@
                                     </div>
                                     <form:input path="email" cssErrorClass="form-control border-danger" class="form-control" placeholder="Email" type="text"/>
                                 </div>
-                                <small><form:errors path="email" cssClass="text-danger" /></small>
                             </div>
                             <div class="form-group">
                                 <div class="input-group input-group-alternative">
@@ -136,19 +139,16 @@
                                     </div>
                                     <form:input path="password" class="form-control" placeholder="Password" type="password"/>
                                 </div>
-                                <small><form:errors path="password" cssClass="text-danger" /></small>
                             </div>
-                            <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
-                            <div class="row my-4">
-                                <div class="col-12">
-                                    <div class="custom-control custom-control-alternative custom-checkbox">
-                                        <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                                        <label class="custom-control-label" for="customCheckRegister">
-                                            <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
-                                        </label>
+                            <div class="form-group">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                     </div>
+                                    <form:input path="passwordRepet" class="form-control" placeholder="Repite el password" type="password"/>
                                 </div>
                             </div>
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary mt-4">Registrar</button>
                             </div>

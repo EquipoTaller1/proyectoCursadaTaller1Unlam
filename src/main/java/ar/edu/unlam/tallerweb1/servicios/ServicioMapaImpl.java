@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
-import ar.edu.unlam.tallerweb1.modelo.Medico;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioMedico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class ServicioMapaImpl implements ServicioMapa{
     public ServicioMapaImpl(RepositorioMedico medicoDAO){ this.medicoDAO = medicoDAO;}
 
     @Override
-    public List<Medico> obtenerMedicosTodos()
+    public List<Usuario> obtenerMedicosTodos()
     {
       return medicoDAO.obtenerTodos();
     }

@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.modelo.Medico;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioMapa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class ControladorApi {
     public  ControladorApi(ServicioMapa servicioMapa){ this.servicioMapa = servicioMapa;}
 
     @RequestMapping("/medicos")
-    public ResponseEntity<List<Medico>> getMedicos(){
+    public ResponseEntity<List<Usuario>> getMedicos(){
 
         return new ResponseEntity<>(servicioMapa.obtenerMedicosTodos(), HttpStatus.OK);
     }
