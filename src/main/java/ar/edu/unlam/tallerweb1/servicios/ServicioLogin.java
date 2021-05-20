@@ -3,7 +3,9 @@ package ar.edu.unlam.tallerweb1.servicios;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+
+import java.util.List;
 
 // Interface que define los metodos del Servicio de Usuarios.
 public interface ServicioLogin {
@@ -14,5 +16,5 @@ public interface ServicioLogin {
 
 	void createUsuario(Usuario usuario);
 
-    ModelMap registrarPaciente(FormularioRegistroPaciente formularioRegistroPaciente, BindingResult result);
+    ModelMap registrarPaciente(FormularioRegistroPaciente formularioRegistroPaciente, List<FieldError> list);
 }

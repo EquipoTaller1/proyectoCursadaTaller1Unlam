@@ -14,8 +14,12 @@ import javax.validation.Valid;
 @Controller
 public class ControladorRegistro {
 
-    @Autowired
     private ServicioLogin servicioLogin;
+
+    @Autowired
+    public ControladorRegistro(ServicioLogin servicioLogin){
+        this.servicioLogin = servicioLogin;
+    }
 
     @RequestMapping("/registro")
     public ModelAndView irARegistro(@RequestParam(value = "message", required = false) String message){
@@ -31,7 +35,7 @@ public class ControladorRegistro {
 
     @RequestMapping("/registro/store")
     public ModelAndView store(@Valid FormularioRegistroPaciente formulario, BindingResult result){
-        ModelMap model = servicioLogin.registrarPaciente(formulario, result);
+        ModelMap model = servicioLogin.registrarPaciente(formulario, result.getFieldErrors());
 
         if (model.containsKey("errores")){
             model.put("formularioPaciente", formulario);

@@ -13,10 +13,12 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 // Implelemtacion del Servicio de usuarios, la anotacion @Service indica a Spring que esta clase es un componente que debe
@@ -56,12 +58,12 @@ public class ServicioLoginImpl implements ServicioLogin {
 	}
 
 	@Override
-	public ModelMap registrarPaciente(FormularioRegistroPaciente formulario, BindingResult result) {
+	public ModelMap registrarPaciente(FormularioRegistroPaciente formulario, List<FieldError> result) {
 		ModelMap model = new ModelMap();
 		ArrayList<String> errores = new ArrayList();
 
-		if (result.hasErrors()){
-			result.getFieldErrors().forEach(error -> {
+		if (!result.isEmpty()){
+			result.forEach(error -> {
 				errores.add(error.getDefaultMessage());
 			});
 			model.put("errores", errores);
@@ -70,11 +72,13 @@ public class ServicioLoginImpl implements ServicioLogin {
 			if (!formulario.getPassword().equals(formulario.getPasswordRepet())){
 				errores.add("Las contraseñas no coinciden");
 				model.put("errores", errores);
+				return model;
 			}
 
 			if (this.consultarUsuarioEmail(formulario.getEmail()) != null){
 				errores.add("El email ya se encuentra registrado");
 				model.put("errores", errores);
+				return model;
 			}
 
 			Persona persona = this.repositorioPersona.consultarAfiliado(formulario.getAfiliado());
