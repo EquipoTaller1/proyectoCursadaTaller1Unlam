@@ -2,9 +2,9 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 // Clase que modela el concepto de Usuario, la anotacion @Entity le avisa a hibernate que esta clase es persistible
@@ -27,7 +27,12 @@ public class Usuario {
 	private String rol;
 	@OneToOne(mappedBy = "usuario")
 	private Ubicacion ubicacion;
+	@ManyToMany(mappedBy = "medicos")
+	private Set<Especialidad> especialidades;
 
+	public Usuario() {
+		this.especialidades = new HashSet<>();
+	}
 
 	public Long getId() {
 		return id;
