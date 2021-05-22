@@ -1,6 +1,10 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Entity
@@ -8,10 +12,10 @@ public class Cita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne()
+    @ManyToOne
     @JoinColumn(name = "paciente_id")
     private Usuario paciente;
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "medico_id")
     private Usuario medico;
     @OneToOne()
@@ -24,7 +28,8 @@ public class Cita {
     private Calendar fecha;
     @Temporal(TemporalType.TIME)
     private Date hora;
-    @OneToMany(mappedBy = "cita")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cita")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<CitaHistoria> historias;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar created_at;
@@ -67,8 +72,12 @@ public class Cita {
         this.especialidad = especialidad;
     }
 
-    public Calendar getFecha() {
-        return fecha;
+    public String getFecha() {
+        fecha.set(Calendar.HOUR_OF_DAY, this.hora.getHours());
+        fecha.set(Calendar.MINUTE, this.hora.getMinutes());
+        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        return fechaFormato.format(fecha.getTime());
     }
 
     public void setFecha(Calendar fecha) {
@@ -113,5 +122,18 @@ public class Cita {
 
     public void setUpdated_at(Calendar updated_at) {
         this.updated_at = updated_at;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cita)) return false;
+        Cita cita = (Cita) o;
+        return Objects.equals(getId(), cita.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

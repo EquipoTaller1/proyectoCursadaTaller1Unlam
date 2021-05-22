@@ -2,7 +2,7 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Calendar;
 
 @Entity
 public class Persona {
@@ -14,7 +14,8 @@ public class Persona {
     private String apellido;
     private String tipoDocumento;
     private String numeroDocumento;
-    private Date fechaNacimiento;
+    @Temporal(TemporalType.DATE)
+    private Calendar fechaNacimiento;
     private String sexo;
     private String numeroAfiliado;
     @OneToOne(mappedBy = "persona")
@@ -62,11 +63,11 @@ public class Persona {
         this.numeroDocumento = numeroDocumento;
     }
 
-    public Date getFechaNacimiento() {
+    public Calendar getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(Calendar fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

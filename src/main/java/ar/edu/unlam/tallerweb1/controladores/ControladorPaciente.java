@@ -1,8 +1,11 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.servicios.ServicioMapa;
+import ar.edu.unlam.tallerweb1.servicios.ServicioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,10 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/paciente")
 public class ControladorPaciente {
 
-    private ServicioMapa servicioMapa;
+    private ServicioPaciente servicioPaciente;
 
     @Autowired
-    public  ControladorPaciente(ServicioMapa servicioMapa){ this.servicioMapa = servicioMapa;}
+    public  ControladorPaciente(ServicioPaciente servicioPaciente){
+        this.servicioPaciente = servicioPaciente;
+    }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView irAHomePaciente()
@@ -26,5 +31,14 @@ public class ControladorPaciente {
     public ModelAndView mapaPaciente(){
 
         return new ModelAndView("maps/mapaPaciente");
+    }
+
+    @RequestMapping("/citas/index")
+    public ModelAndView irAMisCitas(Authentication authentication) {
+        ModelMap model = new ModelMap();
+        User user = (User) authentication.getPrincipal();
+        model.put("citas", servicioPaciente.getCitas(user.getUsername()));
+
+        return new ModelAndView("mis-citas/index", model);
     }
 }

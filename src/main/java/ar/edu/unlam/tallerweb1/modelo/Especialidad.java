@@ -1,8 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Especialidad {
@@ -17,10 +17,10 @@ public class Especialidad {
             joinColumns = {@JoinColumn(name = "especialidad_id")},
             inverseJoinColumns = {@JoinColumn(name = "medico_id")}
     )
-    private Set<Usuario> medicos;
+    private List<Usuario> medicos;
 
     public Especialidad() {
-        this.medicos = new HashSet<>();
+        this.medicos = new ArrayList<>();
     }
 
     public Long getId() {

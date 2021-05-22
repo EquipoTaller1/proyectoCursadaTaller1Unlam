@@ -8,10 +8,10 @@ public class CitaHistoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "cita_id")
     private Cita cita;
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "estado_id")
     private Estado estado;
     private String observacion;

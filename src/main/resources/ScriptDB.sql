@@ -150,10 +150,10 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`id`, `apellido`, `fechaNacimiento`, `nombre`, `numeroDocumento`, `tipoDocumento`, `sexo`, `numeroAfiliado`, `matricula`) VALUES
-(1, 'Jimenez', '1997-04-18 00:00:00.000000', 'Enzo', '40258515', 'DNI', 'Masculino', '1234', '987654321'),
-(2, 'Gomez', '1980-05-05 00:00:00.000000', 'Medico', '34877212', 'DNI', 'Masculino', '1111', '876543219'),
-(3, 'Saraza', '1990-05-12 00:00:00.000000', 'Paciente', '23498723', 'DNI', 'Femenino', '2222', NULL),
-(4, 'PacienteApellido', '1980-05-05 00:00:00.000000', 'PacienteNombre', '40258888', 'DNI', 'Masculino', '5555', NULL);
+(1, 'Jimenez', '1997-04-18', 'Enzo', '40258515', 'DNI', 'Masculino', '1234', '987654321'),
+(2, 'Gomez', '1980-05-05', 'Medico', '34877212', 'DNI', 'Masculino', '1111', '876543219'),
+(3, 'Saraza', '1990-05-12', 'Paciente', '23498723', 'DNI', 'Femenino', '2222', NULL),
+(4, 'PacienteApellido', '1980-05-05', 'PacienteNombre', '40258888', 'DNI', 'Masculino', '5555', NULL);
 
 -- --------------------------------------------------------
 

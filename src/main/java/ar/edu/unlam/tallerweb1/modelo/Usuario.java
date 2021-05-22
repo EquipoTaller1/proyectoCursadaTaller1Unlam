@@ -2,9 +2,7 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 // Clase que modela el concepto de Usuario, la anotacion @Entity le avisa a hibernate que esta clase es persistible
@@ -28,10 +26,13 @@ public class Usuario {
 	@OneToOne(mappedBy = "usuario")
 	private Ubicacion ubicacion;
 	@ManyToMany(mappedBy = "medicos")
-	private Set<Especialidad> especialidades;
+	private List<Especialidad> especialidades;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "paciente")
+	private List<Cita> citasPaciente;
 
 	public Usuario() {
-		this.especialidades = new HashSet<>();
+		this.especialidades = new ArrayList<>();
+		this.citasPaciente = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -75,6 +76,22 @@ public class Usuario {
 
 	public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
+	}
+
+	public List<Especialidad> getEspecialidades() {
+		return especialidades;
+	}
+
+	public void setEspecialidades(List<Especialidad> especialidades) {
+		this.especialidades = especialidades;
+	}
+
+	public List<Cita> getCitasPaciente() {
+		return citasPaciente;
+	}
+
+	public void setCitasPaciente(List<Cita> citasPaciente) {
+		this.citasPaciente = citasPaciente;
 	}
 
 	@Override

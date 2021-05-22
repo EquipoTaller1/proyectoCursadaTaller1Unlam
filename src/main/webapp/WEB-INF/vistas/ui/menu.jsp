@@ -26,6 +26,10 @@
 			<i class="ni ni-tv-2 text-primary"></i> Home
 		</a></li>
 		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/paciente/citas/index">
+			<i class="ni ni-calendar-grid-58"></i> Mis citas
+		</a></li>
+		<li class="nav-item"><a class="nav-link"
 								href="${pageContext.request.contextPath}/paciente/mapa"> <i
 				class="ni ni-pin-3 text-orange"></i> Maps
 		</a></li>
