@@ -1,6 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -26,6 +28,7 @@ public class Usuario {
 	@OneToOne(mappedBy = "usuario")
 	private Ubicacion ubicacion;
 	@ManyToMany(mappedBy = "medicos")
+	@JsonIgnore
 	private List<Especialidad> especialidades;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "paciente")
 	private List<Cita> citasPaciente;

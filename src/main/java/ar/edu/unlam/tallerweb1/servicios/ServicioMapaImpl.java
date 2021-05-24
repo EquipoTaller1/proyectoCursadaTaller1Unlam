@@ -22,5 +22,4 @@ public class ServicioMapaImpl implements ServicioMapa{
     {
       return medicoDAO.obtenerTodos();
     }
-
 }
