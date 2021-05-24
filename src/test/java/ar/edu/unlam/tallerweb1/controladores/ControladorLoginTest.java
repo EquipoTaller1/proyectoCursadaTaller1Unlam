@@ -95,7 +95,7 @@ public class ControladorLoginTest {
 
     private void thenElUsuarioSeLogueaConExito(UserDetails userDetails, Usuario usuario) {
         assertThat(userDetails).isNotNull();
-        assertThat(userDetails.getUsername()).isEqualTo(usuario.getPersona().getNombre());
+        assertThat(userDetails.getUsername()).isEqualTo(usuario.getEmail());
     }
 
 }
