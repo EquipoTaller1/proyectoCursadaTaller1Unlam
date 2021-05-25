@@ -21,4 +21,9 @@ public class ServicioPacienteImpl implements ServicioPaciente{
     public List<Cita> getCitas(String email) {
         return repositorioPaciente.obtenerCitas(email);
     }
+
+    @Override
+    public List<Cita> getCitasProximas(String email) {
+        return repositorioPaciente.obtenerCitasProximas(email);
+    }
 }
