@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2021 a las 02:52:54
+-- Tiempo de generación: 25-05-2021 a las 21:45:08
 -- Versión del servidor: 8.0.20
 -- Versión de PHP: 8.0.3
 
@@ -44,7 +44,8 @@ CREATE TABLE `cita` (
 --
 
 INSERT INTO `cita` (`id`, `fecha`, `hora`, `tipoCita_id`, `especialidad_id`, `medico_id`, `paciente_id`, `created_at`, `updated_at`) VALUES
-(1, '2021-05-28', '18:00:00', 1, 1, 1, 2, '2021-05-21 21:03:26.000000', NULL);
+(1, '2021-05-12', '18:00:00', 1, 1, 1, 2, '2021-05-21 21:03:26.000000', NULL),
+(2, '2021-05-28', '18:00:00', 1, 2, 3, 2, '2021-05-24 20:19:27.000000', NULL);
 
 -- --------------------------------------------------------
 
@@ -67,7 +68,8 @@ CREATE TABLE `citahistoria` (
 
 INSERT INTO `citahistoria` (`id`, `cita_id`, `estado_id`, `observacion`, `archivo`, `created_at`) VALUES
 (1, 1, 1, 'Creado', NULL, '2021-05-21 21:03:26.000000'),
-(2, 1, 3, 'Se deja constancia que se atendio al paciente bla bla', NULL, '2021-05-21 21:03:43.000000');
+(2, 1, 3, 'Se deja constancia que se atendio al paciente bla bla', NULL, '2021-05-21 21:03:43.000000'),
+(3, 2, 1, 'Creado', NULL, '2021-05-24 20:20:22.000000');
 
 -- --------------------------------------------------------
 
@@ -135,12 +137,12 @@ INSERT INTO `estado` (`id`, `descripcion`) VALUES
 
 CREATE TABLE `persona` (
   `id` bigint NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `apellido` varchar(255) DEFAULT NULL,
-  `fechaNacimiento` datetime(6) DEFAULT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
-  `numeroDocumento` varchar(255) DEFAULT NULL,
-  `tipoDocumento` varchar(255) DEFAULT NULL,
-  `sexo` varchar(255) DEFAULT NULL,
+  `tipoDocumento` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `numeroDocumento` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `sexo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `fechaNacimiento` date DEFAULT NULL,
   `numeroAfiliado` varchar(255) DEFAULT NULL,
   `matricula` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -149,11 +151,11 @@ CREATE TABLE `persona` (
 -- Volcado de datos para la tabla `persona`
 --
 
-INSERT INTO `persona` (`id`, `apellido`, `fechaNacimiento`, `nombre`, `numeroDocumento`, `tipoDocumento`, `sexo`, `numeroAfiliado`, `matricula`) VALUES
-(1, 'Jimenez', '1997-04-18', 'Enzo', '40258515', 'DNI', 'Masculino', '1234', '987654321'),
-(2, 'Gomez', '1980-05-05', 'Medico', '34877212', 'DNI', 'Masculino', '1111', '876543219'),
-(3, 'Saraza', '1990-05-12', 'Paciente', '23498723', 'DNI', 'Femenino', '2222', NULL),
-(4, 'PacienteApellido', '1980-05-05', 'PacienteNombre', '40258888', 'DNI', 'Masculino', '5555', NULL);
+INSERT INTO `persona` (`id`, `nombre`, `apellido`, `tipoDocumento`, `numeroDocumento`, `sexo`, `fechaNacimiento`, `numeroAfiliado`, `matricula`) VALUES
+(1, 'Enzo', 'Jimenez', 'DNI', '40258515', 'Masculino', '1997-04-18', '1234', '987654321'),
+(2, 'Medico', 'Gomez', 'DNI', '34877212', 'Masculino', '1980-05-05', '1111', '876543219'),
+(3, 'Paciente', 'Saraza', 'DNI', '23498723', 'Femenino', '1990-05-12', '2222', NULL),
+(4, 'PacienteNombre', 'PacienteApellido', 'DNI', '40258888', 'Masculino', '1980-05-05', '5555', NULL);
 
 -- --------------------------------------------------------
 
@@ -294,13 +296,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `cita`
 --
 ALTER TABLE `cita`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `citahistoria`
 --
 ALTER TABLE `citahistoria`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
