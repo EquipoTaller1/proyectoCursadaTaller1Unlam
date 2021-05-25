@@ -34,6 +34,16 @@
 				class="ni ni-pin-3 text-orange"></i> Maps
 		</a></li>
 	</sec:authorize>
+	<sec:authorize access="hasRole('Administrador')">
+	<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/Administrador/home">
+		<i class="ni ni-tv-2 text-primary"></i> Home
+	</a></li>
+	<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/Administrador/registrar_persona">
+		<i class="ni ni-badge"></i> Registrar Persona
+	</a></li>
+	</sec:authorize>
 	<%--<li class="nav-item"><a class="nav-link"
 		href="../examples/icons.html"> <i class="ni ni-planet text-blue"></i>
 			Icons
@@ -54,7 +64,7 @@
 	<li class="nav-item"><a class="nav-link"
 		href="../examples/register.html"> <i
 			class="ni ni-circle-08 text-pink"></i> Register
-	</a></li>--%>
+	</a></li>
 </ul>
 <!-- Divider -->
 <hr class="my-3">
@@ -75,3 +85,4 @@
 			<i class="ni ni-ui-04"></i> Components
 	</a></li>
 </ul>
+--%>
