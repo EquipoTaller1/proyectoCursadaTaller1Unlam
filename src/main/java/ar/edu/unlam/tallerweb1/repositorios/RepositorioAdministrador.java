@@ -1,8 +1,13 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.modelo.Persona;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
-public interface RepositorioPersona {
+
+
+
+public interface RepositorioAdministrador {
+
     Persona consultarAfiliado(String numeroAfiliado);
+
+    void registrar(Persona persona);
 }
