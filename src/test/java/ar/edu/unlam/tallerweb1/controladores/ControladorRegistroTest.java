@@ -3,7 +3,7 @@ import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPaciente;
-import ar.edu.unlam.tallerweb1.repositorios.RepositorioPersona;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLoginImpl;
@@ -25,12 +25,12 @@ public class ControladorRegistroTest {
     private ServicioLogin servicioLogin;
     private RepositorioPaciente repositorioPaciente;
     private RepositorioUsuario repositorioUsuario;
-    private RepositorioPersona repositorioPersona;
+    private RepositorioAdministrador repositorioPersona;
 
     @Before
     public void init(){
         repositorioUsuario = mock(RepositorioUsuario.class);
-        repositorioPersona = mock(RepositorioPersona.class);
+        repositorioPersona = mock(RepositorioAdministrador.class);
         repositorioPaciente = mock(RepositorioPaciente.class);
 
         servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioPersona, repositorioPaciente);

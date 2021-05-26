@@ -22,6 +22,10 @@ public class Persona {
     private Usuario usuario;
     private String matricula;
 
+
+
+
+
     public Long getId() {
         return id;
     }
