@@ -1,9 +1,6 @@
 package ar.edu.unlam.tallerweb1.modelo.formularios;
 
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Calendar;
@@ -19,13 +16,14 @@ public class formularioPersona {
     private String tipoDocumento;
     @NotBlank(message = "El campo Número de documento es obligatorio")
     private String numeroDocumento;
-    @NotBlank(message = "El campo Fecha de nacimiento es obligatorio")
+
     @Temporal(TemporalType.DATE)
     private Calendar fechaNacimiento;
     @NotBlank(message = "El campo Sexo es obligatorio")
     private String sexo;
     @NotBlank(message = "El campo Número de afiliado es obligatorio")
     private String numeroAfiliado;
+
     private String matricula;
 
     public String getNombre() {

@@ -36,11 +36,11 @@
 	</sec:authorize>
 	<sec:authorize access="hasRole('Administrador')">
 	<li class="nav-item"><a class="nav-link"
-							href="${pageContext.request.contextPath}/Administrador/home">
+							href="${pageContext.request.contextPath}/administrador/home">
 		<i class="ni ni-tv-2 text-primary"></i> Home
 	</a></li>
 	<li class="nav-item"><a class="nav-link"
-							href="${pageContext.request.contextPath}/Administrador/registrar_persona">
+							href="${pageContext.request.contextPath}/administrador/registrar_persona">
 		<i class="ni ni-badge"></i> Registrar Persona
 	</a></li>
 	</sec:authorize>
