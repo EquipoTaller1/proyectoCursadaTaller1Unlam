@@ -22,7 +22,10 @@ public class Usuario {
 	@OneToOne()
 	@JoinColumn(name = "persona_id")
 	private Persona persona;
+
+	@Column
 	private String rol;
+
 	@OneToOne(mappedBy = "usuario")
 	private Ubicacion ubicacion;
 	@ManyToMany(mappedBy = "medicos")

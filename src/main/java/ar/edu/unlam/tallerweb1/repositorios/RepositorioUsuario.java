@@ -11,5 +11,5 @@ public interface RepositorioUsuario {
 
 	void createUser(Usuario usuario);
 
-	Usuario consultarId(Long id);
+	Usuario consultarPorId(Long id);
 }

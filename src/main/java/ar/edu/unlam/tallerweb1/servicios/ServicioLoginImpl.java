@@ -3,8 +3,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPaciente;
-import ar.edu.unlam.tallerweb1.repositorios.RepositorioPersona;
-import org.dom4j.rule.Mode;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 // Implelemtacion del Servicio de usuarios, la anotacion @Service indica a Spring que esta clase es un componente que debe
 // ser manejado por el framework, debe indicarse en applicationContext que busque en el paquete ar.edu.unlam.tallerweb1.servicios
@@ -32,11 +27,11 @@ import java.util.Map;
 public class ServicioLoginImpl implements ServicioLogin {
 
 	private RepositorioUsuario servicioLoginDao;
-	private RepositorioPersona repositorioPersona;
+	private RepositorioAdministrador repositorioPersona;
 	private RepositorioPaciente repositorioPaciente;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, RepositorioPersona repositorioPersona, RepositorioPaciente repositorioPaciente){
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, RepositorioAdministrador repositorioPersona, RepositorioPaciente repositorioPaciente){
 		this.servicioLoginDao = servicioLoginDao;
 		this.repositorioPersona = repositorioPersona;
 		this.repositorioPaciente = repositorioPaciente;

@@ -16,6 +16,8 @@ import javax.inject.Inject;
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
+
+
 	// Como todo repositorio maneja acciones de persistencia, normalmente estará inyectado el session factory de hibernate
 	// el mismo está difinido en el archivo hibernateContext.xml
 	private SessionFactory sessionFactory;
@@ -55,9 +57,9 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	}
 
 	@Override
-	public Usuario consultarId(Long id) {
+	public Usuario consultarPorId(Long id) {
 		return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
-				.add(Restrictions.eq("persona", id))
+				.add(Restrictions.eq("id", id))
 				.uniqueResult();
 	}
 

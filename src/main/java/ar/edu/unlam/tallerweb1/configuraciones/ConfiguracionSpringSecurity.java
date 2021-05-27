@@ -33,6 +33,7 @@ public class ConfiguracionSpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/login", "/registro/**").permitAll()
                 .antMatchers("/paciente/**").hasRole("Paciente")
                 .antMatchers("/medico/**").hasRole("Medico")
+                .antMatchers("/administrador/**").hasRole("Administrador")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

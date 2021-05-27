@@ -1,40 +1,36 @@
-package ar.edu.unlam.tallerweb1.modelo;
+package ar.edu.unlam.tallerweb1.modelo.formularios;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
+
+import ar.edu.unlam.tallerweb1.modelo.Persona;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import javax.validation.constraints.NotBlank;
 
-@Entity
-public class Persona {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class formularioPersona {
 
+    @NotBlank(message = "El campo Nombre es obligatorio")
     private String nombre;
+    @NotBlank(message = "El campo Apellido es obligatorio")
     private String apellido;
+    @NotBlank(message = "El campo Tipo de documento es obligatorio")
     private String tipoDocumento;
+    @NotBlank(message = "El campo Número de documento es obligatorio")
     private String numeroDocumento;
+
     @Temporal(TemporalType.DATE)
-    private Calendar fechaNacimiento;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date fechaNacimiento;
+    @NotBlank(message = "El campo Sexo es obligatorio")
     private String sexo;
+    @NotBlank(message = "El campo Número de afiliado es obligatorio")
     private String numeroAfiliado;
-    @OneToOne(mappedBy = "persona")
-    @JsonIgnore
-    private Usuario usuario;
+
     private String matricula;
-
-
-
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -68,13 +64,12 @@ public class Persona {
         this.numeroDocumento = numeroDocumento;
     }
 
-    public Calendar getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date date) {
-        this.fechaNacimiento = Calendar.getInstance();
-        this.fechaNacimiento.setTime(date);
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getSexo() {
@@ -93,19 +88,26 @@ public class Persona {
         this.numeroAfiliado = numeroAfiliado;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public String getMatricula() {
         return matricula;
     }
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    public Persona toPersona()
+    {
+        Persona persona = new Persona();
+        persona.setNumeroAfiliado(numeroAfiliado);
+        persona.setNombre(nombre);
+        persona.setApellido(apellido);
+        persona.setFechaNacimiento(fechaNacimiento);
+        persona.setNumeroDocumento(numeroDocumento);
+        persona.setTipoDocumento(tipoDocumento);
+        persona.setSexo(sexo);
+        persona.setMatricula(matricula);
+
+        return persona;
     }
 }
