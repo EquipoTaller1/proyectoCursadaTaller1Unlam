@@ -1,4 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
+import ar.edu.unlam.tallerweb1.Excepciones.AfiliadoNoExisteException;
+import ar.edu.unlam.tallerweb1.Excepciones.AfiliadoRegistradoException;
+import ar.edu.unlam.tallerweb1.Excepciones.EmailEnUsoException;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
@@ -25,15 +28,15 @@ public class ControladorRegistroTest {
     private ServicioLogin servicioLogin;
     private RepositorioPaciente repositorioPaciente;
     private RepositorioUsuario repositorioUsuario;
-    private RepositorioAdministrador repositorioPersona;
+    private RepositorioAdministrador repositorioAdministrador;
 
     @Before
     public void init(){
         repositorioUsuario = mock(RepositorioUsuario.class);
-        repositorioPersona = mock(RepositorioAdministrador.class);
+        repositorioAdministrador = mock(RepositorioAdministrador.class);
         repositorioPaciente = mock(RepositorioPaciente.class);
 
-        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioPersona, repositorioPaciente);
+        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioAdministrador, repositorioPaciente);
         controladorRegistro = new ControladorRegistro(servicioLogin);
     }
 
@@ -54,31 +57,25 @@ public class ControladorRegistroTest {
         thenElPacienteSeCreaConExito(model);
     }
 
-    @Test
+    @Test (expected = AfiliadoNoExisteException.class)
     public void testQueUnPacienteNoAfiliadoNoSePuedaRegistrar(){
         FormularioRegistroPaciente formularioRegistroPaciente = givenIngresoLosDatos();
 
-        ModelMap model = whenElPacienteNoSeEncuentra(formularioRegistroPaciente);
-
-        thenElRegistroFallaPorNoEstarAfiliado(model);
+        whenElPacienteNoSeEncuentra(formularioRegistroPaciente);
     }
 
-    @Test
+    @Test (expected = AfiliadoRegistradoException.class)
     public void testQueUnPacienteYaRegistradoNoSePuedaVolverARegistrar(){
         FormularioRegistroPaciente formularioRegistroPaciente = givenIngresoLosDatos();
 
-        ModelMap model = whenElPacienteYaEstaRegistrado(formularioRegistroPaciente);
-
-        thenElRegistroFallaPorTenerUsuario(model);
+        whenElPacienteYaEstaRegistrado(formularioRegistroPaciente);
     }
 
-    @Test
+    @Test (expected = EmailEnUsoException.class)
     public void testQueElEmailYaEstaRegistrado(){
         FormularioRegistroPaciente formularioRegistroPaciente = givenIngresoLosDatos();
 
-        ModelMap model = whenElEmailYaEstaRegitrado(formularioRegistroPaciente);
-
-        thenElRegistroFallaPorEmailRepetido(model);
+        whenElEmailYaEstaRegitrado(formularioRegistroPaciente);
     }
 
     private FormularioRegistroPaciente givenIngresoLosDatos() {
@@ -95,72 +92,52 @@ public class ControladorRegistroTest {
         List<FieldError> errores = new ArrayList<>();
         Persona persona = new Persona();
 
-        when(repositorioPersona.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(persona);
+        when(repositorioPaciente.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(persona);
         ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
-        verify(repositorioPersona).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
+        verify(repositorioPaciente).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente).registrarPaciente(formularioRegistroPaciente, persona);
 
         return model;
     }
 
-    private ModelMap whenElPacienteNoSeEncuentra(FormularioRegistroPaciente formularioRegistroPaciente) {
+    private void whenElPacienteNoSeEncuentra(FormularioRegistroPaciente formularioRegistroPaciente) {
         List<FieldError> errores = new ArrayList<>();
 
-        when(repositorioPersona.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(null);
+        when(repositorioPaciente.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(null);
         ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
-        verify(repositorioPersona).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
+        verify(repositorioPaciente).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(formularioRegistroPaciente, new Persona());
 
-        return model;
     }
 
-    private ModelMap whenElPacienteYaEstaRegistrado(FormularioRegistroPaciente formularioRegistroPaciente) {
+    private void whenElPacienteYaEstaRegistrado(FormularioRegistroPaciente formularioRegistroPaciente) {
         List<FieldError> errores = new ArrayList<>();
         Persona persona = new Persona();
         persona.setUsuario(new Usuario());
 
-        when(repositorioPersona.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(persona);
+        when(repositorioPaciente.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(persona);
         ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
-        verify(repositorioPersona).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
+        verify(repositorioPaciente).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(formularioRegistroPaciente, persona);
 
-        return model;
     }
 
-    private ModelMap whenElEmailYaEstaRegitrado(FormularioRegistroPaciente formularioRegistroPaciente) {
+    private void whenElEmailYaEstaRegitrado(FormularioRegistroPaciente formularioRegistroPaciente) {
         List<FieldError> errores = new ArrayList<>();
 
         when(repositorioUsuario.userByEmail(formularioRegistroPaciente.getEmail())).thenReturn(new Usuario());
         ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
-        verify(repositorioPersona, never()).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
+        verify(repositorioPaciente, never()).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(formularioRegistroPaciente, new Persona());
 
-        return model;
     }
 
     private void thenElPacienteSeCreaConExito(ModelMap model) {
         assertThat(model.get("exito")).isEqualTo("El usuario se creo correctamente");
     }
 
-    private void thenElRegistroFallaPorNoEstarAfiliado(ModelMap model) {
-        assertThat(model.get("errores")).isNotNull();
-        ArrayList<String> errores = (ArrayList<String>)model.get("errores");
-        assertThat(errores.contains("El numero de afiliado no es correcto")).isTrue();
-    }
-
-    private void thenElRegistroFallaPorTenerUsuario(ModelMap model) {
-        assertThat(model.get("errores")).isNotNull();
-        ArrayList<String> errores = (ArrayList<String>)model.get("errores");
-        assertThat(errores.contains("El numero de afiliado ya se encuentra registrado")).isTrue();
-    }
-
-    private void thenElRegistroFallaPorEmailRepetido(ModelMap model) {
-        assertThat(model.get("errores")).isNotNull();
-        ArrayList<String> errores = (ArrayList<String>)model.get("errores");
-        assertThat(errores.contains("El email ya se encuentra registrado")).isTrue();
-    }
 }

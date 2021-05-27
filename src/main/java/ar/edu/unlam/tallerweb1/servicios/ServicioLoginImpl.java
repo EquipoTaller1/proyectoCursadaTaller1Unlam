@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.Excepciones.*;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPaciente;
@@ -27,13 +28,13 @@ import java.util.List;
 public class ServicioLoginImpl implements ServicioLogin {
 
 	private RepositorioUsuario servicioLoginDao;
-	private RepositorioAdministrador repositorioPersona;
+	private RepositorioAdministrador repositorioAdministrador;
 	private RepositorioPaciente repositorioPaciente;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, RepositorioAdministrador repositorioPersona, RepositorioPaciente repositorioPaciente){
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, RepositorioAdministrador repositorioAdministrador, RepositorioPaciente repositorioPaciente){
 		this.servicioLoginDao = servicioLoginDao;
-		this.repositorioPersona = repositorioPersona;
+		this.repositorioAdministrador = repositorioAdministrador;
 		this.repositorioPaciente = repositorioPaciente;
 	}
 
@@ -61,35 +62,28 @@ public class ServicioLoginImpl implements ServicioLogin {
 			result.forEach(error -> {
 				errores.add(error.getDefaultMessage());
 			});
-			model.put("errores", errores);
+
+			throw new FormularioRegistroPacienteException(errores);
 		}
 		else {
 			if (!formulario.getPassword().equals(formulario.getPasswordRepet())){
-				errores.add("Las contraseñas no coinciden");
-				model.put("errores", errores);
-				return model;
+				throw new ContraseniasNoCoincidenException();
 			}
 
 			if (this.consultarUsuarioEmail(formulario.getEmail()) != null){
-				errores.add("El email ya se encuentra registrado");
-				model.put("errores", errores);
-				return model;
+				throw new EmailEnUsoException();
 			}
 
-			Persona persona = this.repositorioPersona.consultarAfiliado(formulario.getAfiliado());
+			Persona persona = this.repositorioPaciente.consultarAfiliado(formulario.getAfiliado());
 			if (persona == null){
-				errores.add("El numero de afiliado no es correcto");
-				model.put("errores", errores);
+				throw new AfiliadoNoExisteException();
 			}
 			else if (persona.getUsuario() != null){
-				errores.add("El numero de afiliado ya se encuentra registrado");
-				model.put("errores", errores);
+				throw new AfiliadoRegistradoException();
 			}
 
-			if (errores.isEmpty()){
-				this.repositorioPaciente.registrarPaciente(formulario, persona);
-				model.put("exito", "El usuario se creo correctamente");
-			}
+			this.repositorioPaciente.registrarPaciente(formulario, persona);
+			model.put("exito", "El usuario se creo correctamente");
 		}
 
 		return  model;

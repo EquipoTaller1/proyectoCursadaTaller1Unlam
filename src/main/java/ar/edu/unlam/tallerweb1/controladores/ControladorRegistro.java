@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.Excepciones.*;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ControladorRegistro {
@@ -35,14 +38,33 @@ public class ControladorRegistro {
 
     @RequestMapping("/registro/store")
     public ModelAndView store(@Valid FormularioRegistroPaciente formulario, BindingResult result){
-        ModelMap model = servicioLogin.registrarPaciente(formulario, result.getFieldErrors());
+        ModelMap model = new ModelMap();
+        model.put("formularioPaciente", formulario);
+        List<String> errores = new ArrayList<>();
 
-        if (model.containsKey("errores")){
-            model.put("formularioPaciente", formulario);
-            return new ModelAndView("auth/register", model);
+        try {
+            model = servicioLogin.registrarPaciente(formulario, result.getFieldErrors());
+
+            return new ModelAndView("redirect:/login?exito", model);
+        }
+        catch (FormularioRegistroPacienteException e){
+            errores = e.getErrores();
+        }
+        catch (ContraseniasNoCoincidenException e){
+            errores.add("Las contraseñas no coinciden");
+        }
+        catch (EmailEnUsoException e){
+            errores.add("El email ya se encuentra registrado");
+        }
+        catch (AfiliadoNoExisteException e){
+            errores.add("El numero de afiliado no existe");
+        }
+        catch (AfiliadoRegistradoException e){
+            errores.add("El afiliado ya se encuentra registrado");
         }
 
-        return new ModelAndView("redirect:/login?exito", model);
+        model.put("errores", errores);
+        return new ModelAndView("auth/register", model);
     }
 
 }

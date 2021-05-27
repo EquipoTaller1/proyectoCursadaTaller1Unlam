@@ -25,8 +25,8 @@ public class ServicioUsuarioTest extends SpringTest {
     }
 
 
-    //    @Test(expected = FaltanDatosParaElRegistroException.class)
-    @Test(expected = java.lang.NullPointerException.class)
+ 
+    @Test(expected = FaltanDatosParaElRegistroException.class)
     @Transactional
     @Rollback
     public void errorAlCrearUsuario() {

@@ -20,7 +20,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     @Override
     public void createUser(Persona persona) {
 
-        if (persona.getNumeroAfiliado().isEmpty() || persona.getUsuario().getEmail().isEmpty() || persona.getUsuario().getPassword().isEmpty()){
+        if (persona.getNumeroAfiliado() == null || persona.getUsuario().getEmail() == null || persona.getUsuario().getPassword() == null){
             throw new FaltanDatosParaElRegistroException();
         }
 
