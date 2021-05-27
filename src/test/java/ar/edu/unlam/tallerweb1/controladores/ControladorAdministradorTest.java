@@ -30,7 +30,7 @@ public class ControladorAdministradorTest {
         controladorAdministrador = new ControladorAdministrador(servicioAdministrador);
     }
 
-    @Test
+    /*@Test
     public void testIrARegistrarPersona(){
         ModelAndView mav = controladorAdministrador.irARegistrarPersona();
 
@@ -43,7 +43,7 @@ public class ControladorAdministradorTest {
         formularioPersona persona = givenDatosDePersonaCorrectos();
         ModelAndView modelo = whenSeEnvianDatosParaRegistrar(persona);
         thenSeVuelveALaVistaDeRegistroDePersona(modelo);
-    }
+    }*/
 
     private formularioPersona givenDatosDePersonaCorrectos(){
         formularioPersona persona = new formularioPersona();
