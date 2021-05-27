@@ -31,51 +31,6 @@ public class RepositorioAdministradorTest extends SpringTest {
         thenLaRegistroCorrectamente(persona);
     }
 
-    private void thenLaRegistroCorrectamente(Persona persona) {
-
-        assertThat(persona).isNotNull();
-    }
-
-    private Persona givenUnaPersonaNoExistente() {
-
-        Persona persona = new Persona();
-        persona.setId(22L);
-        persona.setNumeroAfiliado("9997");
-        return persona;
-    }
-
-    private void whenLaQuieroRegistrar(Persona persona) {
-
-        _repositorioAdministrador.registrar(persona);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Test(expected = PersonaYaExisteException.class)
     @Transactional
     @Rollback
@@ -106,12 +61,28 @@ public class RepositorioAdministradorTest extends SpringTest {
         Persona persona = givenUnaPersonaNoExistente();
 
         Persona personaBuscada = whenLaQuieroConsultar(persona);
-
-
     }
 
-    private void thenLaEncuentroCorrectamente(Persona persona) {
-        assertThat(persona).isNotNull();
+    public Persona givenUnaPersonaQueYaExiste() {
+
+        Persona persona = new Persona();
+        persona.setNumeroAfiliado("11111111111111");
+        session().save(persona);
+        return persona;
+    }
+
+
+    private Persona givenUnaPersonaNoExistente() {
+
+        Persona persona = new Persona();
+        persona.setId(22L);
+        persona.setNumeroAfiliado("9997");
+        return persona;
+    }
+
+    private void whenLaQuieroRegistrar(Persona persona) {
+
+        _repositorioAdministrador.registrar(persona);
     }
 
     private Persona whenLaQuieroConsultar(Persona persona) {
@@ -119,24 +90,20 @@ public class RepositorioAdministradorTest extends SpringTest {
         return _repositorioAdministrador.consultarAfiliado(persona.getNumeroAfiliado());
     }
 
-
-
-    public Persona givenUnaPersonaQueYaExiste() {
-
-        Persona persona = new Persona();
-        persona.setNumeroAfiliado("9999");
-        session().save(persona);
-        return persona;
-    }
-
-
-
     public void whenLaQuierovolverARegistrar(Persona persona) {
 
         _repositorioAdministrador.registrar(persona);
     }
 
 
+    private void thenLaEncuentroCorrectamente(Persona persona) {
+        assertThat(persona).isNotNull();
+    }
+
+    private void thenLaRegistroCorrectamente(Persona persona) {
+
+        assertThat(persona).isNotNull();
+    }
 
 
 }

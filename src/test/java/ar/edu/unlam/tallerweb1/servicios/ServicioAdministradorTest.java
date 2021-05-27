@@ -7,11 +7,13 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
+
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import static org.mockito.Mockito.*;
 
 public class ServicioAdministradorTest extends SpringTest {
@@ -38,8 +40,14 @@ public class ServicioAdministradorTest extends SpringTest {
 
     }
 
-    private void whenLaQuieroRegistrar(Persona persona) {
-        _servicioAdministrador.registrar(persona);
+    @Test(expected = FaltanDatosParaElRegistroException.class)
+    @Transactional
+    @Rollback
+    public void errorAlRegistrarPersona() {
+
+        Persona persona = givenUnaPersonaConDatosInCorrectos();
+
+        whenLaQuieroRegistrar(persona);
     }
 
     private Persona givenUnaPersonaConDatosCorrectos() throws ParseException {
@@ -60,21 +68,17 @@ public class ServicioAdministradorTest extends SpringTest {
         return persona;
     }
 
-    @Test(expected = FaltanDatosParaElRegistroException.class)
-    @Transactional
-    @Rollback
-    public void errorAlRegistrarPersona() {
-
-        Persona persona = givenUnaPersonaConDatosInCorrectos();
-
-        whenLaQuieroRegistrar(persona);
-
-    }
 
     private Persona givenUnaPersonaConDatosInCorrectos() {
+
         Persona persona = new Persona();
 
         return persona;
+    }
+
+    private void whenLaQuieroRegistrar(Persona persona) {
+
+        _servicioAdministrador.registrar(persona);
     }
 
 
