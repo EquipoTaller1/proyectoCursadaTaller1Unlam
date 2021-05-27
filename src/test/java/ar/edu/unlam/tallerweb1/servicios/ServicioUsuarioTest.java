@@ -25,7 +25,7 @@ public class ServicioUsuarioTest extends SpringTest {
     }
 
 
- 
+
     @Test(expected = FaltanDatosParaElRegistroException.class)
     @Transactional
     @Rollback
