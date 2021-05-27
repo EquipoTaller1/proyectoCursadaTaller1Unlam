@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.*;
 
 public class RepositorioAdministradorTest extends SpringTest {
 
-
     @Autowired
     private RepositorioAdministrador _repositorioAdministrador;
 
@@ -50,32 +49,6 @@ public class RepositorioAdministradorTest extends SpringTest {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Test(expected = PersonaYaExisteException.class)
     @Transactional
     @Rollback
@@ -107,7 +80,6 @@ public class RepositorioAdministradorTest extends SpringTest {
 
         Persona personaBuscada = whenLaQuieroConsultar(persona);
 
-
     }
 
     private void thenLaEncuentroCorrectamente(Persona persona) {
@@ -119,8 +91,6 @@ public class RepositorioAdministradorTest extends SpringTest {
         return _repositorioAdministrador.consultarAfiliado(persona.getNumeroAfiliado());
     }
 
-
-
     public Persona givenUnaPersonaQueYaExiste() {
 
         Persona persona = new Persona();
@@ -129,14 +99,9 @@ public class RepositorioAdministradorTest extends SpringTest {
         return persona;
     }
 
-
-
     public void whenLaQuierovolverARegistrar(Persona persona) {
 
         _repositorioAdministrador.registrar(persona);
     }
-
-
-
 
 }

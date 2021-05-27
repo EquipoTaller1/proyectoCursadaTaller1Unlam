@@ -10,6 +10,8 @@ public interface RepositorioPaciente {
 
     void registrarPaciente(FormularioRegistroPaciente formularioRegistroPaciente, Persona persona);
 
+    Persona consultarAfiliado(String numeroAfiliado);
+
     List<Cita> obtenerCitas(String email);
 
     List<Cita> obtenerCitasProximas(String email);

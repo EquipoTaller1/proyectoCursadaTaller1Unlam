@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import ar.edu.unlam.tallerweb1.Excepciones.AfiliadoNoExisteException;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -36,6 +37,15 @@ public class RepositorioPacienteImpl implements RepositorioPaciente{
         usuario.setPassword(new BCryptPasswordEncoder().encode(formularioRegistroPaciente.getPassword()));
         usuario.setPersona(persona);
         session.save(usuario);
+    }
+
+    @Override
+    public Persona consultarAfiliado(String numeroAfiliado) {
+        Persona personaBuscada = (Persona) sessionFactory.getCurrentSession().createCriteria(Persona.class)
+                .add(Restrictions.eq("numeroAfiliado", numeroAfiliado))
+                .uniqueResult();
+
+        return personaBuscada;
     }
 
     @Override
