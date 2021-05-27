@@ -11,4 +11,6 @@ public interface RepositorioPaciente {
     void registrarPaciente(FormularioRegistroPaciente formularioRegistroPaciente, Persona persona);
 
     List<Cita> obtenerCitas(String email);
+
+    List<Cita> obtenerCitasProximas(String email);
 }

@@ -22,9 +22,13 @@ public class ControladorPaciente {
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView irAHomePaciente()
+    public ModelAndView irAHomePaciente(Authentication authentication)
     {
-        return new ModelAndView("home/home-paciente");
+        ModelMap model = new ModelMap();
+        User user = (User) authentication.getPrincipal();
+        model.put("citas", servicioPaciente.getCitasProximas(user.getUsername()));
+
+        return new ModelAndView("home/home-paciente", model);
     }
 
     @RequestMapping("/mapa")

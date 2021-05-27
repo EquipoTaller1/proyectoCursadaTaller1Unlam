@@ -18,10 +18,10 @@ public class Cita {
     @ManyToOne()
     @JoinColumn(name = "medico_id")
     private Usuario medico;
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "especialidad_id")
     private Especialidad especialidad;
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "tipoCita_id")
     private TipoCita tipoCita;
     @Temporal(TemporalType.DATE)
@@ -72,13 +72,7 @@ public class Cita {
         this.especialidad = especialidad;
     }
 
-    public String getFecha() {
-        fecha.set(Calendar.HOUR_OF_DAY, this.hora.getHours());
-        fecha.set(Calendar.MINUTE, this.hora.getMinutes());
-        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-
-        return fechaFormato.format(fecha.getTime());
-    }
+    public Calendar getFecha() { return fecha; }
 
     public void setFecha(Calendar fecha) {
         this.fecha = fecha;
@@ -122,6 +116,18 @@ public class Cita {
 
     public void setUpdated_at(Calendar updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public CitaHistoria getUltimaHistoria() {
+        return getHistorias().get(this.getHistorias().size() - 1);
+    }
+
+    public String fechaHoraFormateada(){
+        fecha.set(Calendar.HOUR_OF_DAY, this.hora.getHours());
+        fecha.set(Calendar.MINUTE, this.hora.getMinutes());
+        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        return fechaFormato.format(fecha.getTime());
     }
 
     @Override
