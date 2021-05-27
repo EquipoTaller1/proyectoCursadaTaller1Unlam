@@ -54,11 +54,10 @@ public class ServicioLoginImpl implements ServicioLogin {
 	}
 
 	@Override
-	public ModelMap registrarPaciente(FormularioRegistroPaciente formulario, List<FieldError> result) {
-		ModelMap model = new ModelMap();
-		ArrayList<String> errores = new ArrayList();
+	public void registrarPaciente(FormularioRegistroPaciente formulario, List<FieldError> result) {
 
 		if (!result.isEmpty()){
+			ArrayList<String> errores = new ArrayList();
 			result.forEach(error -> {
 				errores.add(error.getDefaultMessage());
 			});
@@ -83,10 +82,8 @@ public class ServicioLoginImpl implements ServicioLogin {
 			}
 
 			this.repositorioPaciente.registrarPaciente(formulario, persona);
-			model.put("exito", "El usuario se creo correctamente");
 		}
 
-		return  model;
 	}
 
 }

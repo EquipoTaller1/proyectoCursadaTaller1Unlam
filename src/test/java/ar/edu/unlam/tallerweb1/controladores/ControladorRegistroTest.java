@@ -12,7 +12,7 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLoginImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.ui.ModelMap;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,9 +52,9 @@ public class ControladorRegistroTest {
     public void testQueUnPacienteSePuedaRegistrar(){
         FormularioRegistroPaciente formularioRegistroPaciente = givenIngresoLosDatos();
 
-        ModelMap model = whenCreoElPaciente(formularioRegistroPaciente);
+        ModelAndView mav = whenCreoElPaciente(formularioRegistroPaciente);
 
-        thenElPacienteSeCreaConExito(model);
+        thenElPacienteSeCreaConExito(mav);
     }
 
     @Test (expected = AfiliadoNoExisteException.class)
@@ -88,24 +88,24 @@ public class ControladorRegistroTest {
         return formularioExito;
     }
 
-    private ModelMap whenCreoElPaciente(FormularioRegistroPaciente formularioRegistroPaciente) {
-        List<FieldError> errores = new ArrayList<>();
+    private ModelAndView whenCreoElPaciente(FormularioRegistroPaciente formularioRegistroPaciente) {
+        BeanPropertyBindingResult error = new BeanPropertyBindingResult(formularioRegistroPaciente, "formularioRegistroPaciente");
         Persona persona = new Persona();
 
         when(repositorioPaciente.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(persona);
-        ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
+        ModelAndView mav = controladorRegistro.store(formularioRegistroPaciente, error);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
         verify(repositorioPaciente).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente).registrarPaciente(formularioRegistroPaciente, persona);
 
-        return model;
+        return mav;
     }
 
     private void whenElPacienteNoSeEncuentra(FormularioRegistroPaciente formularioRegistroPaciente) {
         List<FieldError> errores = new ArrayList<>();
 
         when(repositorioPaciente.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(null);
-        ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
+        servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
         verify(repositorioPaciente).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(formularioRegistroPaciente, new Persona());
@@ -118,7 +118,7 @@ public class ControladorRegistroTest {
         persona.setUsuario(new Usuario());
 
         when(repositorioPaciente.consultarAfiliado(formularioRegistroPaciente.getAfiliado())).thenReturn(persona);
-        ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
+        servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
         verify(repositorioPaciente).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(formularioRegistroPaciente, persona);
@@ -129,15 +129,15 @@ public class ControladorRegistroTest {
         List<FieldError> errores = new ArrayList<>();
 
         when(repositorioUsuario.userByEmail(formularioRegistroPaciente.getEmail())).thenReturn(new Usuario());
-        ModelMap model = servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
+        servicioLogin.registrarPaciente(formularioRegistroPaciente, errores);
         verify(repositorioUsuario).userByEmail(formularioRegistroPaciente.getEmail());
         verify(repositorioPaciente, never()).consultarAfiliado(formularioRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(formularioRegistroPaciente, new Persona());
 
     }
 
-    private void thenElPacienteSeCreaConExito(ModelMap model) {
-        assertThat(model.get("exito")).isEqualTo("El usuario se creo correctamente");
+    private void thenElPacienteSeCreaConExito(ModelAndView mav) {
+        assertThat(mav.getViewName()).isEqualTo("redirect:/login?exito");
     }
 
 }

@@ -16,5 +16,5 @@ public interface ServicioLogin {
 
 	void createUsuario(Usuario usuario);
 
-    ModelMap registrarPaciente(FormularioRegistroPaciente formularioRegistroPaciente, List<FieldError> list);
+    void registrarPaciente(FormularioRegistroPaciente formularioRegistroPaciente, List<FieldError> list);
 }

@@ -43,9 +43,9 @@ public class ControladorRegistro {
         List<String> errores = new ArrayList<>();
 
         try {
-            model = servicioLogin.registrarPaciente(formulario, result.getFieldErrors());
+            servicioLogin.registrarPaciente(formulario, result.getFieldErrors());
 
-            return new ModelAndView("redirect:/login?exito", model);
+            return new ModelAndView("redirect:/login?exito");
         }
         catch (FormularioRegistroPacienteException e){
             errores = e.getErrores();
