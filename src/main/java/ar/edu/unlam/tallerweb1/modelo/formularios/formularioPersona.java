@@ -1,9 +1,14 @@
 package ar.edu.unlam.tallerweb1.modelo.formularios;
 
 
+import ar.edu.unlam.tallerweb1.modelo.Persona;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.validation.constraints.NotBlank;
 
 public class formularioPersona {
@@ -18,7 +23,8 @@ public class formularioPersona {
     private String numeroDocumento;
 
     @Temporal(TemporalType.DATE)
-    private Calendar fechaNacimiento;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date fechaNacimiento;
     @NotBlank(message = "El campo Sexo es obligatorio")
     private String sexo;
     @NotBlank(message = "El campo Número de afiliado es obligatorio")
@@ -58,11 +64,11 @@ public class formularioPersona {
         this.numeroDocumento = numeroDocumento;
     }
 
-    public Calendar getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Calendar fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -88,5 +94,20 @@ public class formularioPersona {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    public Persona toPersona()
+    {
+        Persona persona = new Persona();
+        persona.setNumeroAfiliado(numeroAfiliado);
+        persona.setNombre(nombre);
+        persona.setApellido(apellido);
+        persona.setFechaNacimiento(fechaNacimiento);
+        persona.setNumeroDocumento(numeroDocumento);
+        persona.setTipoDocumento(tipoDocumento);
+        persona.setSexo(sexo);
+        persona.setMatricula(matricula);
+
+        return persona;
     }
 }

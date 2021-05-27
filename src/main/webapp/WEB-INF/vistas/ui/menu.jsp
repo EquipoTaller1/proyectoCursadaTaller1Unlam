@@ -83,6 +83,5 @@
 	<li class="nav-item"><a class="nav-link"
 		href="https://demos.creative-tim.com/argon-dashboard/docs/components/alerts.html">
 			<i class="ni ni-ui-04"></i> Components
-	</a></li>
+	</a></li>--%>
 </ul>
---%>

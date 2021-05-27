@@ -7,12 +7,11 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
-
 import javax.transaction.Transactional;
-
-import java.sql.Date;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import static org.mockito.Mockito.*;
 
 public class ServicioAdministradorTest extends SpringTest {
@@ -29,7 +28,7 @@ public class ServicioAdministradorTest extends SpringTest {
     @Test()
     @Transactional
     @Rollback
-    public void sePuedeRegistrarPersonaCorrectamente() {
+    public void sePuedeRegistrarPersonaCorrectamente() throws ParseException {
 
         Persona persona = givenUnaPersonaConDatosCorrectos();
 
@@ -43,13 +42,17 @@ public class ServicioAdministradorTest extends SpringTest {
         _servicioAdministrador.registrar(persona);
     }
 
-    private Persona givenUnaPersonaConDatosCorrectos() {
+    private Persona givenUnaPersonaConDatosCorrectos() throws ParseException {
         Persona persona = new Persona();
-
 
         persona.setNombre("Pepe");
         persona.setApellido("Argento");
-        persona.setFechaNacimiento(new Date(10, 10, 2012));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String dateInString = "23/10/1985";
+        Date date = sdf.parse(dateInString);
+        persona.setFechaNacimiento(date);
+
         persona.setNumeroAfiliado("9999");
         persona.setNumeroDocumento("4836646");
         persona.setTipoDocumento("DNI");

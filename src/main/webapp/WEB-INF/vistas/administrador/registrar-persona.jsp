@@ -131,9 +131,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="input-group input-group-alternative">
-                                    <form:input path="tipoDocumento" class="form-control" placeholder="Tipo de documento" type="text"/>
-                                </div>
+                                <form:select path="tipoDocumento" class="form-control">
+                                    <form:option value="DNI">DNI</form:option>
+                                    <form:option value="PASAPORTE">Pasaporte</form:option>
+                                </form:select>
                             </div>
                             <div class="form-group">
                                 <div class="input-group input-group-alternative">
@@ -142,13 +143,15 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group input-group-alternative">
-                                    <form:input path="fechaNacimiento" class="form-control" placeholder="Fecha de nacimiento" type="date"/>
+                                    <form:input path="fechaNacimiento" name="fechaNacimiento" class="form-control" placeholder="Fecha de nacimiento dd/mm/aaaa" type="text"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="input-group input-group-alternative">
-                                    <form:input path="sexo" class="form-control" placeholder="Sexo" type="text"/>
-                                </div>
+                                <form:select path="sexo" class="form-control">
+                                    <form:option value="Masculino">Masculino</form:option>
+                                    <form:option value="Femenino">Femenino</form:option>
+                                    <form:option value="Otre">Otre</form:option>
+                                </form:select>
                             </div>
                             <div class="form-group">
                                 <div class="input-group input-group-alternative">

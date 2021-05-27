@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.modelo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 public class Persona {
@@ -71,8 +72,9 @@ public class Persona {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Calendar fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setFechaNacimiento(Date date) {
+        this.fechaNacimiento = Calendar.getInstance();
+        this.fechaNacimiento.setTime(date);
     }
 
     public String getSexo() {

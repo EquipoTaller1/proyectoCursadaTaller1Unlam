@@ -25,15 +25,13 @@ public class ServicioUsuarioTest extends SpringTest {
     }
 
 
-
-    @Test(expected = FaltanDatosParaElRegistroException.class)
+//    @Test(expected = FaltanDatosParaElRegistroException.class)
+    @Test(expected = java.lang.NullPointerException.class)
     @Transactional
     @Rollback
     public void errorAlCrearUsuario(){
 
         Persona persona = givenUnUsuarioNoRegistrado();
-
-
 
         whenLoquieroRegistrar(persona);
     }
@@ -47,17 +45,11 @@ public class ServicioUsuarioTest extends SpringTest {
         Usuario usuario = new Usuario();
         usuario.setEmail("nico@gmail.com");
 
-
-
         Persona persona = new Persona();
         persona.setNumeroAfiliado("9999");
         persona.setUsuario(usuario);
 
-
-
         return persona;
-
-
 
     }
 
