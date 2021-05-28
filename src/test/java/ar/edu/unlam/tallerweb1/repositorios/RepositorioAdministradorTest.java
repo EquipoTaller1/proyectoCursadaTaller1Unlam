@@ -17,7 +17,7 @@ public class RepositorioAdministradorTest extends SpringTest {
 
 
     @Autowired
-    private RepositorioAdministrador _repositorioAdministrador;
+    private RepositorioAdministrador repositorioAdministrador;
 
     @Test
     @Transactional
@@ -75,24 +75,24 @@ public class RepositorioAdministradorTest extends SpringTest {
     private Persona givenUnaPersonaNoExistente() {
 
         Persona persona = new Persona();
-        persona.setId(22L);
+
         persona.setNumeroAfiliado("9997");
         return persona;
     }
 
     private void whenLaQuieroRegistrar(Persona persona) {
 
-        _repositorioAdministrador.registrar(persona);
+        repositorioAdministrador.registrar(persona);
     }
 
     private Persona whenLaQuieroConsultar(Persona persona) {
 
-        return _repositorioAdministrador.consultarAfiliado(persona.getNumeroAfiliado());
+        return repositorioAdministrador.consultarAfiliado(persona.getNumeroAfiliado());
     }
 
     public void whenLaQuierovolverARegistrar(Persona persona) {
 
-        _repositorioAdministrador.registrar(persona);
+        repositorioAdministrador.registrar(persona);
     }
 
 
