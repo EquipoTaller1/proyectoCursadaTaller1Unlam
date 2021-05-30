@@ -44,7 +44,7 @@ public class SendEmail {
         mailMessage.setSubject(subject); //The subject of the mail
         mailMessage.setText(text);
         mailMessage.setTo(email); //Who to send to
-        mailMessage.setFrom(Objects.requireNonNull(javaMailSender.getUsername())); //Who sent it
+        mailMessage.setFrom("noReply@laClinica.com"); //Who sent it
         javaMailSender.send(mailMessage);
     }
 
