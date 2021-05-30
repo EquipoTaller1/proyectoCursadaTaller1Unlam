@@ -51,6 +51,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <div class="input-group input-group-alternative mb-3">
+                                    <form:input path="email" cssErrorClass="form-control border-danger" class="form-control" placeholder="email" type="text"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <form:select path="tipoDocumento" class="form-control">
                                     <form:option value="DNI">DNI</form:option>
                                     <form:option value="PASAPORTE">Pasaporte</form:option>

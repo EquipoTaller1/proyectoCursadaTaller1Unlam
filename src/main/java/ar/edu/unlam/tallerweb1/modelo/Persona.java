@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ public class Persona {
     private String apellido;
     private String tipoDocumento;
     private String numeroDocumento;
+    private String email;
     @Temporal(TemporalType.DATE)
     private Calendar fechaNacimiento;
     private String sexo;
@@ -108,4 +110,33 @@ public class Persona {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    public boolean chequearPersona(Persona persona){
+
+        boolean datosCorrectos = true;
+
+        if (this.nombre == null ||
+                this.apellido == null ||
+                this.fechaNacimiento == null ||
+                this.numeroAfiliado == null ||
+                this.numeroDocumento == null ||
+                this.tipoDocumento == null)
+        {
+            datosCorrectos = false;
+        }
+
+        return datosCorrectos;
+
+    }
+
+
 }

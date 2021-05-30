@@ -63,6 +63,8 @@ public class ControladorRegistro {
             errores.add("El afiliado ya se encuentra registrado");
         }
 
+
+
         model.put("errores", errores);
         return new ModelAndView("auth/register", model);
     }

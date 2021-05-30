@@ -1,5 +1,5 @@
 package ar.edu.unlam.tallerweb1.controladores;
-import ar.edu.unlam.tallerweb1.modelo.formularios.formularioPersona;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersona;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAdministrador;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAdministradorImpl;
@@ -11,7 +11,6 @@ import org.springframework.validation.DataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
-import java.util.Calendar;
 import java.util.Date;
 
 import static org.mockito.Mockito.*;
@@ -30,7 +29,7 @@ public class ControladorAdministradorTest {
         controladorAdministrador = new ControladorAdministrador(servicioAdministrador);
     }
 
-    @Test
+    @Test @Transactional @Rollback
     public void testIrARegistrarPersona(){
         ModelAndView mav = controladorAdministrador.irARegistrarPersona();
 
@@ -40,16 +39,28 @@ public class ControladorAdministradorTest {
 
     @Test @Transactional @Rollback
     public void testRegistrarPersona(){
-        formularioPersona persona = givenDatosDePersonaCorrectos();
+        FormularioPersona persona = givenDatosDePersonaCorrectos();
         ModelAndView modelo = whenSeEnvianDatosParaRegistrar(persona);
         thenSeVuelveALaVistaDeRegistroDePersona(modelo);
     }
 
-    private formularioPersona givenDatosDePersonaCorrectos(){
-        formularioPersona persona = new formularioPersona();
+
+
+
+
+    private ModelAndView whenSeEnvianDatosParaRegistrar(FormularioPersona persona) {
+        BindingResult result = new DataBinder(null).getBindingResult();
+
+        return controladorAdministrador.registrarPersona(persona, result);
+    }
+
+
+    private FormularioPersona givenDatosDePersonaCorrectos(){
+        FormularioPersona persona = new FormularioPersona();
 
         persona.setNombre("Pepe");
         persona.setApellido("Argento");
+        persona.setEmail("nherrera3276@gmail.com");
         persona.setFechaNacimiento(new Date(1970, 0, 31));
         persona.setNumeroAfiliado("20210525001");
         persona.setNumeroDocumento("4836646");
@@ -59,11 +70,7 @@ public class ControladorAdministradorTest {
         return persona;
     }
 
-    private ModelAndView whenSeEnvianDatosParaRegistrar(formularioPersona persona) {
-        BindingResult result = new DataBinder(null).getBindingResult();
 
-        return controladorAdministrador.registrarPersona(persona, result);
-    }
 
     private void thenSeVuelveALaVistaDeRegistroDePersona(ModelAndView model){
         assertThat(model.getViewName()).isEqualTo("administrador/registrar-persona");
