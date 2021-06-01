@@ -2,10 +2,10 @@
 -- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 25-05-2021 a las 21:45:08
--- Versión del servidor: 8.0.20
--- Versión de PHP: 8.0.3
+-- Host: 127.0.0.1
+-- Generation Time: Jun 01, 2021 at 04:55 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,366 +18,313 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `db`
+-- Database: `dbproyectocursadataller1`
 --
+CREATE DATABASE IF NOT EXISTS `dbproyectocursadataller1` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `dbproyectocursadataller1`;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cita`
+-- Table structure for table `cita`
 --
 
 CREATE TABLE `cita` (
-  `id` bigint NOT NULL,
-  `fecha` date DEFAULT NULL,
-  `hora` time DEFAULT NULL,
-  `tipoCita_id` bigint DEFAULT NULL,
-  `especialidad_id` bigint DEFAULT NULL,
-  `medico_id` bigint DEFAULT NULL,
-  `paciente_id` bigint DEFAULT NULL,
-  `created_at` datetime(6) DEFAULT NULL,
-  `updated_at` datetime(6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `cita`
---
-
-INSERT INTO `cita` (`id`, `fecha`, `hora`, `tipoCita_id`, `especialidad_id`, `medico_id`, `paciente_id`, `created_at`, `updated_at`) VALUES
-(1, '2021-05-12', '18:00:00', 1, 1, 1, 2, '2021-05-21 21:03:26.000000', NULL),
-(2, '2021-05-28', '18:00:00', 1, 2, 3, 2, '2021-05-24 20:19:27.000000', NULL);
+                        `id` bigint(20) NOT NULL,
+                        `created_at` datetime(6) DEFAULT NULL,
+                        `fecha` date DEFAULT NULL,
+                        `hora` time DEFAULT NULL,
+                        `updated_at` datetime(6) DEFAULT NULL,
+                        `especialidad_id` bigint(20) DEFAULT NULL,
+                        `medico_id` bigint(20) DEFAULT NULL,
+                        `paciente_id` bigint(20) DEFAULT NULL,
+                        `tipoCita_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `citahistoria`
+-- Table structure for table `citahistoria`
 --
 
 CREATE TABLE `citahistoria` (
-  `id` bigint NOT NULL,
-  `cita_id` bigint DEFAULT NULL,
-  `estado_id` bigint DEFAULT NULL,
-  `observacion` varchar(255) DEFAULT NULL,
-  `archivo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `created_at` datetime(6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `citahistoria`
---
-
-INSERT INTO `citahistoria` (`id`, `cita_id`, `estado_id`, `observacion`, `archivo`, `created_at`) VALUES
-(1, 1, 1, 'Creado', NULL, '2021-05-21 21:03:26.000000'),
-(2, 1, 3, 'Se deja constancia que se atendio al paciente bla bla', NULL, '2021-05-21 21:03:43.000000'),
-(3, 2, 1, 'Creado', NULL, '2021-05-24 20:20:22.000000');
+                                `id` bigint(20) NOT NULL,
+                                `archivo` varchar(255) DEFAULT NULL,
+                                `created_at` datetime(6) DEFAULT NULL,
+                                `observacion` varchar(255) DEFAULT NULL,
+                                `cita_id` bigint(20) DEFAULT NULL,
+                                `estado_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `especialidad`
+-- Table structure for table `especialidad`
 --
 
 CREATE TABLE `especialidad` (
-  `id` bigint NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `especialidad`
---
-
-INSERT INTO `especialidad` (`id`, `descripcion`) VALUES
-(1, 'Cardiologia'),
-(2, 'Clinico');
+                                `id` bigint(20) NOT NULL,
+                                `descripcion` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `especialidad_medico`
+-- Table structure for table `especialidad_medico`
 --
 
 CREATE TABLE `especialidad_medico` (
-  `especialidad_id` bigint NOT NULL,
-  `medico_id` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `especialidad_medico`
---
-
-INSERT INTO `especialidad_medico` (`especialidad_id`, `medico_id`) VALUES
-(1, 1),
-(2, 1);
+                                       `especialidad_id` bigint(20) NOT NULL,
+                                       `medico_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `estado`
+-- Table structure for table `estado`
 --
 
 CREATE TABLE `estado` (
-  `id` bigint NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `estado`
---
-
-INSERT INTO `estado` (`id`, `descripcion`) VALUES
-(1, 'Creado'),
-(2, 'Cancelado'),
-(3, 'Atendido');
+                          `id` bigint(20) NOT NULL,
+                          `descripcion` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `persona`
+-- Table structure for table `persona`
 --
 
 CREATE TABLE `persona` (
-  `id` bigint NOT NULL,
-  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `apellido` varchar(255) DEFAULT NULL,
-  `tipoDocumento` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `numeroDocumento` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sexo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `fechaNacimiento` date DEFAULT NULL,
-  `numeroAfiliado` varchar(255) DEFAULT NULL,
-  `matricula` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                           `id` bigint(20) NOT NULL,
+                           `apellido` varchar(255) DEFAULT NULL,
+                           `matricula` varchar(255) DEFAULT NULL,
+                           `nombre` varchar(255) DEFAULT NULL,
+                           `numeroAfiliado` varchar(255) DEFAULT NULL,
+                           `numeroDocumento` varchar(255) DEFAULT NULL,
+                           `sexo` varchar(255) DEFAULT NULL,
+                           `tipoDocumento` varchar(255) DEFAULT NULL,
+                           `email` varchar(100) NOT NULL,
+                           `fechaNacimiento` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `persona`
+-- Dumping data for table `persona`
 --
 
-INSERT INTO `persona` (`id`, `nombre`, `apellido`, `tipoDocumento`, `numeroDocumento`, `sexo`, `fechaNacimiento`, `numeroAfiliado`, `matricula`) VALUES
-(1, 'Enzo', 'Jimenez', 'DNI', '40258515', 'Masculino', '1997-04-18', '1234', '987654321'),
-(2, 'Medico', 'Gomez', 'DNI', '34877212', 'Masculino', '1980-05-05', '1111', '876543219'),
-(3, 'Paciente', 'Saraza', 'DNI', '23498723', 'Femenino', '1990-05-12', '2222', NULL),
-(4, 'PacienteNombre', 'PacienteApellido', 'DNI', '40258888', 'Masculino', '1980-05-05', '5555', NULL);
+INSERT INTO `persona` (`id`, `apellido`, `matricula`, `nombre`, `numeroAfiliado`, `numeroDocumento`, `sexo`, `tipoDocumento`, `email`, `fechaNacimiento`) VALUES
+(1, 'Herrera', '123', 'Nicolas', NULL, '1321321', 'm', 'dni', '', ''),
+(82, 'Messi', '', 'Lionel', '1', '14819950', 'Masculino', 'DNI', 'lmessi@gmail.com', ''),
+(83, 'Maradon', '', 'Diego', '1010', '14819950', 'Masculino', 'DNI', 'dmaradona@gmail.com', ''),
+(84, 'Herrera', '', 'Nicolas', '3276', '32413382', 'Masculino', 'DNI', 'nherrera3276@gmail.com', ''),
+(86, 'MUNGIELLO', '', 'JOSE LUIS', '9999', '312312', 'Masculino', 'DNI', 'joselmungiello@hotmail.com', ''),
+(87, 'dasdsada', '', 'asdas', '3123123', '14819950', 'Masculino', 'DNI', 'asdasdas', ''),
+(88, 'a', '', 'a', '312321', '21312', 'Masculino', 'DNI', 'pulga@gmail.com', ''),
+(89, 'a', '', 'a', '1312312', '14819950', 'Masculino', 'DNI', 'tallerUnoPruebas@gmail.com', ''),
+(90, 'Herrera', '', 'Nicolas', '99993123', '14819950', 'Masculino', 'DNI', 'jherreradasdasdas3276@gmail.com', '29/02/2020');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipocita`
+-- Table structure for table `tipocita`
 --
 
 CREATE TABLE `tipocita` (
-  `id` bigint NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `tipocita`
---
-
-INSERT INTO `tipocita` (`id`, `descripcion`) VALUES
-(1, 'Programada'),
-(2, 'Urgencia');
+                            `id` bigint(20) NOT NULL,
+                            `descripcion` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ubicacion`
+-- Table structure for table `ubicacion`
 --
 
 CREATE TABLE `ubicacion` (
-  `id` bigint NOT NULL,
-  `lat_actual` float NOT NULL,
-  `long_actual` float NOT NULL,
-  `usuario_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `ubicacion`
---
-
-INSERT INTO `ubicacion` (`id`, `lat_actual`, `long_actual`, `usuario_id`) VALUES
-(1, -34.6527, -58.6178, 1),
-(2, -34.6699, -58.5622, 3);
+                             `id` bigint(20) NOT NULL,
+                             `lat_actual` float NOT NULL,
+                             `long_actual` float NOT NULL,
+                             `usuario_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
 CREATE TABLE `usuario` (
-  `id` bigint NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `rol` varchar(255) DEFAULT NULL,
-  `persona_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                           `id` bigint(20) NOT NULL,
+                           `email` varchar(255) DEFAULT NULL,
+                           `password` varchar(255) DEFAULT NULL,
+                           `rol` varchar(255) DEFAULT NULL,
+                           `persona_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `usuario`
 --
 
 INSERT INTO `usuario` (`id`, `email`, `password`, `rol`, `persona_id`) VALUES
-(1, 'enzo-jimenez@hotmail.com', '$2a$10$ayVqBpgb6zazFbgtKXI6hesKmwT/y.F7CTDC6qWT8UyRE5BgX7PZW', 'Medico', 1),
-(2, 'paciente@paciente.com', '$2a$10$0JAvMxPGYu/GTz8U0rzFdunk5DpkQz3Tg/D.cJ6zFj7LuFJSqb882', 'Paciente', 3),
-(3, 'medico@medico.com', '$2a$10$KQ4tWRl9hCeCAwObDfLwdu3yTpD3586CCvK0NOk7aH41OeJuR4.SC', 'Medico', 2),
-(4, 'paciente2@paciente.com', '$2a$10$NxkSjDemweL70j6D8spWDOvHslXCv5t5Eo7xBAGhlCEA.h8RV8hAG', 'Paciente', 4);
+(2, 'jherrera3276@gmail.com', '$2a$10$RdAzdAJA2QFEynljDhDrQunVHM0PbJLznCaw9q9GjJ4NOqOf00H8.', 'Administrador', 1);
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `cita`
+-- Indexes for table `cita`
 --
 ALTER TABLE `cita`
-  ADD PRIMARY KEY (`id`),
+    ADD PRIMARY KEY (`id`),
   ADD KEY `FKh0xa3kjv8bt1c87f8c3wwkrv1` (`especialidad_id`),
   ADD KEY `FKh3hpw8ld8953mlx2hadyxsglg` (`medico_id`),
   ADD KEY `FKkcdsbj014ee29mjph2humj4d0` (`paciente_id`),
   ADD KEY `FKn3o2v6825xj424a4c0xv36u23` (`tipoCita_id`);
 
 --
--- Indices de la tabla `citahistoria`
+-- Indexes for table `citahistoria`
 --
 ALTER TABLE `citahistoria`
-  ADD PRIMARY KEY (`id`),
+    ADD PRIMARY KEY (`id`),
   ADD KEY `FKj0hv3g8m3o86c7twacej45k3n` (`cita_id`),
   ADD KEY `FK2l1qtf6dlo9jf2dnlxrslqnuh` (`estado_id`);
 
 --
--- Indices de la tabla `especialidad`
+-- Indexes for table `especialidad`
 --
 ALTER TABLE `especialidad`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `especialidad_medico`
+-- Indexes for table `especialidad_medico`
 --
 ALTER TABLE `especialidad_medico`
-  ADD PRIMARY KEY (`especialidad_id`,`medico_id`),
-  ADD KEY `FKs2hptidhhor9l62s77sc56otl` (`medico_id`);
+    ADD KEY `FKs2hptidhhor9l62s77sc56otl` (`medico_id`),
+  ADD KEY `FKocg7yj9ixqa7qxabdqqnxw9hk` (`especialidad_id`);
 
 --
--- Indices de la tabla `estado`
+-- Indexes for table `estado`
 --
 ALTER TABLE `estado`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `persona`
+-- Indexes for table `persona`
 --
 ALTER TABLE `persona`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `tipocita`
+-- Indexes for table `tipocita`
 --
 ALTER TABLE `tipocita`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `ubicacion`
+-- Indexes for table `ubicacion`
 --
 ALTER TABLE `ubicacion`
-  ADD PRIMARY KEY (`id`),
+    ADD PRIMARY KEY (`id`),
   ADD KEY `FK8yjql6sdrvc6530ffhbh4edk` (`usuario_id`);
 
 --
--- Indices de la tabla `usuario`
+-- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`),
+    ADD PRIMARY KEY (`id`),
   ADD KEY `FKpwmov35tuwavb70fabk8iusg` (`persona_id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `cita`
+-- AUTO_INCREMENT for table `cita`
 --
 ALTER TABLE `cita`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `citahistoria`
+-- AUTO_INCREMENT for table `citahistoria`
 --
 ALTER TABLE `citahistoria`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `especialidad`
+-- AUTO_INCREMENT for table `especialidad`
 --
 ALTER TABLE `especialidad`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `estado`
+-- AUTO_INCREMENT for table `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `persona`
+-- AUTO_INCREMENT for table `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
--- AUTO_INCREMENT de la tabla `tipocita`
+-- AUTO_INCREMENT for table `tipocita`
 --
 ALTER TABLE `tipocita`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `ubicacion`
+-- AUTO_INCREMENT for table `ubicacion`
 --
 ALTER TABLE `ubicacion`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `usuario`
+-- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `cita`
+-- Constraints for table `cita`
 --
 ALTER TABLE `cita`
-  ADD CONSTRAINT `FKh0xa3kjv8bt1c87f8c3wwkrv1` FOREIGN KEY (`especialidad_id`) REFERENCES `especialidad` (`id`),
+    ADD CONSTRAINT `FKh0xa3kjv8bt1c87f8c3wwkrv1` FOREIGN KEY (`especialidad_id`) REFERENCES `especialidad` (`id`),
   ADD CONSTRAINT `FKh3hpw8ld8953mlx2hadyxsglg` FOREIGN KEY (`medico_id`) REFERENCES `usuario` (`id`),
   ADD CONSTRAINT `FKkcdsbj014ee29mjph2humj4d0` FOREIGN KEY (`paciente_id`) REFERENCES `usuario` (`id`),
   ADD CONSTRAINT `FKn3o2v6825xj424a4c0xv36u23` FOREIGN KEY (`tipoCita_id`) REFERENCES `tipocita` (`id`);
 
 --
--- Filtros para la tabla `citahistoria`
+-- Constraints for table `citahistoria`
 --
 ALTER TABLE `citahistoria`
-  ADD CONSTRAINT `FK2l1qtf6dlo9jf2dnlxrslqnuh` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`id`),
+    ADD CONSTRAINT `FK2l1qtf6dlo9jf2dnlxrslqnuh` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`id`),
   ADD CONSTRAINT `FKj0hv3g8m3o86c7twacej45k3n` FOREIGN KEY (`cita_id`) REFERENCES `cita` (`id`);
 
 --
--- Filtros para la tabla `especialidad_medico`
+-- Constraints for table `especialidad_medico`
 --
 ALTER TABLE `especialidad_medico`
-  ADD CONSTRAINT `FKocg7yj9ixqa7qxabdqqnxw9hk` FOREIGN KEY (`especialidad_id`) REFERENCES `especialidad` (`id`),
+    ADD CONSTRAINT `FKocg7yj9ixqa7qxabdqqnxw9hk` FOREIGN KEY (`especialidad_id`) REFERENCES `especialidad` (`id`),
   ADD CONSTRAINT `FKs2hptidhhor9l62s77sc56otl` FOREIGN KEY (`medico_id`) REFERENCES `usuario` (`id`);
 
 --
--- Filtros para la tabla `ubicacion`
+-- Constraints for table `ubicacion`
 --
 ALTER TABLE `ubicacion`
-  ADD CONSTRAINT `FK8yjql6sdrvc6530ffhbh4edk` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+    ADD CONSTRAINT `FK8yjql6sdrvc6530ffhbh4edk` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
 --
--- Filtros para la tabla `usuario`
+-- Constraints for table `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `FKpwmov35tuwavb70fabk8iusg` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`id`);
+    ADD CONSTRAINT `FKpwmov35tuwavb70fabk8iusg` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
