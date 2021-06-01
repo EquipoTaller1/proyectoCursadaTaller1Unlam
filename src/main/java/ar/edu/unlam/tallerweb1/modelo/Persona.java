@@ -1,8 +1,9 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,8 +18,7 @@ public class Persona {
     private String tipoDocumento;
     private String numeroDocumento;
     private String email;
-    @Temporal(TemporalType.DATE)
-    private Calendar fechaNacimiento;
+    private String fechaNacimiento;
     private String sexo;
     private String numeroAfiliado;
     @OneToOne(mappedBy = "persona")
@@ -70,13 +70,14 @@ public class Persona {
         this.numeroDocumento = numeroDocumento;
     }
 
-    public Calendar getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date date) {
-        this.fechaNacimiento = Calendar.getInstance();
-        this.fechaNacimiento.setTime(date);
+    public void setFechaNacimiento(String fecha) {
+        this.fechaNacimiento = fecha;
+
+
     }
 
     public String getSexo() {
@@ -124,12 +125,16 @@ public class Persona {
 
         boolean datosCorrectos = true;
 
-        if (this.nombre == null ||
-                this.apellido == null ||
-                this.fechaNacimiento == null ||
-                this.numeroAfiliado == null ||
-                this.numeroDocumento == null ||
-                this.tipoDocumento == null)
+        if (    persona.getNumeroAfiliado().equals("") ||
+                persona.getNombre().equals("") ||
+                persona.getApellido().equals("") ||
+                persona.getEmail().equals("") ||
+                persona.getTipoDocumento().equals("") ||
+                persona.getNumeroDocumento().equals("")||
+                persona.getSexo().equals("")
+
+            )
+
         {
             datosCorrectos = false;
         }

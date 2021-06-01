@@ -24,9 +24,8 @@ public class FormularioPersona {
     @NotBlank(message = "El campo Email de documento es obligatorio")
     private String email;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date fechaNacimiento;
+    @NotBlank
+    private String fechaNacimiento;
     @NotBlank(message = "El campo Sexo es obligatorio")
     private String sexo;
     @NotBlank(message = "El campo Número de afiliado es obligatorio")
@@ -68,11 +67,11 @@ public class FormularioPersona {
         this.numeroDocumento = numeroDocumento;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -125,13 +124,33 @@ public class FormularioPersona {
     }
 
     public boolean chequearFormulario(FormularioPersona formulario){
-        if (this.nombre == null ||
-                this.apellido == null ||
-                this.tipoDocumento == null ||
-                this.numeroDocumento == null ||
-                this.email == null || this.fechaNacimiento == null ||
-                this.sexo == null ||
-                this.numeroAfiliado == null)
+        if (
+                        this.numeroAfiliado == null||
+                        this.nombre == null ||
+                        this.apellido == null ||
+                        this.email == null ||
+                        this.tipoDocumento == null ||
+                        this.numeroDocumento == null ||
+                        this.sexo == null
+                )
+        {
+            return false;
+        }
+        return  true;
+    }
+
+    public boolean chequearFormulario(Persona persona){
+        if (
+                persona.getNumeroAfiliado().equals("")||
+                        persona.getNombre().equals("") ||
+                        persona.getApellido().equals("") ||
+                        persona.getEmail().equals("") ||
+                        persona.getTipoDocumento().equals("")||
+                        persona.getNumeroDocumento().equals("")||
+                        persona.getFechaNacimiento() == null ||
+                        persona.getFechaNacimiento().equals("") ||
+                        persona.getSexo().equals("")
+        )
         {
             return false;
         }

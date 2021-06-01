@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import ar.edu.unlam.tallerweb1.Excepciones.AfiliadoNoExisteException;
+import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
 import ar.edu.unlam.tallerweb1.Excepciones.PersonaYaExisteException;
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -22,9 +25,9 @@ public class RepositorioAdministradorTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void sePuedeRegistrarUnaPersona() {
+    public void sePuedeRegistrarUnaPersona() throws ParseException {
 
-        Persona persona = givenUnaPersonaNoExistente();
+        Persona persona = givenUnaPersonaNoExistenteQueBrindaTodosSusDatos();
 
         whenLaQuieroRegistrar(persona);
 
@@ -34,71 +37,88 @@ public class RepositorioAdministradorTest extends SpringTest {
     @Test(expected = PersonaYaExisteException.class)
     @Transactional
     @Rollback
-    public void noSePuedeRegistrarUnaPersonaExistente() throws PersonaYaExisteException {
+    public void noSePuedeRegistrarUnaPersonaExistente() throws PersonaYaExisteException, ParseException {
 
         Persona persona = givenUnaPersonaQueYaExiste();
 
         whenLaQuierovolverARegistrar(persona);
     }
 
-    @Test
+    @Test(expected = FaltanDatosParaElRegistroException.class)
     @Transactional
     @Rollback
-    public void sePuedeConsultarUnAfiliadoExistente() {
+    public void errorAlRegistrarPersonaQueLeFaltanDatos() throws ParseException {
 
-        Persona persona = givenUnaPersonaQueYaExiste();
+        Persona persona = givenUnaPersonaQueLefaltanDatos();
 
-        Persona personaBuscada = whenLaQuieroConsultar(persona);
+        whenLaQuieroRegistrar(persona);
 
-        thenLaEncuentroCorrectamente(personaBuscada);
     }
 
-    @Test(expected = AfiliadoNoExisteException.class)
-    @Transactional
-    @Rollback
-    public void errorAlConsultarAfiliadoInexistente() {
+    private Persona givenUnaPersonaQueLefaltanDatos() {
+        Persona persona = new Persona();
 
-        Persona persona = givenUnaPersonaNoExistente();
+        persona.setNumeroAfiliado("");
+        persona.setNombre("");
+        persona.setApellido("");
+        persona.setEmail("");
+        persona.setTipoDocumento("");
+        persona.setNumeroDocumento("");
+        persona.setSexo("");
 
-        Persona personaBuscada = whenLaQuieroConsultar(persona);
+        return persona;
     }
 
-    public Persona givenUnaPersonaQueYaExiste() {
+    public Persona givenUnaPersonaQueYaExiste() throws ParseException {
 
         Persona persona = new Persona();
-        persona.setNumeroAfiliado("11111111111111");
+
+        persona.setNumeroAfiliado("9999");
+        persona.setNombre("Pepe");
+        persona.setApellido("Argento");
+        persona.setEmail("nherrera3276@gmail.com");
+        persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("4836646");
+
+        String dateInString = "23/10/1985";
+
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("masculino");
+
+
         session().save(persona);
         return persona;
     }
 
-
-    private Persona givenUnaPersonaNoExistente() {
-
+    private Persona givenUnaPersonaNoExistenteQueBrindaTodosSusDatos() throws ParseException {
         Persona persona = new Persona();
 
-        persona.setNumeroAfiliado("9997");
+        persona.setNumeroAfiliado("9999");
+        persona.setNombre("Pepe");
+        persona.setApellido("Argento");
+        persona.setEmail("nherrera3276@gmail.com");
+        persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("4836646");
+
+        String dateInString = "23/10/1985";
+
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("Masculino");
+
         return persona;
+
     }
 
-    private void whenLaQuieroRegistrar(Persona persona) {
+    private void whenLaQuieroRegistrar(Persona persona) throws ParseException {
 
         repositorioAdministrador.registrar(persona);
     }
 
-    private Persona whenLaQuieroConsultar(Persona persona) {
-
-        return repositorioAdministrador.consultarAfiliado(persona.getNumeroAfiliado());
-    }
-
-    public void whenLaQuierovolverARegistrar(Persona persona) {
+    public void whenLaQuierovolverARegistrar(Persona persona) throws ParseException {
 
         repositorioAdministrador.registrar(persona);
     }
 
-
-    private void thenLaEncuentroCorrectamente(Persona persona) {
-        assertThat(persona).isNotNull();
-    }
 
     private void thenLaRegistroCorrectamente(Persona persona) {
 

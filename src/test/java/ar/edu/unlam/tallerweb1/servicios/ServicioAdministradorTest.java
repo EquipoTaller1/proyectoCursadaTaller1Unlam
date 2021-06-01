@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.Excepciones.ErrorEnFormatoDeFechaException;
 import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
@@ -45,18 +46,17 @@ public class ServicioAdministradorTest extends SpringTest {
     @Test(expected = FaltanDatosParaElRegistroException.class)
     @Transactional
     @Rollback
-    public void errorAlRegistrarPersona() {
+    public void errorAlRegistrarPersonaConDatosIncorrectos() throws ParseException {
 
         Persona persona = givenUnaPersonaConDatosInCorrectos();
 
         whenLaQuieroRegistrar(persona);
     }
 
-    //se comentan estos test ya que travis falla al trabajar con smtp y queda la IC en rojo.
-    /*@Test
+    @Test
     @Transactional
     @Rollback
-    public void sePuedeEnviarEmailCorrectamente() {
+    public void sePuedeEnviarEmailCorrectamente() throws ParseException {
 
         FormularioPersona formulario = givenUnFormularioDeRegistroCorrecto();
 
@@ -69,7 +69,7 @@ public class ServicioAdministradorTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void fallaElEnvioEmailPorDatosIncorrectosEnElFormulario() {
+    public void fallaElEnvioEmailPorDatosIncorrectosEnElFormulario() throws ParseException {
 
         FormularioPersona formulario = givenUnFormularioDeRegistroIncorrecto();
 
@@ -77,19 +77,40 @@ public class ServicioAdministradorTest extends SpringTest {
 
         thenElEnvioFalla(formulario);
 
-    }*/
+    }
 
-    private FormularioPersona givenUnFormularioDeRegistroCorrecto() {
+    @Test(expected = ErrorEnFormatoDeFechaException.class)
+    @Transactional
+    @Rollback
+    public void siLaFechaDeNacimientoEsIncorrectaElRegistroFalla() throws ParseException {
+
+
+        String dateInString = "29/02/2021";
+
+        whenChequeoLafecha(dateInString);
+
+    }
+
+    private void whenChequeoLafecha(String fecha) {
+        _servicioAdministrador.chequearFecha(fecha);
+    }
+
+
+    private FormularioPersona givenUnFormularioDeRegistroCorrecto() throws ParseException {
 
         FormularioPersona formulario = new FormularioPersona();
+        formulario.setNumeroAfiliado("90909090");
         formulario.setNombre("Luis");
         formulario.setApellido("Suarez");
+        formulario.setEmail("tallerUnoPruebas@gmail.com");
         formulario.setTipoDocumento("DNI");
         formulario.setNumeroDocumento("123123123");
-        formulario.setEmail("tallerUnoPruebas@gmail.com");
-        formulario.setFechaNacimiento(new java.sql.Date(10, 10, 2021));
+
+        String dateInString = "23/10/1985";
+
+        formulario.setFechaNacimiento(dateInString);
         formulario.setSexo("Masculino");
-        formulario.setNumeroAfiliado("90909090");
+
 
         return formulario;
     }
@@ -97,36 +118,52 @@ public class ServicioAdministradorTest extends SpringTest {
     private Persona givenUnaPersonaConDatosCorrectos() throws ParseException {
         Persona persona = new Persona();
 
+        persona.setNumeroAfiliado("9999");
         persona.setNombre("Pepe");
         persona.setApellido("Argento");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String dateInString = "23/10/1985";
-        Date date = sdf.parse(dateInString);
-        persona.setFechaNacimiento(date);
-
-        persona.setNumeroAfiliado("9999");
-        persona.setNumeroDocumento("4836646");
+        persona.setEmail("nherrera3276@gmail.com");
         persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("4836646");
+
+        String dateInString = "23/10/1985";
+
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("masculino");
 
         return persona;
     }
 
 
-    private Persona givenUnaPersonaConDatosInCorrectos() {
+    private Persona givenUnaPersonaConDatosInCorrectos() throws ParseException {
 
         Persona persona = new Persona();
 
+        persona.setNumeroAfiliado("321321");
+        persona.setNombre("nicolas");
+        persona.setApellido("Herrera");
+        persona.setEmail("nherrera3276@gmail.com");
+        persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("31231231");
+
+        String dateInString = "";
+
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("otre");
+
         return persona;
     }
 
 
-    private FormularioPersona givenUnFormularioDeRegistroIncorrecto() {
+    private FormularioPersona givenUnFormularioDeRegistroIncorrecto() throws ParseException {
         FormularioPersona formulario = new FormularioPersona();
         formulario.setNombre("Luis");
         formulario.setApellido("Suarez");
         formulario.setTipoDocumento("DNI");
         formulario.setNumeroDocumento("123123123");
+
+        String dateInString = "23/10/1985";
+
+        formulario.setFechaNacimiento(dateInString);
 
         return formulario;
     }
@@ -136,7 +173,7 @@ public class ServicioAdministradorTest extends SpringTest {
     }
 
 
-    private void whenLaQuieroRegistrar(Persona persona) {
+    private void whenLaQuieroRegistrar(Persona persona) throws ParseException {
 
         _servicioAdministrador.registrar(persona);
     }
