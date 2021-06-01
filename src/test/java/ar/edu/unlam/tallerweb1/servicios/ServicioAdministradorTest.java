@@ -12,8 +12,7 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -40,7 +39,6 @@ public class ServicioAdministradorTest extends SpringTest {
         whenLaQuieroRegistrar(persona);
 
         verify(_repositorioAdministrador, times(1)).registrar(persona);
-
     }
 
     @Test(expected = FaltanDatosParaElRegistroException.class)
@@ -63,7 +61,6 @@ public class ServicioAdministradorTest extends SpringTest {
         whenQuieroEnviarEmailDeRegistroExitoso(formulario);
 
         thenSeEnviaCorrectamente(formulario);
-
     }
 
     @Test
@@ -76,7 +73,6 @@ public class ServicioAdministradorTest extends SpringTest {
         whenQuieroEnviarEmailDeRegistroExitoso(formulario);
 
         thenElEnvioFalla(formulario);
-
     }
 
     @Test(expected = ErrorEnFormatoDeFechaException.class)
@@ -84,15 +80,9 @@ public class ServicioAdministradorTest extends SpringTest {
     @Rollback
     public void siLaFechaDeNacimientoEsIncorrectaElRegistroFalla() throws ParseException {
 
-
         String dateInString = "29/02/2021";
 
         whenChequeoLafecha(dateInString);
-
-    }
-
-    private void whenChequeoLafecha(String fecha) {
-        _servicioAdministrador.chequearFecha(fecha);
     }
 
 
@@ -105,12 +95,9 @@ public class ServicioAdministradorTest extends SpringTest {
         formulario.setEmail("tallerUnoPruebas@gmail.com");
         formulario.setTipoDocumento("DNI");
         formulario.setNumeroDocumento("123123123");
-
         String dateInString = "23/10/1985";
-
         formulario.setFechaNacimiento(dateInString);
         formulario.setSexo("Masculino");
-
 
         return formulario;
     }
@@ -124,9 +111,7 @@ public class ServicioAdministradorTest extends SpringTest {
         persona.setEmail("nherrera3276@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("4836646");
-
         String dateInString = "23/10/1985";
-
         persona.setFechaNacimiento(dateInString);
         persona.setSexo("masculino");
 
@@ -144,9 +129,7 @@ public class ServicioAdministradorTest extends SpringTest {
         persona.setEmail("nherrera3276@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("31231231");
-
         String dateInString = "";
-
         persona.setFechaNacimiento(dateInString);
         persona.setSexo("otre");
 
@@ -160,15 +143,14 @@ public class ServicioAdministradorTest extends SpringTest {
         formulario.setApellido("Suarez");
         formulario.setTipoDocumento("DNI");
         formulario.setNumeroDocumento("123123123");
-
         String dateInString = "23/10/1985";
-
         formulario.setFechaNacimiento(dateInString);
 
         return formulario;
     }
 
     private void whenQuieroEnviarEmailDeRegistroExitoso(FormularioPersona formulario) {
+
         _servicioAdministrador.enviarEmailDeRegistro(formulario);
     }
 
@@ -178,12 +160,18 @@ public class ServicioAdministradorTest extends SpringTest {
         _servicioAdministrador.registrar(persona);
     }
 
+    private void whenChequeoLafecha(String fecha) {
+        _servicioAdministrador.chequearFecha(fecha);
+    }
+
 
     private void thenElEnvioFalla(FormularioPersona formulario) {
+
         assertThat(_servicioAdministrador.enviarEmailDeRegistro(formulario)).isFalse();
     }
 
     private void thenSeEnviaCorrectamente(FormularioPersona formulario) {
+
         assertThat(_servicioAdministrador.enviarEmailDeRegistro(formulario)).isTrue();
     }
 

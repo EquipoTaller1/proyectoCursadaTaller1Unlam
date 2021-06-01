@@ -14,10 +14,6 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 
 @Service
@@ -36,18 +32,22 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
     @Override
     public void registrar(Persona persona) throws FaltanDatosParaElRegistroException, PersonaYaExisteException, ParseException {
 
+        chequearDatosFormulario(persona);
+
+        repositorioAdministrador.registrar(persona);
+
+
+    }
+
+    private void chequearDatosFormulario(Persona persona) {
+
         FormularioPersona formularioPersona = new FormularioPersona();
 
         if (!formularioPersona.chequearFormulario(persona)) {
             throw new FaltanDatosParaElRegistroException();
         }
 
-
         chequearFecha(persona.getFechaNacimiento());
-
-        repositorioAdministrador.registrar(persona);
-
-
     }
 
     @Override

@@ -29,19 +29,30 @@ public class RepositorioAdministradorImpl implements RepositorioAdministrador {
     @Override
     public void registrar(Persona persona) throws FaltanDatosParaElRegistroException, PersonaYaExisteException, ParseException {
 
-        FormularioPersona formularioPersona = new FormularioPersona();
+        chequearFormulario(persona);
 
-        if (!formularioPersona.chequearFormulario(persona)) {
-            throw new FaltanDatosParaElRegistroException();
-        }
+        chequearSiLaPersonaYaExiste(persona);
 
+        registrarPersona(persona);
+    }
+
+    private void registrarPersona(Persona persona) {
+        sessionFactory.getCurrentSession().save(persona);
+    }
+
+    private void chequearSiLaPersonaYaExiste(Persona persona) {
         if ((Persona) sessionFactory.getCurrentSession().createCriteria(Persona.class)
                 .add(Restrictions.eq("email", persona.getEmail()))
                 .uniqueResult() != null) {
 
             throw new PersonaYaExisteException();
-
         }
-        sessionFactory.getCurrentSession().save(persona);
+    }
+
+    private void chequearFormulario(Persona persona) {
+        FormularioPersona formularioPersona = new FormularioPersona();
+        if (!formularioPersona.chequearFormulario(persona)) {
+            throw new FaltanDatosParaElRegistroException();
+        }
     }
 }
