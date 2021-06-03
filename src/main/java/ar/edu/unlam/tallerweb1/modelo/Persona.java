@@ -1,7 +1,9 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,8 +17,8 @@ public class Persona {
     private String apellido;
     private String tipoDocumento;
     private String numeroDocumento;
-    @Temporal(TemporalType.DATE)
-    private Calendar fechaNacimiento;
+    private String email;
+    private String fechaNacimiento;
     private String sexo;
     private String numeroAfiliado;
     @OneToOne(mappedBy = "persona")
@@ -68,13 +70,14 @@ public class Persona {
         this.numeroDocumento = numeroDocumento;
     }
 
-    public Calendar getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date date) {
-        this.fechaNacimiento = Calendar.getInstance();
-        this.fechaNacimiento.setTime(date);
+    public void setFechaNacimiento(String fecha) {
+        this.fechaNacimiento = fecha;
+
+
     }
 
     public String getSexo() {
@@ -108,4 +111,37 @@ public class Persona {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    public boolean chequearPersona(Persona persona){
+
+        boolean datosCorrectos = true;
+
+        if (    persona.getNumeroAfiliado().equals("") ||
+                persona.getNombre().equals("") ||
+                persona.getApellido().equals("") ||
+                persona.getEmail().equals("") ||
+                persona.getTipoDocumento().equals("") ||
+                persona.getNumeroDocumento().equals("")||
+                persona.getSexo().equals("")
+
+            )
+
+        {
+            datosCorrectos = false;
+        }
+
+        return datosCorrectos;
+
+    }
+
+
 }

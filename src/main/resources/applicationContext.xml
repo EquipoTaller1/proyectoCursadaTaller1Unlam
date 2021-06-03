@@ -13,6 +13,8 @@
 						http://www.springframework.org/schema/tx	
 						http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
+
+
 	<import resource="classpath:hibernateContext.xml" />
 
 	<!--Se indica que la configuracion del MVC se hara utilizanbdo anotaciones-->
@@ -29,4 +31,6 @@
 	<context:component-scan base-package="ar.edu.unlam.tallerweb1.configuraciones" />
 
 </beans>
+
+
 

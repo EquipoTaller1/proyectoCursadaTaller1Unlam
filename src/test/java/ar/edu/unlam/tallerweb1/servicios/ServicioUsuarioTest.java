@@ -25,19 +25,15 @@ public class ServicioUsuarioTest extends SpringTest {
     }
 
 
-//    @Test(expected = FaltanDatosParaElRegistroException.class)
-    @Test(expected = java.lang.NullPointerException.class)
+
+    @Test(expected = FaltanDatosParaElRegistroException.class)
     @Transactional
     @Rollback
-    public void errorAlCrearUsuario(){
+    public void errorAlCrearUsuario() {
 
         Persona persona = givenUnUsuarioNoRegistrado();
 
         whenLoquieroRegistrar(persona);
-    }
-
-    private void whenLoquieroRegistrar(Persona persona) {
-        _servicioUsuario.createUser(persona);
     }
 
     private Persona givenUnUsuarioNoRegistrado() {
@@ -52,5 +48,11 @@ public class ServicioUsuarioTest extends SpringTest {
         return persona;
 
     }
+
+    private void whenLoquieroRegistrar(Persona persona) {
+
+        _servicioUsuario.createUser(persona);
+    }
+
 
 }

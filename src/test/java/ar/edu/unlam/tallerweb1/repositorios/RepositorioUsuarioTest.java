@@ -30,7 +30,6 @@ public class RepositorioUsuarioTest extends SpringTest {
 
         thenLaPuedoRegistrarCorrectamente(usuarioBuscado);
 
-
     }
 
     @Test

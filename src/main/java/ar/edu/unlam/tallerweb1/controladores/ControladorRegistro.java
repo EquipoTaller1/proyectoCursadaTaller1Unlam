@@ -62,5 +62,4 @@ public class ControladorRegistro {
             return new ModelAndView("auth/register", model);
         }
     }
-
 }

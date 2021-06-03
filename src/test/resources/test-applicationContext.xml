@@ -13,6 +13,7 @@
 						http://www.springframework.org/schema/tx
 						http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
+
 	<import resource="classpath:test-hibernateContext.xml" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager" />
@@ -21,6 +22,8 @@
 	<context:component-scan base-package="ar.edu.unlam.tallerweb1.repositorios" />
 	<context:component-scan base-package="ar.edu.unlam.tallerweb1.servicios" />
 	<context:component-scan base-package="ar.edu.unlam.tallerweb1.configuraciones" />
+
+
 
 </beans>
 
