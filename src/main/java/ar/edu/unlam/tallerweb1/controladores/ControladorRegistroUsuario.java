@@ -124,7 +124,7 @@ public class ControladorRegistroUsuario {
         }
 
         model.put("errores", errores);
-        return new ModelAndView("auth/register", model);
+        return new ModelAndView("auth/registerMedico", model);
     }
 
 }
