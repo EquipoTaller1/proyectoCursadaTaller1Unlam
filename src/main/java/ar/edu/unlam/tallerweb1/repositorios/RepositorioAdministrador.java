@@ -8,4 +8,6 @@ public interface RepositorioAdministrador {
     //Persona consultarAfiliado(String numeroAfiliado);
 
     void registrar(Persona persona) throws ParseException;
+
+    void registrarMedico(Persona persona);
 }

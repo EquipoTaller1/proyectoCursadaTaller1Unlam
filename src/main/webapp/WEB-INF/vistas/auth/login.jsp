@@ -60,7 +60,13 @@
                     <li class="nav-item">
                         <a class="nav-link nav-link-icon" href="${pageContext.request.contextPath}/registro">
                             <i class="ni ni-circle-08"></i>
-                            <span class="nav-link-inner--text">Registro</span>
+                            <span class="nav-link-inner--text">Registro paciente</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href="${pageContext.request.contextPath}/registro-medico">
+                            <i class="ni ni-circle-08"></i>
+                            <span class="nav-link-inner--text">Registro medico</span>
                         </a>
                     </li>
                     <li class="nav-item">

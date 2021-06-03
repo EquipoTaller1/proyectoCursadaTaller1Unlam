@@ -8,6 +8,7 @@ import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
 import ar.edu.unlam.tallerweb1.Excepciones.PersonaYaExisteException;
 import ar.edu.unlam.tallerweb1.configuraciones.SendEmail;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersonaMedico;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAdministrador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -59,6 +60,49 @@ public class ControladorAdministrador {
         ModelMap model = new ModelMap();
         model.put("persona", persona);
         return new ModelAndView("administrador/registrar-persona", model);
+    }
+
+    @RequestMapping(path = "/registrar_persona_medico", method = RequestMethod.GET)
+    public ModelAndView irARegistrarPersonaMedico() {
+        FormularioPersona persona = new FormularioPersona();
+        ModelMap model = new ModelMap();
+        model.put("persona", persona);
+        return new ModelAndView("administrador/registrar-persona-medico", model);
+    }
+
+    @RequestMapping(path = "/registrar_persona_medico", method = RequestMethod.POST)
+    public ModelAndView registrarPersonaMedico(@Valid FormularioPersonaMedico formulario, BindingResult result) {
+        ModelMap model = new ModelMap();
+        FormularioPersonaMedico persona = new FormularioPersonaMedico();
+        ArrayList<String> errores = new ArrayList();
+        Persona nuevaPersona = formulario.toPersona();
+
+
+        try {
+            servicioAdministrador.registrarMedico(nuevaPersona);
+        } catch (FaltanDatosParaElRegistroException e) {
+            errores.add("Complete todos los datos para el registro");
+        } catch (PersonaYaExisteException e) {
+            errores.add("La persona ya está registrada");
+        } catch (ErrorEnFormatoDeFechaException e) {
+            errores.add("La fecha de nacimiento es incorrecta");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        if (errores.isEmpty()) {
+
+            model.put("persona", persona);
+            model.put("exito", "La persona se registró correctamente");
+
+
+
+        } else {
+            model.put("persona", formulario);
+            model.put("errores", errores);
+        }
+        return new ModelAndView("administrador/registrar-persona-medico", model);
     }
 
     @RequestMapping(path = "/registrar_persona", method = RequestMethod.POST)

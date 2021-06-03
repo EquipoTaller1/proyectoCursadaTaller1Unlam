@@ -43,6 +43,10 @@
 							href="${pageContext.request.contextPath}/administrador/registrar_persona">
 		<i class="ni ni-badge"></i> Registrar Persona
 	</a></li>
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/administrador/registrar_persona_medico">
+			<i class="ni ni-badge"></i> Registrar Medico
+		</a></li>
 	</sec:authorize>
 	<%--<li class="nav-item"><a class="nav-link"
 		href="../examples/icons.html"> <i class="ni ni-planet text-blue"></i>

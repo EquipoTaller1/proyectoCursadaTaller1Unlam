@@ -2,11 +2,12 @@ package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioMedico;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPaciente;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
-import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
-import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
-import ar.edu.unlam.tallerweb1.servicios.ServicioLoginImpl;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioRegistroUsuario;
+import ar.edu.unlam.tallerweb1.servicios.ServicioRegistroUsuario;
+import ar.edu.unlam.tallerweb1.servicios.ServicioRegistroUsuarioImpl;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUserDetaillsService;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,21 +19,23 @@ import static org.mockito.Mockito.*;
 
 public class ControladorLoginTest {
     private ControladorLogin controladorLogin;
-    private ServicioLogin servicioLogin;
+    private ServicioRegistroUsuario servicioRegistroUsuario;
     private ServicioUserDetaillsService servicioUserDetaillsService;
-    private RepositorioUsuario repositorioUsuario;
+    private RepositorioRegistroUsuario repositorioRegistroUsuario;
     private RepositorioAdministrador repositorioPersona;
     private RepositorioPaciente repositorioPaciente;
+    private RepositorioMedico repositorioMedico;
 
     @Before
     public void init(){
-        repositorioUsuario = mock(RepositorioUsuario.class);
+        repositorioRegistroUsuario = mock(RepositorioRegistroUsuario.class);
         repositorioPersona = mock(RepositorioAdministrador.class);
         repositorioPaciente = mock(RepositorioPaciente.class);
+        repositorioMedico= mock(RepositorioMedico.class);
 
-        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioPersona, repositorioPaciente);
-        servicioUserDetaillsService = new ServicioUserDetaillsService(servicioLogin);
-        controladorLogin = new ControladorLogin(servicioLogin);
+        servicioRegistroUsuario = new ServicioRegistroUsuarioImpl(repositorioRegistroUsuario, repositorioPersona, repositorioPaciente, repositorioMedico);
+        servicioUserDetaillsService = new ServicioUserDetaillsService(servicioRegistroUsuario);
+        controladorLogin = new ControladorLogin(servicioRegistroUsuario);
     }
 
     @Test
@@ -59,6 +62,39 @@ public class ControladorLoginTest {
         whenElUsuarioSeLogueaException(usuario);
     }
 
+    @Test
+    public void testQueUnUsuarioMedicoSePuedaLoguear(){
+
+        Usuario usuario = givenMedicoRegistrado();
+
+        UserDetails userDetails = whenElMedicoSeLoguea(usuario);
+
+        thenElUsuarioSeLogueaConExito(userDetails, usuario);
+    }
+
+    private UserDetails whenElMedicoSeLoguea(Usuario usuario) {
+        when(repositorioRegistroUsuario.userByEmail(usuario.getEmail())).thenReturn(usuario);
+        UserDetails userDetails = servicioUserDetaillsService.loadUserByUsername(usuario.getEmail());
+        verify(repositorioRegistroUsuario).userByEmail(usuario.getEmail());
+
+        return userDetails;
+    }
+
+    private Usuario givenMedicoRegistrado() {
+
+        Persona persona = new Persona();
+        persona.setNombre("saraza");
+
+        Usuario usuario = new Usuario();
+        usuario.setEmail("medico@medicomedicomedico.com");
+        usuario.setPassword("bla");
+        usuario.setRol("Medico");
+        usuario.setPersona(persona);
+
+        return  usuario;
+    }
+
+
     private Usuario givenUsuarioRegistrado() {
         Persona persona = new Persona();
         persona.setNombre("saraza");
@@ -80,17 +116,17 @@ public class ControladorLoginTest {
     }
 
     private UserDetails whenElUsuarioSeLoguea(Usuario usuario) {
-        when(repositorioUsuario.userByEmail(usuario.getEmail())).thenReturn(usuario);
+        when(repositorioRegistroUsuario.userByEmail(usuario.getEmail())).thenReturn(usuario);
         UserDetails userDetails = servicioUserDetaillsService.loadUserByUsername(usuario.getEmail());
-        verify(repositorioUsuario).userByEmail(usuario.getEmail());
+        verify(repositorioRegistroUsuario).userByEmail(usuario.getEmail());
 
         return userDetails;
     }
 
     private void whenElUsuarioSeLogueaException(Usuario usuario) {
-        when(repositorioUsuario.userByEmail(usuario.getEmail())).thenReturn(null);
+        when(repositorioRegistroUsuario.userByEmail(usuario.getEmail())).thenReturn(null);
         UserDetails userDetails = servicioUserDetaillsService.loadUserByUsername(usuario.getEmail());
-        verify(repositorioUsuario).userByEmail(usuario.getEmail());
+        verify(repositorioRegistroUsuario).userByEmail(usuario.getEmail());
     }
 
     private void thenElUsuarioSeLogueaConExito(UserDetails userDetails, Usuario usuario) {

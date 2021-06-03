@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersona;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersonaMedico;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAdministrador;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAdministradorImpl;
@@ -43,6 +44,43 @@ public class ControladorAdministradorTest {
     @Test
     @Transactional
     @Rollback
+    public void testIrARegistrarPersonaMedico() {
+        ModelAndView mav = controladorAdministrador.irARegistrarPersonaMedico();
+
+        assertThat(mav.getViewName()).isEqualTo("administrador/registrar-persona-medico");
+        assertThat(mav.getModel().get("persona")).isNotNull();
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testRegistrarPersonaMedico() {
+        FormularioPersonaMedico medico = givenDatosDePersonaMedicoCorrectos();
+        ModelAndView modelo = whenSeEnvianDatosParaRegistrarMedico(medico);
+        thenSeVuelveALaVistaDeRegistroDePersonaMedico(modelo);
+    }
+
+    private FormularioPersonaMedico givenDatosDePersonaMedicoCorrectos() {
+
+        FormularioPersonaMedico medico = new FormularioPersonaMedico();
+
+
+        medico.setNombre("Pepe");
+        medico.setApellido("Argento");
+        medico.setEmail("nherrera3276@gmail.com");
+        medico.setTipoDocumento("DNI");
+        medico.setNumeroDocumento("4836646");
+        medico.setFechaNacimiento("03/03/2021");
+        medico.setSexo("Otre");
+        medico.setMatricula("12312321");
+
+        return medico;
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
     public void testRegistrarPersona() {
         FormularioPersona persona = givenDatosDePersonaCorrectos();
         ModelAndView modelo = whenSeEnvianDatosParaRegistrar(persona);
@@ -65,6 +103,12 @@ public class ControladorAdministradorTest {
     }
 
 
+    private ModelAndView whenSeEnvianDatosParaRegistrarMedico(FormularioPersonaMedico medico) {
+        BindingResult result = new DataBinder(null).getBindingResult();
+
+        return controladorAdministrador.registrarPersonaMedico(medico, result);
+    }
+
     private ModelAndView whenSeEnvianDatosParaRegistrar(FormularioPersona persona) {
         BindingResult result = new DataBinder(null).getBindingResult();
 
@@ -73,6 +117,12 @@ public class ControladorAdministradorTest {
 
     private void thenSeVuelveALaVistaDeRegistroDePersona(ModelAndView model) {
         assertThat(model.getViewName()).isEqualTo("administrador/registrar-persona");
+        assertThat(model.getModel().get("persona")).isNotNull();
+        assertThat(model.getModel().get("exito")).isEqualTo("La persona se registró correctamente");
+    }
+
+    private void thenSeVuelveALaVistaDeRegistroDePersonaMedico(ModelAndView model) {
+        assertThat(model.getViewName()).isEqualTo("administrador/registrar-persona-medico");
         assertThat(model.getModel().get("persona")).isNotNull();
         assertThat(model.getModel().get("exito")).isEqualTo("La persona se registró correctamente");
     }

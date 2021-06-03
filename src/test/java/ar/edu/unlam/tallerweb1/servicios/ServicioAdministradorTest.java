@@ -23,6 +23,7 @@ public class ServicioAdministradorTest extends SpringTest {
     private ServicioAdministrador _servicioAdministrador;
     private RepositorioAdministrador _repositorioAdministrador;
 
+
     @Before
     public void init() {
         _repositorioAdministrador = mock(RepositorioAdministrador.class);
@@ -39,6 +40,41 @@ public class ServicioAdministradorTest extends SpringTest {
         whenLaQuieroRegistrar(persona);
 
         verify(_repositorioAdministrador, times(1)).registrar(persona);
+    }
+
+
+
+    @Test()
+    @Transactional
+    @Rollback
+    public void sePuedeRegistrarPersonaMedicoCorrectamente() throws ParseException {
+
+        Persona persona = givenUnaPersonaMedicoConDatosCorrectos();
+
+        whenLaQuieroRegistrarMedico(persona);
+
+        verify(_repositorioAdministrador, times(1)).registrarMedico(persona);
+    }
+
+    private void whenLaQuieroRegistrarMedico(Persona persona) throws ParseException {
+        _servicioAdministrador.registrarMedico(persona);
+    }
+
+    private Persona givenUnaPersonaMedicoConDatosCorrectos() {
+        Persona persona = new Persona();
+
+
+        persona.setNombre("Pepe");
+        persona.setApellido("Argento");
+        persona.setEmail("nherrera3276@gmail.com");
+        persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("4836646");
+        String dateInString = "23/10/1985";
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("masculino");
+        persona.setMatricula("31231231");
+
+        return persona;
     }
 
     @Test(expected = FaltanDatosParaElRegistroException.class)

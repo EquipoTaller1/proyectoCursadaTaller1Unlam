@@ -13,4 +13,6 @@ public interface ServicioAdministrador {
     boolean enviarEmailDeRegistro(FormularioPersona formulario);
 
     void chequearFecha(String fecha);
+
+    void registrarMedico(Persona persona) throws ParseException;
 }
