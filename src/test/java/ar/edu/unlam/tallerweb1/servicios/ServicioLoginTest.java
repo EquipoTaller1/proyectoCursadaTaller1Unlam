@@ -7,26 +7,29 @@ import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.DatosRegistroPaciente;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioMedico;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPaciente;
-import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioRegistroUsuario;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 public class ServicioLoginTest {
 
-    private ServicioLogin servicioLogin;
+    private ServicioRegistroUsuario servicioLogin;
     private RepositorioPaciente repositorioPaciente;
-    private RepositorioUsuario repositorioUsuario;
+    private RepositorioRegistroUsuario repositorioUsuario;
     private RepositorioAdministrador repositorioAdministrador;
+    private RepositorioMedico repositorioMedico;
 
     @Before
     public void init(){
-        repositorioUsuario = mock(RepositorioUsuario.class);
+        repositorioUsuario = mock(RepositorioRegistroUsuario.class);
         repositorioAdministrador = mock(RepositorioAdministrador.class);
         repositorioPaciente = mock(RepositorioPaciente.class);
+        repositorioMedico = mock(RepositorioMedico.class);
 
-        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioAdministrador, repositorioPaciente);
+        servicioLogin = new ServicioRegistroUsuarioImpl(repositorioUsuario, repositorioAdministrador, repositorioPaciente, repositorioMedico);
     }
 
     @Test(expected = AfiliadoNoExisteException.class)
@@ -66,7 +69,6 @@ public class ServicioLoginTest {
         verify(repositorioUsuario).userByEmail(datosRegistroPaciente.getEmail());
         verify(repositorioPaciente).consultarAfiliado(datosRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(datosRegistroPaciente, new Persona());
-        // TODO separar controlador y servicios
     }
 
     private void whenElPacienteYaEstaRegistrado(DatosRegistroPaciente datosRegistroPaciente) {
@@ -78,7 +80,6 @@ public class ServicioLoginTest {
         verify(repositorioUsuario).userByEmail(datosRegistroPaciente.getEmail());
         verify(repositorioPaciente).consultarAfiliado(datosRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(datosRegistroPaciente, persona);
-
     }
 
     private void whenElEmailYaEstaRegitrado(DatosRegistroPaciente datosRegistroPaciente) {
@@ -87,6 +88,5 @@ public class ServicioLoginTest {
         verify(repositorioUsuario).userByEmail(datosRegistroPaciente.getEmail());
         verify(repositorioPaciente, never()).consultarAfiliado(datosRegistroPaciente.getAfiliado());
         verify(repositorioPaciente, never()).registrarPaciente(datosRegistroPaciente, new Persona());
-
     }
 }
