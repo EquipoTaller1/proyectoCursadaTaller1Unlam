@@ -2,7 +2,7 @@ package ar.edu.unlam.tallerweb1.modelo.formularios;
 
 import javax.validation.constraints.NotBlank;
 
-public class FormularioRegistroPaciente {
+public class DatosRegistroPaciente {
 
     @NotBlank(message = "El campo afiliado es obligatorio")
     private String afiliado;

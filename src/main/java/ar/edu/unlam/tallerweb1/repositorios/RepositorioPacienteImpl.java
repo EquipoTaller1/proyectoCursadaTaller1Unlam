@@ -1,10 +1,9 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import ar.edu.unlam.tallerweb1.Excepciones.AfiliadoNoExisteException;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
-import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
+import ar.edu.unlam.tallerweb1.modelo.formularios.DatosRegistroPaciente;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -29,12 +28,12 @@ public class RepositorioPacienteImpl implements RepositorioPaciente{
     }
 
     @Override
-    public void registrarPaciente(FormularioRegistroPaciente formularioRegistroPaciente, Persona persona) {
+    public void registrarPaciente(DatosRegistroPaciente datosRegistroPaciente, Persona persona) {
         final Session session = sessionFactory.getCurrentSession();
         Usuario usuario = new Usuario();
         usuario.setRol("Paciente");
-        usuario.setEmail(formularioRegistroPaciente.getEmail());
-        usuario.setPassword(new BCryptPasswordEncoder().encode(formularioRegistroPaciente.getPassword()));
+        usuario.setEmail(datosRegistroPaciente.getEmail());
+        usuario.setPassword(new BCryptPasswordEncoder().encode(datosRegistroPaciente.getPassword()));
         usuario.setPersona(persona);
         session.save(usuario);
     }

@@ -1,7 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.Excepciones.*;
-import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
+import ar.edu.unlam.tallerweb1.modelo.formularios.DatosRegistroPaciente;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,40 +30,37 @@ public class ControladorRegistro {
             model.put("message", message);
         }
 
-        model.put("formularioPaciente", new FormularioRegistroPaciente());
+        model.put("formularioPaciente", new DatosRegistroPaciente());
 
         return new ModelAndView("auth/register", model);
     }
 
     @RequestMapping("/registro/store")
-    public ModelAndView store(@Valid FormularioRegistroPaciente formulario, BindingResult result){
+    public ModelAndView store(@Valid DatosRegistroPaciente formulario, BindingResult result){
         ModelMap model = new ModelMap();
         model.put("formularioPaciente", formulario);
         List<String> errores = new ArrayList<>();
 
+        if (result.hasErrors()){
+            result.getFieldErrors().forEach(error -> {
+                errores.add(error.getDefaultMessage());
+            });
+
+            model.put("errores", errores);
+            return new ModelAndView("auth/register", model);
+        }
+
         try {
-            servicioLogin.registrarPaciente(formulario, result.getFieldErrors());
+            servicioLogin.registrarPaciente(formulario);
 
             return new ModelAndView("redirect:/login?exito");
         }
-        catch (FormularioRegistroPacienteException e){
-            errores = e.getErrores();
-        }
-        catch (ContraseniasNoCoincidenException e){
-            errores.add("Las contraseñas no coinciden");
-        }
-        catch (EmailEnUsoException e){
-            errores.add("El email ya se encuentra registrado");
-        }
-        catch (AfiliadoNoExisteException e){
-            errores.add("El numero de afiliado no existe");
-        }
-        catch (AfiliadoRegistradoException e){
-            errores.add("El afiliado ya se encuentra registrado");
-        }
+        catch (RuntimeException e){
+            errores.add(e.getMessage());
+            model.put("errores", errores);
 
-        model.put("errores", errores);
-        return new ModelAndView("auth/register", model);
+            return new ModelAndView("auth/register", model);
+        }
     }
 
 }

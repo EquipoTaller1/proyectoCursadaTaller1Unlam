@@ -31,7 +31,7 @@ public class RepositorioAdministradorImpl implements RepositorioAdministrador {
                 .uniqueResult();
 
         if (personaBuscada == null) {
-            throw new AfiliadoNoExisteException();
+            throw new AfiliadoNoExisteException("El afiliado no existe");
         }
 
         return personaBuscada;
