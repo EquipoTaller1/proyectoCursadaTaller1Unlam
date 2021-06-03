@@ -33,6 +33,43 @@ public class RepositorioAdministradorTest extends SpringTest {
         thenLaRegistroCorrectamente(persona);
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void sePuedeRegistrarUnaPersonaMedico() throws ParseException {
+
+        Persona persona = givenUnaPersonaMedicoNoExistenteQueBrindaTodosSusDatos();
+
+        whenLaQuieroRegistrarMedico(persona);
+
+        thenLaRegistroCorrectamente(persona);
+    }
+
+    private void whenLaQuieroRegistrarMedico(Persona persona) {
+        repositorioAdministrador.registrarMedico(persona);
+    }
+
+    private Persona givenUnaPersonaMedicoNoExistenteQueBrindaTodosSusDatos() {
+
+        Persona persona = new Persona();
+
+
+        persona.setNombre("Pepe");
+        persona.setApellido("Argento");
+        persona.setEmail("nherrera3276@gmail.com");
+        persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("4836646");
+
+        String dateInString = "23/10/1985";
+
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("Masculino");
+        persona.setMatricula("312312312");
+
+        return persona;
+    }
+
+
     @Test(expected = PersonaYaExisteException.class)
     @Transactional
     @Rollback
@@ -42,6 +79,8 @@ public class RepositorioAdministradorTest extends SpringTest {
 
         whenLaQuierovolverARegistrar(persona);
     }
+
+
 
     @Test(expected = FaltanDatosParaElRegistroException.class)
     @Transactional

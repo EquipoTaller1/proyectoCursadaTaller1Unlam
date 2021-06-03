@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.Excepciones.PersonaYaExisteException;
 import ar.edu.unlam.tallerweb1.configuraciones.SendEmail;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersona;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersonaMedico;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,23 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
         repositorioAdministrador.registrar(persona);
 
 
+    }
+
+    @Override
+    public void registrarMedico(Persona nuevaPersona) throws ParseException {
+        chequearDatosFomularioMedico(nuevaPersona);
+        repositorioAdministrador.registrarMedico(nuevaPersona);
+    }
+
+    private void chequearDatosFomularioMedico(Persona persona) {
+
+        FormularioPersonaMedico formularioPersona = new FormularioPersonaMedico();
+
+        if (!formularioPersona.chequearFormularioMedico(persona)) {
+            throw new FaltanDatosParaElRegistroException();
+        }
+
+        chequearFecha(persona.getFechaNacimiento());
     }
 
     private void chequearDatosFormulario(Persona persona) {
@@ -79,6 +97,8 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
         }
 
     }
+
+
 
     boolean isLegalDate(String s) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

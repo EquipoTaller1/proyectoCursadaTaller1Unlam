@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-
 // implelemtacion del repositorio de usuarios, la anotacion @Repository indica a Spring que esta clase es un componente que debe
 // ser manejado por el framework, debe indicarse en applicationContext que busque en el paquete ar.edu.unlam.tallerweb1.dao
 // para encontrar esta clase.
 @Repository("repositorioUsuario")
-public class RepositorioUsuarioImpl implements RepositorioUsuario {
+public class RepositorioRegistroUsuarioImpl implements RepositorioRegistroUsuario {
 
 
 
@@ -23,7 +21,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	private SessionFactory sessionFactory;
 
     @Autowired
-	public RepositorioUsuarioImpl(SessionFactory sessionFactory){
+	public RepositorioRegistroUsuarioImpl(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
 

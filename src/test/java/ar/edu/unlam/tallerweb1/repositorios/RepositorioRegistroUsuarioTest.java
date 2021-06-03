@@ -1,22 +1,19 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import ar.edu.unlam.tallerweb1.Excepciones.PersonaYaExisteException;
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
-import org.assertj.core.api.Assertions.*;
 
 import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RepositorioUsuarioTest extends SpringTest {
+public class RepositorioRegistroUsuarioTest extends SpringTest {
 
     @Autowired
-    RepositorioUsuario _repositorioUsuario;
+    RepositorioRegistroUsuario _repositorioRegistroUsuario;
 
 
     @Test
@@ -75,12 +72,12 @@ public class RepositorioUsuarioTest extends SpringTest {
     }
 
     private Usuario whenLoQuieroConsultarPorId(Long id) {
-        return _repositorioUsuario.consultarPorId(id);
+        return _repositorioRegistroUsuario.consultarPorId(id);
     }
 
     private Usuario whenLoQuieroConsultarPorEmail(String email) {
 
-        return _repositorioUsuario.userByEmail(email);
+        return _repositorioRegistroUsuario.userByEmail(email);
     }
 
     private void thenLaConsultaSeRealizaCorrectamente(Usuario usuarioConsultado) {
@@ -89,7 +86,7 @@ public class RepositorioUsuarioTest extends SpringTest {
 
     private Usuario whenLoQuieroConsultar(Usuario usuario) {
 
-        return _repositorioUsuario.consultarUsuario(usuario);
+        return _repositorioRegistroUsuario.consultarUsuario(usuario);
     }
 
 
@@ -101,7 +98,7 @@ public class RepositorioUsuarioTest extends SpringTest {
         usuario.setEmail("nico@gmail.com");
         usuario.setPassword("123");
 
-        _repositorioUsuario.createUser(usuario);
+        _repositorioRegistroUsuario.createUser(usuario);
 
         return usuario;
 
@@ -115,9 +112,9 @@ public class RepositorioUsuarioTest extends SpringTest {
 
     private Usuario whenLoQuieroRegistrar(Usuario usuario) {
 
-        _repositorioUsuario.createUser(usuario);
+        _repositorioRegistroUsuario.createUser(usuario);
 
-        return _repositorioUsuario.consultarUsuario(usuario);
+        return _repositorioRegistroUsuario.consultarUsuario(usuario);
 
 
     }

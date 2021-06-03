@@ -13,7 +13,7 @@
             <div class="col">
                 <div class="card shadow">
                     <div class="card-header border-0">
-                        <h3 class="mb-0">Ingresar nueva alta persona</h3>
+                        <h3 class="mb-0">Ingresar nueva alta Medico</h3>
                     </div>
                     <div class="card-body">
                         <c:if test="${not empty exito}">
@@ -34,12 +34,8 @@
                         <div class="text-center text-muted my-2">
                             <small>Ingrese los datos personales</small>
                         </div>
-                        <form:form role="form" action="${pageContext.request.contextPath}/administrador/registrar_persona" method="post" modelAttribute="persona">
-                            <div class="form-group">
-                                <div class="input-group input-group-alternative">
-                                    <form:input path="numeroAfiliado" class="form-control" placeholder="Número de afiliado" type="text"/>
-                                </div>
-                            </div>
+                        <form:form role="form" action="${pageContext.request.contextPath}/administrador/registrar_persona_medico" method="post" modelAttribute="persona">
+
                             <div class="form-group">
                                 <div class="input-group input-group-alternative mb-3">
                                     <form:input path="nombre" class="form-control" cssErrorClass="form-control border-danger" placeholder="Nombre" type="text"/>
@@ -77,6 +73,11 @@
                                     <form:option value="Femenino">Femenino</form:option>
                                     <form:option value="Otre">Otre</form:option>
                                 </form:select>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group input-group-alternative">
+                                    <form:input path="matricula" class="form-control" placeholder="Matricula (Médicos)" type="text"/>
+                                </div>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary mt-4">Registrar</button>

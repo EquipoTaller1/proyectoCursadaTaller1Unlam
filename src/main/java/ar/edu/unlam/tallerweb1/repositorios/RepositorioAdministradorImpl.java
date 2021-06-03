@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
 import ar.edu.unlam.tallerweb1.Excepciones.PersonaYaExisteException;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersona;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersonaMedico;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,17 @@ public class RepositorioAdministradorImpl implements RepositorioAdministrador {
         registrarPersona(persona);
     }
 
+    @Override
+    public void registrarMedico(Persona persona) {
+
+        chequearFormularioMedico(persona);
+
+        chequearSiLaPersonaYaExiste(persona);
+
+        registrarPersona(persona);
+
+    }
+
     private void registrarPersona(Persona persona) {
         sessionFactory.getCurrentSession().save(persona);
     }
@@ -43,6 +55,7 @@ public class RepositorioAdministradorImpl implements RepositorioAdministrador {
     private void chequearSiLaPersonaYaExiste(Persona persona) {
         if ((Persona) sessionFactory.getCurrentSession().createCriteria(Persona.class)
                 .add(Restrictions.eq("email", persona.getEmail()))
+                .add(Restrictions.eq("numeroAfiliado", persona.getNumeroAfiliado()))
                 .uniqueResult() != null) {
 
             throw new PersonaYaExisteException();
@@ -52,6 +65,13 @@ public class RepositorioAdministradorImpl implements RepositorioAdministrador {
     private void chequearFormulario(Persona persona) {
         FormularioPersona formularioPersona = new FormularioPersona();
         if (!formularioPersona.chequearFormulario(persona)) {
+            throw new FaltanDatosParaElRegistroException();
+        }
+    }
+
+    private void chequearFormularioMedico(Persona persona) {
+        FormularioPersonaMedico formularioPersonaMedico = new FormularioPersonaMedico();
+        if (!formularioPersonaMedico.chequearFormularioMedico(persona)) {
             throw new FaltanDatosParaElRegistroException();
         }
     }

@@ -30,7 +30,7 @@ public class ConfiguracionSpringSecurity extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/assets/**", "/css/**", "/fonts/**", "/js/**").permitAll()
-                .antMatchers("/", "/login", "/registro/**").permitAll()
+                .antMatchers("/", "/login", "/registro/**" ,"/registro-medico/**").permitAll()
                 .antMatchers("/paciente/**").hasRole("Paciente")
                 .antMatchers("/medico/**").hasRole("Medico")
                 .antMatchers("/administrador/**").hasRole("Administrador")

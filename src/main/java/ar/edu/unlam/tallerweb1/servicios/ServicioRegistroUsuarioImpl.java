@@ -2,14 +2,16 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.Excepciones.*;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroPaciente;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioMedico;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPaciente;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioRegistroUsuario;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.FieldError;
@@ -23,34 +25,36 @@ import java.util.List;
 // La anotacion @Transactional indica que se debe iniciar una transaccion de base de datos ante la invocacion de cada metodo del servicio,
 // dicha transaccion esta asociada al transaction manager definido en el archivo spring-servlet.xml y el mismo asociado al session factory definido
 // en hibernateCOntext.xml. De esta manera todos los metodos de cualquier dao invocados dentro de un servicio se ejecutan en la misma transaccion
-@Service("servicioLogin")
+@Service()
 @Transactional
-public class ServicioLoginImpl implements ServicioLogin {
+public class ServicioRegistroUsuarioImpl implements ServicioRegistroUsuario {
 
-	private RepositorioUsuario servicioLoginDao;
+	private RepositorioRegistroUsuario repositorioRegistroUsuario;
 	private RepositorioAdministrador repositorioAdministrador;
 	private RepositorioPaciente repositorioPaciente;
+	private RepositorioMedico repositorioMedico;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, RepositorioAdministrador repositorioAdministrador, RepositorioPaciente repositorioPaciente){
-		this.servicioLoginDao = servicioLoginDao;
+	public ServicioRegistroUsuarioImpl(RepositorioRegistroUsuario repositorioRegistroUsuario, RepositorioAdministrador repositorioAdministrador, RepositorioPaciente repositorioPaciente, RepositorioMedico repositorioMedico){
+		this.repositorioRegistroUsuario = repositorioRegistroUsuario;
 		this.repositorioAdministrador = repositorioAdministrador;
 		this.repositorioPaciente = repositorioPaciente;
+		this.repositorioMedico = repositorioMedico;
 	}
 
 	@Override
 	public Usuario consultarUsuario (Usuario usuario) {
-		return servicioLoginDao.consultarUsuario(usuario);
+		return repositorioRegistroUsuario.consultarUsuario(usuario);
 	}
 
 	@Override
 	public Usuario consultarUsuarioEmail(String email) {
-		return servicioLoginDao.userByEmail(email);
+		return repositorioRegistroUsuario.userByEmail(email);
 	}
 
 	@Override
 	public void createUsuario(Usuario usuario) {
-		servicioLoginDao.createUser(usuario);
+		repositorioRegistroUsuario.createUser(usuario);
 	}
 
 	@Override
@@ -88,5 +92,43 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 		return  model;
 	}
+
+	@Override
+	public ModelMap registrarMedico(FormularioRegistroMedico formulario, List<FieldError> result) throws MedicoNoExisteException {
+		ModelMap model = new ModelMap();
+		ArrayList<String> errores = new ArrayList();
+
+		if (!result.isEmpty()){
+			result.forEach(error -> {
+				errores.add(error.getDefaultMessage());
+			});
+
+			throw new FormularioRegistroMedicoException(errores);
+		}
+		else {
+			if (!formulario.getPassword().equals(formulario.getPasswordRepet())){
+				throw new ContraseniasNoCoincidenException();
+			}
+
+			if (this.consultarUsuarioEmail(formulario.getEmail()) != null){
+				throw new EmailEnUsoException();
+			}
+
+			Persona persona = this.repositorioMedico.consultarMedico(formulario.getMatricula());
+			if (persona == null){
+				throw new MedicoNoExisteException();
+			}
+			else if (persona.getUsuario() != null){
+				throw new MedicoYaRegistradoException();
+			}
+
+			this.repositorioMedico.registrarMedico(formulario, persona);
+			model.put("exito", "El usuario se creo correctamente");
+		}
+
+		return  model;
+	}
+
+
 
 }

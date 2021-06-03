@@ -14,17 +14,17 @@ import java.util.List;
 @Service
 public class ServicioUserDetaillsService implements UserDetailsService {
 
-    private ServicioLogin servicioLogin;
+    private ServicioRegistroUsuario servicioRegistroUsuario;
 
     @Autowired
-    public ServicioUserDetaillsService(ServicioLogin servicioLogin){
-        this.servicioLogin = servicioLogin;
+    public ServicioUserDetaillsService(ServicioRegistroUsuario servicioRegistroUsuario){
+        this.servicioRegistroUsuario = servicioRegistroUsuario;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Usuario usuario = servicioLogin.consultarUsuarioEmail(username);
+        Usuario usuario = servicioRegistroUsuario.consultarUsuarioEmail(username);
 
         if (usuario != null){
 

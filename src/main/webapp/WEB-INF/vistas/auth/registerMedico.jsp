@@ -53,15 +53,15 @@
                 <!-- Navbar items -->
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="${pageContext.request.contextPath}/login">
-                            <i class="ni ni-key-25"></i>
-                            <span class="nav-link-inner--text">Ingresar</span>
+                        <a class="nav-link nav-link-icon" href="${pageContext.request.contextPath}/registro">
+                            <i class="ni ni-circle-08"></i>
+                            <span class="nav-link-inner--text">Registro paciente</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="${pageContext.request.contextPath}/registro-medico">
+                        <a class="nav-link nav-link-icon" href="${pageContext.request.contextPath}/login">
                             <i class="ni ni-key-25"></i>
-                            <span class="nav-link-inner--text">Registro medico</span>
+                            <span class="nav-link-inner--text">Ingresar</span>
                         </a>
                     </li>
                 </ul>
@@ -115,13 +115,13 @@
                         <div class="text-center text-muted mb-4">
                             <small>Or sign up with credentials</small>
                         </div>
-                        <form:form role="form" action="${pageContext.request.contextPath}/registro/store" method="post" modelAttribute="formularioPaciente">
+                        <form:form role="form" action="${pageContext.request.contextPath}/registro/storeMedico" method="post" modelAttribute="formularioMedico">
                             <div class="form-group">
                                 <div class="input-group input-group-alternative mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                                     </div>
-                                    <form:input path="afiliado" class="form-control" cssErrorClass="form-control border-danger" placeholder="Numero afiliado" type="text"/>
+                                    <form:input path="matricula" class="form-control" cssErrorClass="form-control border-danger" placeholder="Numero matricula" type="text"/>
                                 </div>
                             </div>
                             <div class="form-group">

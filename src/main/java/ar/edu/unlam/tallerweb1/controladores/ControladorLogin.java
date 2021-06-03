@@ -1,17 +1,13 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
-import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.servicios.ServicioRegistroUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControladorLogin {
@@ -21,11 +17,11 @@ public class ControladorLogin {
 	// el bean correspondiente, en este caso, un objeto de una clase que implemente la interface ServicioLogin,
 	// dicha clase debe estar anotada como @Service o @Repository y debe estar en un paquete de los indicados en
 	// applicationContext.xml
-	private ServicioLogin servicioLogin;
+	private ServicioRegistroUsuario servicioRegistroUsuario;
 
 	@Autowired
-	public ControladorLogin(ServicioLogin servicioLogin){
-		this.servicioLogin = servicioLogin;
+	public ControladorLogin(ServicioRegistroUsuario servicioRegistroUsuario){
+		this.servicioRegistroUsuario = servicioRegistroUsuario;
 	}
 
 	// Escucha la url /, y redirige a la URL /login, es lo mismo que si se invoca la url /login directamente.
