@@ -101,10 +101,10 @@ public class ServicioRegistroUsuarioImpl implements ServicioRegistroUsuario {
 
 			Persona persona = this.repositorioMedico.consultarMedico(formulario.getMatricula());
 			if (persona == null){
-				throw new MedicoNoExisteException();
+				throw new MedicoNoExisteException("El medico no existe");
 			}
 			else if (persona.getUsuario() != null){
-				throw new MedicoYaRegistradoException();
+				throw new MedicoYaRegistradoException("El medico ya estar registrado");
 			}
 
 			this.repositorioMedico.registrarMedico(formulario, persona);

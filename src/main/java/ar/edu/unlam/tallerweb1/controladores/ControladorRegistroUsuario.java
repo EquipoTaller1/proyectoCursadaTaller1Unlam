@@ -91,29 +91,26 @@ public class ControladorRegistroUsuario {
         model.put("formularioMedico", formulario);
         List<String> errores = new ArrayList<>();
 
+        if (result.hasErrors()){
+            result.getFieldErrors().forEach(error -> {errores.add(error.getDefaultMessage());});
+            model.put("errores", errores);
+            return new ModelAndView("auth/registerMedico", model);
+        };
+
         try {
             model = servicioRegistroUsuario.registrarMedico(formulario, result.getFieldErrors());
 
             return new ModelAndView("redirect:/login?exito", model);
         }
-        catch (FormularioRegistroMedicoException e){
-            errores = e.getErrores();
-        }
-        catch (ContraseniasNoCoincidenException e){
-            errores.add("Las contraseñas no coinciden");
-        }
-        catch (EmailEnUsoException e){
-            errores.add("El email ya se encuentra registrado");
+        catch (RuntimeException e){
+            errores.add(e.getMessage());
+            model.put("errores", errores);
+
+            return new ModelAndView("auth/registerMedico", model);
         }
 
-        catch (MedicoYaRegistradoException e){
-            errores.add("El medico ya se encuentra registrado");
-        } catch (MedicoNoExisteException e) {
-            errores.add("El medico no existe");
-        }
 
-        model.put("errores", errores);
-        return new ModelAndView("auth/registerMedico", model);
+
     }
 
 }
