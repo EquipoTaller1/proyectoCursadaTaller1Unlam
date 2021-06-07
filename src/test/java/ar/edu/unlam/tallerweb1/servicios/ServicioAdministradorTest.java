@@ -66,7 +66,7 @@ public class ServicioAdministradorTest extends SpringTest {
 
         persona.setNombre("Pepe");
         persona.setApellido("Argento");
-        persona.setEmail("nherrera3276@gmail.com");
+        persona.setEmail("javier.terranova@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("4836646");
         String dateInString = "23/10/1985";
@@ -86,7 +86,7 @@ public class ServicioAdministradorTest extends SpringTest {
 
         whenLaQuieroRegistrar(persona);
     }
-
+/*
     @Test
     @Transactional
     @Rollback
@@ -98,7 +98,7 @@ public class ServicioAdministradorTest extends SpringTest {
 
         thenSeEnviaCorrectamente(formulario);
     }
-
+*/
     @Test
     @Transactional
     @Rollback
@@ -128,7 +128,7 @@ public class ServicioAdministradorTest extends SpringTest {
         formulario.setNumeroAfiliado("90909090");
         formulario.setNombre("Luis");
         formulario.setApellido("Suarez");
-        formulario.setEmail("tallerUnoPruebas@gmail.com");
+        formulario.setEmail("javier.terranova@gmail.com");
         formulario.setTipoDocumento("DNI");
         formulario.setNumeroDocumento("123123123");
         String dateInString = "23/10/1985";
@@ -144,7 +144,7 @@ public class ServicioAdministradorTest extends SpringTest {
         persona.setNumeroAfiliado("9999");
         persona.setNombre("Pepe");
         persona.setApellido("Argento");
-        persona.setEmail("nherrera3276@gmail.com");
+        persona.setEmail("javier.terranova@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("4836646");
         String dateInString = "23/10/1985";
@@ -162,7 +162,7 @@ public class ServicioAdministradorTest extends SpringTest {
         persona.setNumeroAfiliado("321321");
         persona.setNombre("nicolas");
         persona.setApellido("Herrera");
-        persona.setEmail("nherrera3276@gmail.com");
+        persona.setEmail("javier.terranova@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("31231231");
         String dateInString = "";
