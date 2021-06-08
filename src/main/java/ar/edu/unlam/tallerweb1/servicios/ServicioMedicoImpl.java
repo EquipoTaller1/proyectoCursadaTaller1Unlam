@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class ServicioMedicoImpl implements ServicioMedico {
@@ -38,7 +39,8 @@ public class ServicioMedicoImpl implements ServicioMedico {
     {
 
       try {
-          Calendar hoy = Calendar.getInstance();
+          TimeZone timeZone = TimeZone.getTimeZone("UTC");
+          Calendar hoy = Calendar.getInstance(timeZone);
           return repositorioMedico.obtenerCitasPorFecha(email, hoy);
       }catch (Exception e)
       {

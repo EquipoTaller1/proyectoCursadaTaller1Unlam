@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Repository("repositorioMedico")
 @Transactional
@@ -80,7 +81,18 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
                 .add(Restrictions.eq("observacion", "Creado"))
                 .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
-        return criteria.list();
+        List<Cita> citas = criteria.list();
+
+        Calendar aux = Calendar.getInstance();
+        for (Cita cita : citas ) {
+            cita.getFecha().add(Calendar.DAY_OF_MONTH, 1);
+            aux.setTime(cita.getHora());
+            aux.add(Calendar.HOUR_OF_DAY, 3);
+            cita.setHora(aux.getTime());
+        }
+
+        return citas;
+
     }
 
 }
