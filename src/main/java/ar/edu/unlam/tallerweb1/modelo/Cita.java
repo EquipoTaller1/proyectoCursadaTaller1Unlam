@@ -5,6 +5,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -123,6 +124,7 @@ public class Cita {
     }
 
     public String fechaHoraFormateada(){
+
         fecha.set(Calendar.HOUR_OF_DAY, this.hora.getHours());
         fecha.set(Calendar.MINUTE, this.hora.getMinutes());
         SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy HH:mm");

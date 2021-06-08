@@ -19,6 +19,10 @@
 								href="${pageContext.request.contextPath}/medico/mapa"> <i
 				class="ni ni-pin-3 text-orange"></i> Maps
 		</a></li>
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/medico/citas-del-dia"> <i
+				class="ni ni-calendar-grid-58 text-green"></i> Mis citas para hoy
+		</a></li>
 	</sec:authorize>
 	<sec:authorize access="hasRole('Paciente')">
 		<li class="nav-item"><a class="nav-link"
