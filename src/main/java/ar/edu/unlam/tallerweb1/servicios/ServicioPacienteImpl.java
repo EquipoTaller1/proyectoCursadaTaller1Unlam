@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.modelo.Cita;
-import ar.edu.unlam.tallerweb1.repositorios.RepositorioPaciente;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioCita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,20 +10,20 @@ import java.util.List;
 @Service
 public class ServicioPacienteImpl implements ServicioPaciente{
 
-    private RepositorioPaciente repositorioPaciente;
+    private RepositorioCita repositorioCita;
 
     @Autowired
-    public ServicioPacienteImpl(RepositorioPaciente repositorioPaciente){
-        this.repositorioPaciente = repositorioPaciente;
+    public ServicioPacienteImpl(RepositorioCita repositorioCita){
+        this.repositorioCita = repositorioCita;
     }
 
     @Override
     public List<Cita> getCitas(String email) {
-        return repositorioPaciente.obtenerCitas(email);
+        return repositorioCita.obtenerCitas(email);
     }
 
     @Override
     public List<Cita> getCitasProximas(String email) {
-        return repositorioPaciente.obtenerCitasProximas(email);
+        return repositorioCita.obtenerCitasProximas(email);
     }
 }

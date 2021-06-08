@@ -2,7 +2,6 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,7 +24,7 @@ public class Cita {
     @JoinColumn(name = "tipoCita_id")
     private TipoCita tipoCita;
     @Temporal(TemporalType.DATE)
-    private Calendar fecha;
+    private Date fecha;
     @Temporal(TemporalType.TIME)
     private Date hora;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cita")
@@ -72,9 +71,9 @@ public class Cita {
         this.especialidad = especialidad;
     }
 
-    public Calendar getFecha() { return fecha; }
+    public Date getFecha() { return fecha; }
 
-    public void setFecha(Calendar fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -123,11 +122,15 @@ public class Cita {
     }
 
     public String fechaHoraFormateada(){
-        fecha.set(Calendar.HOUR_OF_DAY, this.hora.getHours());
-        fecha.set(Calendar.MINUTE, this.hora.getMinutes());
-        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaFormateada = fechaFormato.format(fecha);
+        SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm");
+        String horaFormateada = horaFormato.format(hora);
+        return fechaFormateada.concat(" " + horaFormateada);
+    }
 
-        return fechaFormato.format(fecha.getTime());
+    public void agregarHistoria(CitaHistoria citaHistoria){
+        this.getHistorias().add(citaHistoria);
     }
 
     @Override

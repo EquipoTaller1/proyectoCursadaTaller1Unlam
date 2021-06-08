@@ -22,6 +22,15 @@
                         <h3 class="mb-0">Mis citas</h3>
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 d-flex">
+                                <div class="col-6 col-md-3">
+                                    <a href="${pageContext.request.contextPath}/paciente/citas/create" class="btn btn-primary">
+                                        Nueva cita
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <c:choose>
                             <c:when test="${not empty citas}">
                                 <c:forEach items="${citas}" var="cita">
