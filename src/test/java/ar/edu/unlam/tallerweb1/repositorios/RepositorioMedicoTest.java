@@ -28,11 +28,35 @@ public class RepositorioMedicoTest extends SpringTest {
 
     @Test
     @Transactional
-    public void seObtienenCitasDeUnMedicoEnUnDiaEspecificoEnFecha(){
+    public void seObtienenCitasDeUnMedicoEnUnDiaEspecifico(){
         givenCitasDeUnMedicoEnElDia();
         List<Cita> citas = whenSeObtienenLasCitasDelDia();
         thenLasCitasObtenidasSonLasCorrectas(citas);
     }
+
+    @Test
+    @Transactional
+    public void noSeObtienenCitasDelMedicoEnFechaAntigua(){
+        String medico = givenMedicoExistente();
+        List<Cita> citas = whenSeObtienenLasCitasDeFechaAntigua(medico);
+        thenNoSeEncuentranCitas(citas);
+    }
+
+    private void thenNoSeEncuentranCitas(List<Cita> citas) {
+        assertThat(citas).hasSize(0);
+    }
+
+
+    private List<Cita> whenSeObtienenLasCitasDeFechaAntigua(String medico) {
+        Calendar fecha = Calendar.getInstance();
+        fecha.setTime(new Date("1900/01/01"));
+        return repositorioMedico.obtenerCitasPorFecha(medico, fecha);
+    }
+
+    private String givenMedicoExistente() {
+        return "dmaradona@gmail.com";
+    }
+
 
     private void thenLasCitasObtenidasSonLasCorrectas(List<Cita> citas) {
         assertThat(citas).hasSize(2);
