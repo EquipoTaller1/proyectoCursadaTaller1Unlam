@@ -93,7 +93,7 @@ public class ControladorAdministradorTest {
         persona.setNumeroAfiliado("20210525001");
         persona.setNombre("Pepe");
         persona.setApellido("Argento");
-        persona.setEmail("nherrera3276@gmail.com");
+        persona.setEmail("javier.terranova@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("4836646");
         persona.setFechaNacimiento("03/03/2021");
