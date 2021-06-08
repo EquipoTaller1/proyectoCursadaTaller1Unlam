@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -76,6 +77,7 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
         Criteria criteria = session.createCriteria(Cita.class)
                 .add(Restrictions.eq("medico", medico))
                 .add(Restrictions.eq("fecha", fecha))
+                .addOrder(Order.asc("hora"))
                 .add(Restrictions.sizeEq("historias", 1))
                 .createCriteria("historias")
                 .add(Restrictions.eq("observacion", "Creado"))
