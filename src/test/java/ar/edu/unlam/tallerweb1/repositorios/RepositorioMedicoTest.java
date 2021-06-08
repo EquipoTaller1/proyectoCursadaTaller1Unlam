@@ -28,35 +28,25 @@ public class RepositorioMedicoTest extends SpringTest {
 
     @Test
     @Transactional
-    @Rollback
-    public void seObtienenCitasDeUnMedicoEnUnDiaEspecifico(){
+    public void seObtienenCitasDeUnMedicoEnUnDiaEspecificoEnFecha(){
         givenCitasDeUnMedicoEnElDia();
         List<Cita> citas = whenSeObtienenLasCitasDelDia();
         thenLasCitasObtenidasSonLasCorrectas(citas);
     }
 
     private void thenLasCitasObtenidasSonLasCorrectas(List<Cita> citas) {
-        //assertThat(citas).hasSize(1);
+        assertThat(citas).hasSize(2);
     }
 
     private List<Cita> whenSeObtienenLasCitasDelDia() {
-     /*   DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(new FixedDateTimeZone("UTC", "UTC", 0, 0));
-        Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-
-        fecha.setTime(format.parseDateTime("2021-06-08").toDate());
-*/
-
         Calendar fecha = Calendar.getInstance();
         fecha.setTime(new Date("2021/06/07"));
-   //     fecha.set(Calendar.YEAR, 2021);
-    //    fecha.set(Calendar.MONTH, 6);
-     //   fecha.set(Calendar.DAY_OF_MONTH, 8);
-
+// Se insertaron datos previamente en la BD para esa fecha y ese médico
         return repositorioMedico.obtenerCitasPorFecha("dmaradona@gmail.com", fecha);
     }
 
     private void givenCitasDeUnMedicoEnElDia() {
-
+// Falta desarrollar RepositorioCita para generar casos de prueba automaticamente
     }
 
 }

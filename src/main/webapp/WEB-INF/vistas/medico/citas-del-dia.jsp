@@ -37,6 +37,12 @@
                                                             Estado: ${cita.getUltimaHistoria().estado.descripcion}
                                                         </p>
                                                     </div>
+                                                    <div class="col">
+                                                        <h3 class="card-title text-uppercase mb-0">Lugar</h3>
+                                                        <p class="font-weight-bold text-muted mb-0">
+                                                            ${cita.tipoCita.descripcion} <br>
+                                                        </p>
+                                                    </div>
                                                     <div class="col-auto">
                                                         <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
                                                             <i class="ni ni-calendar-grid-58"></i>
