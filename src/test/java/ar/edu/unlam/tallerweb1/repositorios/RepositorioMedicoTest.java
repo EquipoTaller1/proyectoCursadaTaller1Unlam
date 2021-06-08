@@ -48,9 +48,9 @@ public class RepositorioMedicoTest extends SpringTest {
 
 
     private List<Cita> whenSeObtienenLasCitasDeFechaAntigua(String medico) {
-        Calendar fecha = Calendar.getInstance();
-        fecha.setTime(new Date("1900/01/01"));
-        return repositorioMedico.obtenerCitasPorFecha(medico, fecha);
+        /*Calendar fecha = Calendar.getInstance();
+        fecha.setTime(new Date("1900/01/01"));*/
+        return repositorioMedico.obtenerCitasPorFecha(medico, new Date("1900/01/01"));
     }
 
     private String givenMedicoExistente() {
@@ -63,10 +63,10 @@ public class RepositorioMedicoTest extends SpringTest {
     }
 
     private List<Cita> whenSeObtienenLasCitasDelDia() {
-        Calendar fecha = Calendar.getInstance();
-        fecha.setTime(new Date("2021/06/07"));
+       /* Calendar fecha = Calendar.getInstance();
+        fecha.setTime(new Date("2021/06/07"));*/
 // Se insertaron datos previamente en la BD para esa fecha y ese médico
-        return repositorioMedico.obtenerCitasPorFecha("dmaradona@gmail.com", fecha);
+        return repositorioMedico.obtenerCitasPorFecha("dmaradona@gmail.com", new Date("2021/06/07"));
     }
 
     private void givenCitasDeUnMedicoEnElDia() {

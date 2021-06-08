@@ -63,7 +63,7 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
         session.save(usuario);
     }
 
-    public List<Cita> obtenerCitasPorFecha(String email, Calendar fecha){
+    public List<Cita> obtenerCitasPorFecha(String email, Date fecha){
         final Session session = sessionFactory.getCurrentSession();
 
         Usuario medico = (Usuario) session.createCriteria(Usuario.class)
@@ -85,13 +85,13 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
 
         List<Cita> citas = criteria.list();
 
-        Calendar aux = Calendar.getInstance();
+        /*Calendar aux = Calendar.getInstance();
         for (Cita cita : citas ) {
             cita.getFecha().add(Calendar.DAY_OF_MONTH, 1);
             aux.setTime(cita.getHora());
             aux.add(Calendar.HOUR_OF_DAY, 3);
             cita.setHora(aux.getTime());
-        }
+        }*/
 
         return citas;
 

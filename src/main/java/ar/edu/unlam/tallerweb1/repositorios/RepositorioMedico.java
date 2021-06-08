@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public interface RepositorioMedico {
@@ -16,6 +17,6 @@ public interface RepositorioMedico {
 
     void registrarMedico(FormularioRegistroMedico formulario, Persona persona);
 
-    List<Cita> obtenerCitasPorFecha(String email, Calendar fecha);
+    List<Cita> obtenerCitasPorFecha(String email, Date fecha);
 }
 

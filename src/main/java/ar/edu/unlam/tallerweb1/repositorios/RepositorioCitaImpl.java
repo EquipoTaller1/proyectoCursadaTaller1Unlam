@@ -5,6 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,8 @@ public class RepositorioCitaImpl implements RepositorioCita {
         Usuario paciente = this.userByEmail(email);
 
         Criteria criteria = session.createCriteria(Cita.class)
-                .add(Restrictions.eq("paciente", paciente));
+                .add(Restrictions.eq("paciente", paciente))
+                .addOrder(Order.desc("created_at"));
 
         return criteria.list();
     }
@@ -52,6 +54,7 @@ public class RepositorioCitaImpl implements RepositorioCita {
         Criteria criteria = session.createCriteria(Cita.class)
                 .add(Restrictions.eq("paciente", paciente))
                 .add(Restrictions.sizeEq("historias", 1))
+                .addOrder(Order.desc("created_at"))
                 .createCriteria("historias")
                 .add(Restrictions.eq("observacion", "Creado"))
                 .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);

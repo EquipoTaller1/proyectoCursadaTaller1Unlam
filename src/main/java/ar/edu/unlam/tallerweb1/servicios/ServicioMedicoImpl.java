@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Service
 public class ServicioMedicoImpl implements ServicioMedico {
@@ -39,8 +36,9 @@ public class ServicioMedicoImpl implements ServicioMedico {
     {
 
       try {
-          TimeZone timeZone = TimeZone.getTimeZone("UTC");
-          Calendar hoy = Calendar.getInstance(timeZone);
+          /*TimeZone timeZone = TimeZone.getTimeZone("UTC");
+          Date hoy = Calendar.getInstance(timeZone);*/
+          Date hoy = new Date();
           return repositorioMedico.obtenerCitasPorFecha(email, hoy);
       }catch (Exception e)
       {
