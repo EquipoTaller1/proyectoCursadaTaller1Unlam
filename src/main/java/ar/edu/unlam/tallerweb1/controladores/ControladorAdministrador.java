@@ -131,7 +131,7 @@ public class ControladorAdministrador {
             model.put("persona", persona);
             model.put("exito", "La persona se registró correctamente");
 
-         //   servicioAdministrador.enviarEmailDeRegistro(formulario);
+            servicioAdministrador.enviarEmailDeRegistro(formulario);
 
         } else {
             model.put("persona", formulario);

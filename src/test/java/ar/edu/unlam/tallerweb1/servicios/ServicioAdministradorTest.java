@@ -86,7 +86,7 @@ public class ServicioAdministradorTest extends SpringTest {
 
         whenLaQuieroRegistrar(persona);
     }
-/*
+
     @Test
     @Transactional
     @Rollback
@@ -98,7 +98,7 @@ public class ServicioAdministradorTest extends SpringTest {
 
         thenSeEnviaCorrectamente(formulario);
     }
-*/
+
     @Test
     @Transactional
     @Rollback
