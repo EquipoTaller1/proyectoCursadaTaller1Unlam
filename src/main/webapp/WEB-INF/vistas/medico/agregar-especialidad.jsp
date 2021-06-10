@@ -27,7 +27,7 @@
                           <div class="col-12">
                               <c:if test="${not empty errores}">
                                   <div class="alert alert-danger" role="alert">
-                                      <p>Corrigue los siguientes errores:</p>
+                                      <p>Corrija los siguientes errores:</p>
                                       <ul>
                                           <c:forEach items="${errores}" var="error">
                                               <li>${error}</li>

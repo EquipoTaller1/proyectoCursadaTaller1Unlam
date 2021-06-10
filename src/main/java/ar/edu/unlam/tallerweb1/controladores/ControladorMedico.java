@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.Excepciones.EspecialidadRepetida;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioEspecialidades;
 import ar.edu.unlam.tallerweb1.servicios.ServicioCita;
 import ar.edu.unlam.tallerweb1.servicios.ServicioMedico;
@@ -74,6 +75,7 @@ public class ControladorMedico {
         formulario.setEspecialidadesTodas(servicioCita.allEspecialidades());
         formulario.setUsuario(servicioMedico.consultarMedicoPorEmail(user.getUsername()));
 
+// Si hubo errores del formulario, se cargan al modelo y se regresa a la vista sin procesar
         if (result.hasErrors() || formulario.getEspecialidadNueva() == 0 ){
             result.getFieldErrors().forEach(error -> {
                 errores.add(error.getDefaultMessage());
@@ -87,11 +89,19 @@ public class ControladorMedico {
             model.put("datos", formulario);
             return new ModelAndView("medico/agregar-especialidad", model);
         }
+// Se agrega Especialidad
+        try {
+            servicioMedico.addEspecialidad(formulario.getUsuario(), formulario.getEspecialidadNueva());
+        }
+        catch (RuntimeException e) {
+            errores.add(e.getMessage());
+            model.put("errores", errores);
+        }
 
-        servicioMedico.addEspecialidad(formulario.getUsuario(), formulario.getEspecialidadNueva());
         model.put("especialidadesTodas", servicioCita.allEspecialidades());
         model.put("datos", formulario);
 
+// Se regresa a la vista con la información de Especialidades actualizada
         return new ModelAndView("medico/agregar-especialidad", model);
     }
 

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.Excepciones.EspecialidadRepetida;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -18,6 +19,6 @@ public interface ServicioMedico {
 
     List<Cita> obtenerCitasDelDia(String email);
 
-    void addEspecialidad(Usuario medico, int especialidad);
+    void addEspecialidad(Usuario medico, int especialidad) throws EspecialidadRepetida;
 
 }
