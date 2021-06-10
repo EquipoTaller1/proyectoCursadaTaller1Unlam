@@ -64,7 +64,7 @@ public class ControladorAdministrador {
 
     @RequestMapping(path = "/registrar_persona_medico", method = RequestMethod.GET)
     public ModelAndView irARegistrarPersonaMedico() {
-        FormularioPersona persona = new FormularioPersona();
+        FormularioPersonaMedico persona = new FormularioPersonaMedico();
         ModelMap model = new ModelMap();
         model.put("persona", persona);
         return new ModelAndView("administrador/registrar-persona-medico", model);

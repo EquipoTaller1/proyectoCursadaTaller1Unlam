@@ -23,6 +23,11 @@
 								href="${pageContext.request.contextPath}/medico/citas-del-dia"> <i
 				class="ni ni-calendar-grid-58 text-green"></i> Mis citas para hoy
 		</a></li>
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/medico/agregar-especialidad"> <i
+				class="ni ni-bullet-list-67 text-blue"></i> Mis especialidades
+		</a></li>
+
 	</sec:authorize>
 	<sec:authorize access="hasRole('Paciente')">
 		<li class="nav-item"><a class="nav-link"

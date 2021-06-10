@@ -1,8 +1,11 @@
 package ar.edu.unlam.tallerweb1.modelo.formularios;
 
+import ar.edu.unlam.tallerweb1.modelo.Especialidad;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
+import org.springframework.beans.factory.annotation.Required;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class FormularioPersonaMedico {
 
@@ -26,7 +29,17 @@ public class FormularioPersonaMedico {
     @NotBlank(message = "El campo matricula es obligatorio")
     private String matricula;
 
+    @NotNull(message = "El campo especialidad es obligatorio")
+    private int especialidad;
 
+
+    public int getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(int especialidad) {
+        this.especialidad = especialidad;
+    }
 
     public String getNombre() {
         return nombre;

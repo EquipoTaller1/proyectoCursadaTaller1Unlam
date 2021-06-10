@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
+import ar.edu.unlam.tallerweb1.modelo.Especialidad;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -14,10 +15,7 @@ import org.springframework.test.annotation.Rollback;
 import javax.transaction.Transactional;
 
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -25,6 +23,12 @@ public class RepositorioMedicoTest extends SpringTest {
 
     @Autowired
     private  RepositorioMedico repositorioMedico;
+
+    @Autowired
+    private RepositorioCita repositorioCita;
+
+    @Autowired
+    private RepositorioAdministrador repositorioAdministrador;
 
     @Test
     @Transactional
@@ -70,7 +74,17 @@ public class RepositorioMedicoTest extends SpringTest {
     }
 
     private void givenCitasDeUnMedicoEnElDia() {
-// Falta desarrollar RepositorioCita para generar casos de prueba automaticamente
+        /*Especialidad cardiologia = new Especialidad();
+        cardiologia.setId((long) 1);
+        cardiologia.setDescripcion("Cardiología");
+        List<Especialidad> especialidades = Arrays.asList(cardiologia);
+        Usuario medico = new Usuario();
+        medico.setEmail("medico_test@test.com");
+        medico.setPassword("password_medico_test");
+        medico.setEspecialidades(especialidades);
+
+        repositorioAdministrador.registrarMedico(medico);
+        repositorioCita.guardarCita();*/
     }
 
 }

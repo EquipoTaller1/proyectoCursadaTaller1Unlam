@@ -20,7 +20,7 @@ public class Especialidad {
     private List<Usuario> medicos;
 
     public Especialidad() {
-        this.medicos = new ArrayList<>();
+      //  this.medicos = new ArrayList<>();
     }
 
     public Long getId() {
