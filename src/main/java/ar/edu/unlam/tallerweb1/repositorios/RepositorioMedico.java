@@ -18,5 +18,9 @@ public interface RepositorioMedico {
     void registrarMedico(FormularioRegistroMedico formulario, Persona persona);
 
     List<Cita> obtenerCitasPorFecha(String email, Date fecha);
+
+    Usuario obtenerMedicoPorEmail(String email);
+
+    boolean addEspecialidad(Usuario medico, int especialidad);
 }
 

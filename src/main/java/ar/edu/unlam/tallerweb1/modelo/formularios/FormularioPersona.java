@@ -33,8 +33,6 @@ public class FormularioPersona {
 
     private String matricula;
 
-
-
     public String getNombre() {
         return nombre;
     }

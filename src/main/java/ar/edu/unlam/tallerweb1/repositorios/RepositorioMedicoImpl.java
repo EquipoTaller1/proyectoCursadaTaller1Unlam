@@ -1,10 +1,12 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.modelo.Cita;
+import ar.edu.unlam.tallerweb1.modelo.Especialidad;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -44,6 +46,19 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
     }
 
     @Override
+    public Usuario obtenerMedicoPorEmail(String email){
+        final Session session = sessionFactory.getCurrentSession();
+
+        Usuario medico = (Usuario) session.createCriteria(Usuario.class)
+                        .setFetchMode("especialidades", FetchMode.JOIN)
+                        .add(Restrictions.eq("rol", "Medico"))
+                        .add(Restrictions.eq("email", email))
+                        .uniqueResult();
+
+        return medico;
+    }
+
+    @Override
     public Persona consultarMedico(String matricula) {
         Persona personaBuscada = (Persona) sessionFactory.getCurrentSession().createCriteria(Persona.class)
                 .add(Restrictions.eq("matricula", matricula))
@@ -61,6 +76,29 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
         usuario.setPassword(new BCryptPasswordEncoder().encode(formularioRegistroPaciente.getPassword()));
         usuario.setPersona(persona);
         session.save(usuario);
+    }
+
+    @Override
+    public boolean addEspecialidad(Usuario medico, int especialidad){
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        Long id_esp = new Long(especialidad);
+
+        Especialidad especialidadNueva = (Especialidad) session.createCriteria(Especialidad.class)
+                    .add(Restrictions.eq("id", id_esp))
+                    .uniqueResult();
+
+        for (Especialidad esp : medico.getEspecialidades()) {
+            if (esp.getId().equals(especialidadNueva.getId()))
+                return false; //Ya tenia esa especialidad
+        }
+
+        medico.getEspecialidades().add(especialidadNueva);
+        sessionFactory.getCurrentSession().update(medico);
+
+        return true;
+
     }
 
     public List<Cita> obtenerCitasPorFecha(String email, Date fecha){

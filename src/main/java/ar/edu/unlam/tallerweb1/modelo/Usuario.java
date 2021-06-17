@@ -28,9 +28,15 @@ public class Usuario {
 
 	@OneToOne(mappedBy = "usuario")
 	private Ubicacion ubicacion;
-	@ManyToMany(mappedBy = "medicos")
+	//@ManyToMany(mappedBy = "medicos")
+
+	@ManyToMany
+	@JoinTable(name="especialidad_medico",
+			joinColumns=@JoinColumn(name="medico_id"),
+			inverseJoinColumns=@JoinColumn(name="especialidad_id"))
 	@JsonIgnore
 	private List<Especialidad> especialidades;
+
 	@OneToMany(mappedBy = "paciente")
 	@JsonIgnore
 	private List<Cita> citasPaciente;
