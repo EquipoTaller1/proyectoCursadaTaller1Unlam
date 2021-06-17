@@ -35,6 +35,9 @@ public class Cita {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar updated_at;
 
+    private float latitud;
+    private float longitud;
+
     public Cita() {
         this.historias = new ArrayList<>();
     }
