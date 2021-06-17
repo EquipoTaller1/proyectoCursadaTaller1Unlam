@@ -79,12 +79,6 @@
                                     <form:input path="matricula" class="form-control" placeholder="Matricula (Médicos)" type="text"/>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <form:select path="especialidad" class="form-control">
-                                    <form:option value="1">Cardiología</form:option>
-                                    <form:option value="2">Clínico</form:option>
-                                </form:select>
-                            </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary mt-4">Registrar</button>
                             </div>

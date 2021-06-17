@@ -38,8 +38,6 @@ public class ServicioMedicoImpl implements ServicioMedico {
     {
 
       try {
-          /*TimeZone timeZone = TimeZone.getTimeZone("UTC");
-          Date hoy = Calendar.getInstance(timeZone);*/
           Date hoy = new Date();
           return repositorioMedico.obtenerCitasPorFecha(email, hoy);
       }catch (Exception e)

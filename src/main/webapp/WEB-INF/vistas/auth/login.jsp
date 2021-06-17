@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
-    <title>Argon Dashboard - Free Dashboard for Bootstrap 4</title>
+    <title>Taller Web I</title>
     <!-- Favicon -->
     <link href="assets/img/brand/favicon.png" rel="icon" type="image/png">
     <!-- Fonts -->
@@ -81,16 +81,7 @@
     </nav>
     <!-- Header -->
     <div class="header bg-gradient-primary py-7 py-lg-8">
-        <div class="container">
-            <div class="header-body text-center mb-7">
-                <div class="row justify-content-center">
-                    <div class="col-lg-5 col-md-6">
-                        <h1 class="text-white">Welcome!</h1>
-                        <p class="text-lead text-light">Use these awesome forms to login or create new account in your project for free.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="separator separator-bottom separator-skew zindex-100">
             <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
@@ -146,14 +137,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <a href="#" class="text-light"><small>Forgot password?</small></a>
-                    </div>
-                    <div class="col-6 text-right">
-                        <a href="#" class="text-light"><small>Create new account</small></a>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
