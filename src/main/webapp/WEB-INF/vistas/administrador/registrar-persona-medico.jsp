@@ -76,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group input-group-alternative">
-                                    <form:input path="matricula" class="form-control" placeholder="Matricula (Médicos)" type="text"/>
+                                    <form:input path="matricula" class="form-control" placeholder="Matricula" type="text"/>
                                 </div>
                             </div>
                             <div class="text-center">

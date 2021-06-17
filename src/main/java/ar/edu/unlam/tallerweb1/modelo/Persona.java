@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersona;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
@@ -141,6 +142,24 @@ public class Persona {
 
         return datosCorrectos;
 
+    }
+
+
+    public FormularioPersona toFormularioPersona()
+    {
+        FormularioPersona formularioPersona = new FormularioPersona();
+        formularioPersona.setNumeroAfiliado(numeroAfiliado);
+        formularioPersona.setNombre(nombre);
+        formularioPersona.setApellido(apellido);
+        formularioPersona.setFechaNacimiento(fechaNacimiento);
+        formularioPersona.setNumeroDocumento(numeroDocumento);
+        formularioPersona.setTipoDocumento(tipoDocumento);
+        formularioPersona.setSexo(sexo);
+        formularioPersona.setMatricula(matricula);
+        formularioPersona.setEmail(email);
+
+
+        return formularioPersona;
     }
 
 

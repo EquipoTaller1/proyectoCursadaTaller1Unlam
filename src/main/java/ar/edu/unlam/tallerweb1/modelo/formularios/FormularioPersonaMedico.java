@@ -17,7 +17,7 @@ public class FormularioPersonaMedico {
     @NotBlank(message = "El campo Email de documento es obligatorio")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "El campo fecha de nacimiento es obligatorio")
     private String fechaNacimiento;
     @NotBlank(message = "El campo Sexo es obligatorio")
     private String sexo;

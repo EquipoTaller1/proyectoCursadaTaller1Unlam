@@ -21,12 +21,14 @@ import java.text.SimpleDateFormat;
 public class ServicioAdministradorImpl implements ServicioAdministrador {
 
     private RepositorioAdministrador repositorioAdministrador;
+
     private final String urlRegistroPaciente = "http://localhost:8080/proyecto_limpio_spring_war_exploded/registro";
 
 
     @Autowired
     public ServicioAdministradorImpl(RepositorioAdministrador _repositorioPersona) {
         this.repositorioAdministrador = _repositorioPersona;
+
     }
 
 
@@ -34,6 +36,8 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
     public void registrar(Persona persona) throws FaltanDatosParaElRegistroException, PersonaYaExisteException, ParseException {
 
         chequearDatosFormulario(persona);
+
+        this.enviarEmailDeRegistro(persona.toFormularioPersona());
 
         repositorioAdministrador.registrar(persona);
 
@@ -51,7 +55,7 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
         FormularioPersonaMedico formularioPersona = new FormularioPersonaMedico();
 
         if (!formularioPersona.chequearFormularioMedico(persona)) {
-            throw new FaltanDatosParaElRegistroException();
+            throw new FaltanDatosParaElRegistroException("Faltan datos para el registro");
         }
 
         chequearFecha(persona.getFechaNacimiento());
@@ -62,7 +66,7 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
         FormularioPersona formularioPersona = new FormularioPersona();
 
         if (!formularioPersona.chequearFormulario(persona)) {
-            throw new FaltanDatosParaElRegistroException();
+            throw new FaltanDatosParaElRegistroException("Faltan datos para el registro");
         }
 
         chequearFecha(persona.getFechaNacimiento());
@@ -74,6 +78,7 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
         boolean seEnvioCorrectamente = false;
 
         if (formulario.chequearFormulario(formulario)) {
+            //preguntar a seba, esto esta bien asi? o lo meto en un final y lo pongo al principio de la clase.
             String subject = "Registro exitoso La clinica";
 
             String cuerpoDelEmail = "Le informamos que su numero de afiliado es: " + formulario.getNumeroAfiliado() +
@@ -93,7 +98,7 @@ public class ServicioAdministradorImpl implements ServicioAdministrador {
     public void chequearFecha(String fecha) {
 
         if (!isLegalDate(fecha)) {
-            throw new ErrorEnFormatoDeFechaException();
+            throw new ErrorEnFormatoDeFechaException("Hay un error en el formato de la fecha");
         }
 
     }

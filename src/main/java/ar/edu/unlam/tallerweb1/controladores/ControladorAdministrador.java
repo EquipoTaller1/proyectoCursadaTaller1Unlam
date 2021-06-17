@@ -1,12 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-//        import ar.edu.unlam.tallerweb1.servicios.ServicioPaciente;
 
-import ar.edu.unlam.tallerweb1.Excepciones.AfiliadoNoExisteException;
-import ar.edu.unlam.tallerweb1.Excepciones.ErrorEnFormatoDeFechaException;
-import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
-import ar.edu.unlam.tallerweb1.Excepciones.PersonaYaExisteException;
-import ar.edu.unlam.tallerweb1.configuraciones.SendEmail;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersonaMedico;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAdministrador;
@@ -71,72 +65,46 @@ public class ControladorAdministrador {
     }
 
     @RequestMapping(path = "/registrar_persona_medico", method = RequestMethod.POST)
-    public ModelAndView registrarPersonaMedico(@Valid FormularioPersonaMedico formulario, BindingResult result) {
+    public ModelAndView registrarPersonaMedico(@Valid FormularioPersonaMedico persona, BindingResult result) {
         ModelMap model = new ModelMap();
-        FormularioPersonaMedico persona = new FormularioPersonaMedico();
+        model.put("persona", persona);
         ArrayList<String> errores = new ArrayList();
-        Persona nuevaPersona = formulario.toPersona();
-
+        Persona nuevaPersona = persona.toPersona();
 
         try {
             servicioAdministrador.registrarMedico(nuevaPersona);
-        } catch (FaltanDatosParaElRegistroException e) {
-            errores.add("Complete todos los datos para el registro");
-        } catch (PersonaYaExisteException e) {
-            errores.add("La persona ya está registrada");
-        } catch (ErrorEnFormatoDeFechaException e) {
-            errores.add("La fecha de nacimiento es incorrecta");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-        if (errores.isEmpty()) {
-
             model.put("persona", persona);
             model.put("exito", "La persona se registró correctamente");
-
-
-
-        } else {
-            model.put("persona", formulario);
+        } catch (RuntimeException | ParseException e) {
+            errores.add(e.getMessage());
+            model.put("persona", persona);
             model.put("errores", errores);
+            return new ModelAndView("administrador/registrar-persona-medico", model);
         }
-        return new ModelAndView("administrador/registrar-persona-medico", model);
+
+            return new ModelAndView("administrador/registrar-persona-medico", model);
     }
 
     @RequestMapping(path = "/registrar_persona", method = RequestMethod.POST)
-    public ModelAndView registrarPersona(@Valid FormularioPersona formulario, BindingResult result) {
+    public ModelAndView registrarPersona(@Valid FormularioPersona persona, BindingResult result) {
         ModelMap model = new ModelMap();
-        FormularioPersona persona = new FormularioPersona();
+        model.put("persona", persona);
         ArrayList<String> errores = new ArrayList();
-        Persona nuevaPersona = formulario.toPersona();
+        Persona nuevaPersona = persona.toPersona();
 
 
         try {
             servicioAdministrador.registrar(nuevaPersona);
-        } catch (FaltanDatosParaElRegistroException e) {
-            errores.add("Complete todos los datos para el registro");
-        } catch (PersonaYaExisteException e) {
-            errores.add("La persona ya está registrada");
-        } catch (ErrorEnFormatoDeFechaException e) {
-            errores.add("La fecha de nacimiento es incorrecta");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-        if (errores.isEmpty()) {
-
             model.put("persona", persona);
             model.put("exito", "La persona se registró correctamente");
-
-            servicioAdministrador.enviarEmailDeRegistro(formulario);
-
-        } else {
-            model.put("persona", formulario);
+        } catch (RuntimeException | ParseException e) {
+            errores.add(e.getMessage());
+            model.put("persona", persona);
             model.put("errores", errores);
+            return new ModelAndView("administrador/registrar-persona", model);
         }
+
+
         return new ModelAndView("administrador/registrar-persona", model);
     }
 

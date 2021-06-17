@@ -32,8 +32,6 @@ public class ControladorAdministradorTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void testIrARegistrarPersona() {
         ModelAndView mav = controladorAdministrador.irARegistrarPersona();
 
@@ -42,8 +40,6 @@ public class ControladorAdministradorTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void testIrARegistrarPersonaMedico() {
         ModelAndView mav = controladorAdministrador.irARegistrarPersonaMedico();
 
@@ -52,12 +48,17 @@ public class ControladorAdministradorTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void testRegistrarPersonaMedico() {
         FormularioPersonaMedico medico = givenDatosDePersonaMedicoCorrectos();
         ModelAndView modelo = whenSeEnvianDatosParaRegistrarMedico(medico);
         thenSeVuelveALaVistaDeRegistroDePersonaMedico(modelo);
+    }
+
+    @Test
+    public void testRegistrarPersona() {
+        FormularioPersona persona = givenDatosDePersonaCorrectos();
+        ModelAndView modelo = whenSeEnvianDatosParaRegistrar(persona);
+        thenSeVuelveALaVistaDeRegistroDePersona(modelo);
     }
 
     private FormularioPersonaMedico givenDatosDePersonaMedicoCorrectos() {
@@ -78,14 +79,6 @@ public class ControladorAdministradorTest {
 
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void testRegistrarPersona() {
-        FormularioPersona persona = givenDatosDePersonaCorrectos();
-        ModelAndView modelo = whenSeEnvianDatosParaRegistrar(persona);
-        thenSeVuelveALaVistaDeRegistroDePersona(modelo);
-    }
 
     private FormularioPersona givenDatosDePersonaCorrectos() {
         FormularioPersona persona = new FormularioPersona();

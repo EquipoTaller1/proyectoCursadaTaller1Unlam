@@ -42,7 +42,6 @@ public class ControladorRegistroUsuarioTest {
     @Test
     public void testIrARegistroDeMedico(){
         ModelAndView mav = controladorRegistroUsuario.irARegistroMedico("");
-
         assertThat(mav.getViewName()).isEqualTo("auth/registerMedico");
         assertThat(mav.getModel().get("formularioMedico")).isNotNull();
     }

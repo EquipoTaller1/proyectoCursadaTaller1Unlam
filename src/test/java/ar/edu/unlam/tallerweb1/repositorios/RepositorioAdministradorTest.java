@@ -45,9 +45,28 @@ public class RepositorioAdministradorTest extends SpringTest {
         thenLaRegistroCorrectamente(persona);
     }
 
-    private void whenLaQuieroRegistrarMedico(Persona persona) {
-        repositorioAdministrador.registrarMedico(persona);
+    @Test(expected = PersonaYaExisteException.class)
+    @Transactional
+    @Rollback
+    public void noSePuedeRegistrarUnaPersonaExistente() throws PersonaYaExisteException, ParseException {
+
+        Persona persona = givenUnaPersonaQueYaExiste();
+
+        whenLaQuierovolverARegistrar(persona);
     }
+
+
+    @Test(expected = FaltanDatosParaElRegistroException.class)
+    @Transactional
+    @Rollback
+    public void errorAlRegistrarPersonaQueLeFaltanDatos() throws ParseException {
+
+        Persona persona = givenUnaPersonaQueLefaltanDatos();
+
+        whenLaQuieroRegistrar(persona);
+
+    }
+
 
     private Persona givenUnaPersonaMedicoNoExistenteQueBrindaTodosSusDatos() {
 
@@ -69,29 +88,6 @@ public class RepositorioAdministradorTest extends SpringTest {
         return persona;
     }
 
-
-    @Test(expected = PersonaYaExisteException.class)
-    @Transactional
-    @Rollback
-    public void noSePuedeRegistrarUnaPersonaExistente() throws PersonaYaExisteException, ParseException {
-
-        Persona persona = givenUnaPersonaQueYaExiste();
-
-        whenLaQuierovolverARegistrar(persona);
-    }
-
-
-
-    @Test(expected = FaltanDatosParaElRegistroException.class)
-    @Transactional
-    @Rollback
-    public void errorAlRegistrarPersonaQueLeFaltanDatos() throws ParseException {
-
-        Persona persona = givenUnaPersonaQueLefaltanDatos();
-
-        whenLaQuieroRegistrar(persona);
-
-    }
 
     private Persona givenUnaPersonaQueLefaltanDatos() {
         Persona persona = new Persona();
@@ -145,6 +141,10 @@ public class RepositorioAdministradorTest extends SpringTest {
 
         return persona;
 
+    }
+
+    private void whenLaQuieroRegistrarMedico(Persona persona) {
+        repositorioAdministrador.registrarMedico(persona);
     }
 
     private void whenLaQuieroRegistrar(Persona persona) throws ParseException {

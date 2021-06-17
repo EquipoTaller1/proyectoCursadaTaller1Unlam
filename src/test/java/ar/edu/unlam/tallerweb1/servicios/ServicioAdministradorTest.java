@@ -2,15 +2,13 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.Excepciones.ErrorEnFormatoDeFechaException;
 import ar.edu.unlam.tallerweb1.Excepciones.FaltanDatosParaElRegistroException;
-import ar.edu.unlam.tallerweb1.SpringTest;
+
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioPersona;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.annotation.Rollback;
 
-import javax.transaction.Transactional;
 import java.text.ParseException;
 
 
@@ -18,21 +16,21 @@ import static org.assertj.core.api.Assertions.*;
 
 import static org.mockito.Mockito.*;
 
-public class ServicioAdministradorTest extends SpringTest {
+public class ServicioAdministradorTest {
 
     private ServicioAdministrador _servicioAdministrador;
+
     private RepositorioAdministrador _repositorioAdministrador;
 
 
     @Before
     public void init() {
         _repositorioAdministrador = mock(RepositorioAdministrador.class);
+
         _servicioAdministrador = new ServicioAdministradorImpl(_repositorioAdministrador);
     }
 
     @Test()
-    @Transactional
-    @Rollback
     public void sePuedeRegistrarPersonaCorrectamente() throws ParseException {
 
         Persona persona = givenUnaPersonaConDatosCorrectos();
@@ -40,13 +38,18 @@ public class ServicioAdministradorTest extends SpringTest {
         whenLaQuieroRegistrar(persona);
 
         verify(_repositorioAdministrador, times(1)).registrar(persona);
+
+        thenElEmailSeEnviaCorrectamente(persona);
+
+
+    }
+
+    private void thenElEmailSeEnviaCorrectamente(Persona persona) {
+        assertThat(_servicioAdministrador.enviarEmailDeRegistro(persona.toFormularioPersona())).isTrue();
     }
 
 
-
     @Test()
-    @Transactional
-    @Rollback
     public void sePuedeRegistrarPersonaMedicoCorrectamente() throws ParseException {
 
         Persona persona = givenUnaPersonaMedicoConDatosCorrectos();
@@ -56,30 +59,7 @@ public class ServicioAdministradorTest extends SpringTest {
         verify(_repositorioAdministrador, times(1)).registrarMedico(persona);
     }
 
-    private void whenLaQuieroRegistrarMedico(Persona persona) throws ParseException {
-        _servicioAdministrador.registrarMedico(persona);
-    }
-
-    private Persona givenUnaPersonaMedicoConDatosCorrectos() {
-        Persona persona = new Persona();
-
-
-        persona.setNombre("Pepe");
-        persona.setApellido("Argento");
-        persona.setEmail("javier.terranova@gmail.com");
-        persona.setTipoDocumento("DNI");
-        persona.setNumeroDocumento("4836646");
-        String dateInString = "23/10/1985";
-        persona.setFechaNacimiento(dateInString);
-        persona.setSexo("masculino");
-        persona.setMatricula("31231231");
-
-        return persona;
-    }
-
     @Test(expected = FaltanDatosParaElRegistroException.class)
-    @Transactional
-    @Rollback
     public void errorAlRegistrarPersonaConDatosIncorrectos() throws ParseException {
 
         Persona persona = givenUnaPersonaConDatosInCorrectos();
@@ -87,21 +67,8 @@ public class ServicioAdministradorTest extends SpringTest {
         whenLaQuieroRegistrar(persona);
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void sePuedeEnviarEmailCorrectamente() throws ParseException {
-
-        FormularioPersona formulario = givenUnFormularioDeRegistroCorrecto();
-
-        whenQuieroEnviarEmailDeRegistroExitoso(formulario);
-
-        thenSeEnviaCorrectamente(formulario);
-    }
 
     @Test
-    @Transactional
-    @Rollback
     public void fallaElEnvioEmailPorDatosIncorrectosEnElFormulario() throws ParseException {
 
         FormularioPersona formulario = givenUnFormularioDeRegistroIncorrecto();
@@ -112,8 +79,6 @@ public class ServicioAdministradorTest extends SpringTest {
     }
 
     @Test(expected = ErrorEnFormatoDeFechaException.class)
-    @Transactional
-    @Rollback
     public void siLaFechaDeNacimientoEsIncorrectaElRegistroFalla() throws ParseException {
 
         String dateInString = "29/02/2021";
@@ -122,21 +87,23 @@ public class ServicioAdministradorTest extends SpringTest {
     }
 
 
-    private FormularioPersona givenUnFormularioDeRegistroCorrecto() throws ParseException {
+    private Persona givenUnaPersonaMedicoConDatosCorrectos() {
+        Persona persona = new Persona();
 
-        FormularioPersona formulario = new FormularioPersona();
-        formulario.setNumeroAfiliado("90909090");
-        formulario.setNombre("Luis");
-        formulario.setApellido("Suarez");
-        formulario.setEmail("javier.terranova@gmail.com");
-        formulario.setTipoDocumento("DNI");
-        formulario.setNumeroDocumento("123123123");
+
+        persona.setNombre("Pepe");
+        persona.setApellido("Argento");
+        persona.setEmail("nherrera3276@gmail.com");
+        persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("4836646");
         String dateInString = "23/10/1985";
-        formulario.setFechaNacimiento(dateInString);
-        formulario.setSexo("Masculino");
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("masculino");
+        persona.setMatricula("31231231");
 
-        return formulario;
+        return persona;
     }
+
 
     private Persona givenUnaPersonaConDatosCorrectos() throws ParseException {
         Persona persona = new Persona();
@@ -144,7 +111,7 @@ public class ServicioAdministradorTest extends SpringTest {
         persona.setNumeroAfiliado("9999");
         persona.setNombre("Pepe");
         persona.setApellido("Argento");
-        persona.setEmail("javier.terranova@gmail.com");
+        persona.setEmail("nherrera3276@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("4836646");
         String dateInString = "23/10/1985";
@@ -162,7 +129,7 @@ public class ServicioAdministradorTest extends SpringTest {
         persona.setNumeroAfiliado("321321");
         persona.setNombre("nicolas");
         persona.setApellido("Herrera");
-        persona.setEmail("javier.terranova@gmail.com");
+        persona.setEmail("nherrera3276@gmail.com");
         persona.setTipoDocumento("DNI");
         persona.setNumeroDocumento("31231231");
         String dateInString = "";
@@ -185,6 +152,10 @@ public class ServicioAdministradorTest extends SpringTest {
         return formulario;
     }
 
+    private void whenLaQuieroRegistrarMedico(Persona persona) throws ParseException {
+        _servicioAdministrador.registrarMedico(persona);
+    }
+
     private void whenQuieroEnviarEmailDeRegistroExitoso(FormularioPersona formulario) {
 
         _servicioAdministrador.enviarEmailDeRegistro(formulario);
@@ -204,11 +175,6 @@ public class ServicioAdministradorTest extends SpringTest {
     private void thenElEnvioFalla(FormularioPersona formulario) {
 
         assertThat(_servicioAdministrador.enviarEmailDeRegistro(formulario)).isFalse();
-    }
-
-    private void thenSeEnviaCorrectamente(FormularioPersona formulario) {
-
-        assertThat(_servicioAdministrador.enviarEmailDeRegistro(formulario)).isTrue();
     }
 
 

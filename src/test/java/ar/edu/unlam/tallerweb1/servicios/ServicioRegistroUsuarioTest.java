@@ -2,6 +2,8 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.formularios.DatosRegistroPaciente;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioMedico;
@@ -13,6 +15,9 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 
+import org.assertj.core.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class ServicioRegistroUsuarioTest extends SpringTest {
@@ -32,6 +37,37 @@ public class ServicioRegistroUsuarioTest extends SpringTest {
         servicioRegistroUsuario = new ServicioRegistroUsuarioImpl(repositorioRegistroUsuarioMock,repositorioAdministrador, repositorioPaciente,repositorioMedico);
     }
 
+
+
+    @Test()
+    @Transactional
+    @Rollback
+    public void sePuedeCrearUsuario() {
+
+        Usuario usuario = givenUnUsuarioNoRegistrado();
+
+        when(repositorioRegistroUsuarioMock.consultarUsuario(usuario)).thenReturn(usuario);
+
+        whenLoQuieroRegistrar(usuario);
+
+        thenLoRegistroCorrectamente(usuario);
+
+    }
+
+    private void thenLoRegistroCorrectamente(Usuario usuario) {
+        assertThat(repositorioRegistroUsuarioMock.consultarUsuario(usuario)).isNotNull();
+
+    }
+
+    private void whenLoQuieroRegistrar(Usuario usuario) {
+        repositorioRegistroUsuarioMock.createUser(usuario);
+    }
+
+    private Usuario givenUnUsuarioNoRegistrado() {
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        return usuario;
+    }
 
 
     @Test()

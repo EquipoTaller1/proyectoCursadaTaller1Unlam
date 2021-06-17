@@ -42,10 +42,19 @@ public class RepositorioAdministradorImpl implements RepositorioAdministrador {
 
         chequearFormularioMedico(persona);
 
-        chequearSiLaPersonaYaExiste(persona);
+        chequearSiLaPersonaMedicoYaExiste(persona);
 
         registrarPersona(persona);
 
+    }
+
+    private void chequearSiLaPersonaMedicoYaExiste(Persona persona) {
+        if ((Persona) sessionFactory.getCurrentSession().createCriteria(Persona.class)
+                .add(Restrictions.eq("matricula", persona.getMatricula()))
+                .uniqueResult() != null) {
+
+            throw new PersonaYaExisteException("La persona ya existe");
+        }
     }
 
     private void registrarPersona(Persona persona) {
@@ -54,25 +63,24 @@ public class RepositorioAdministradorImpl implements RepositorioAdministrador {
 
     private void chequearSiLaPersonaYaExiste(Persona persona) {
         if ((Persona) sessionFactory.getCurrentSession().createCriteria(Persona.class)
-                .add(Restrictions.eq("email", persona.getEmail()))
                 .add(Restrictions.eq("numeroAfiliado", persona.getNumeroAfiliado()))
                 .uniqueResult() != null) {
 
-            throw new PersonaYaExisteException();
+            throw new PersonaYaExisteException("La persona ya existe");
         }
     }
 
     private void chequearFormulario(Persona persona) {
         FormularioPersona formularioPersona = new FormularioPersona();
         if (!formularioPersona.chequearFormulario(persona)) {
-            throw new FaltanDatosParaElRegistroException();
+            throw new FaltanDatosParaElRegistroException("Faltan datos para el registro");
         }
     }
 
     private void chequearFormularioMedico(Persona persona) {
         FormularioPersonaMedico formularioPersonaMedico = new FormularioPersonaMedico();
         if (!formularioPersonaMedico.chequearFormularioMedico(persona)) {
-            throw new FaltanDatosParaElRegistroException();
+            throw new FaltanDatosParaElRegistroException("Faltan datos para el registro");
         }
     }
 }
