@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.Excepciones.EspecialidadRepetida;
 import ar.edu.unlam.tallerweb1.SpringTest;
+import ar.edu.unlam.tallerweb1.modelo.Agenda;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -14,9 +15,8 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioRegistroUsuario;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
@@ -62,6 +62,56 @@ public class ServicioMedicoTest {
 
         whenEspecialidadNuevaEsRepetida(medico);
 
+    }
+
+    @Test
+    public void testQueUnMedicoPuedaVerSuAgenda(){
+        Usuario medico = givenUsuarioMedico();
+        List<Agenda> agenda = whenBuscoLaAgenda(medico.getEmail());
+        thenLaAgendaDaExisto(agenda);
+    }
+
+    @Test
+    public void testQueUnMedicoPuedaAgregarUndiaASuAgenda(){
+        Usuario medico = givenUsuarioMedico();
+        Agenda agenda = whenCreoUnDiaEnLaAgenda(medico);
+        thenLaAgendaDaSeCreaConExito(agenda, medico);
+    }
+
+    private void thenLaAgendaDaSeCreaConExito(Agenda agenda, Usuario medico) {
+        when(_repositorioMedico.obtenerAgenda(medico.getEmail())).thenReturn(Arrays.asList(agenda));
+        _servicioMedico.agregarDiaAgenda(agenda);
+        List<Agenda> agendaList =_servicioMedico.getAgenda(medico.getEmail());
+
+        assertThat(agendaList).isNotNull();
+        assertThat(agendaList.contains(agenda)).isTrue();
+    }
+
+    private Agenda whenCreoUnDiaEnLaAgenda(Usuario medico) {
+        Calendar calendar = Calendar.getInstance();
+        Date horaDesde = calendar.getTime();
+        calendar.set(Calendar.HOUR, calendar.get(Calendar.HOUR) + 2);
+        Date horaHasta = calendar.getTime();
+
+        Agenda agenda = new Agenda();
+        agenda.setMedico(medico);
+        agenda.setDia("Lunes");
+        agenda.setActivo(true);
+        agenda.setHoraDesde(horaDesde);
+        agenda.setHoraHasta(horaHasta);
+
+        return agenda;
+    }
+
+    private void thenLaAgendaDaExisto(List<Agenda> agenda) {
+        assertThat(agenda.size()).isEqualTo(2);
+    }
+
+    private List<Agenda> whenBuscoLaAgenda(String email) {
+        List<Agenda> agenda = Arrays.asList(new Agenda(), new Agenda());
+        when(_repositorioMedico.obtenerAgenda(email)).thenReturn(agenda);
+
+        return _servicioMedico.getAgenda(email);
     }
 
     private void whenEspecialidadNuevaEsRepetida(Usuario medico) throws EspecialidadRepetida{

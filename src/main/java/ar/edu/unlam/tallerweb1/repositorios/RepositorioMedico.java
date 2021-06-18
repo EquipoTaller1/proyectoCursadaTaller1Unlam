@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import ar.edu.unlam.tallerweb1.modelo.Agenda;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -22,5 +23,7 @@ public interface RepositorioMedico {
     Usuario obtenerMedicoPorEmail(String email);
 
     boolean addEspecialidad(Usuario medico, int especialidad);
+
+    List<Agenda> obtenerAgenda(String email);
 }
 

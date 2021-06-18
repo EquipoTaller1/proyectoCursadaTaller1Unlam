@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.Excepciones.EspecialidadRepetida;
 import ar.edu.unlam.tallerweb1.Excepciones.ObtenerCitasDelDiaException;
+import ar.edu.unlam.tallerweb1.modelo.Agenda;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -56,6 +57,16 @@ public class ServicioMedicoImpl implements ServicioMedico {
     public void addEspecialidad(Usuario medico, int especialidad) throws EspecialidadRepetida {
         if (!repositorioMedico.addEspecialidad(medico, especialidad))
             throw new EspecialidadRepetida("Ya tiene registrada esa especialidad");
+    }
+
+    @Override
+    public List<Agenda> getAgenda(String email) {
+        return repositorioMedico.obtenerAgenda(email);
+    }
+
+    @Override
+    public void agregarDiaAgenda(Agenda agenda) {
+
     }
 
 }
