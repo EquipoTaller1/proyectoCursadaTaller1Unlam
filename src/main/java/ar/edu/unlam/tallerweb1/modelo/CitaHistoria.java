@@ -16,8 +16,13 @@ public class CitaHistoria {
     private Estado estado;
     private String observacion;
     private String archivo;
+
+
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar created_at;
+
+    @Column(name = "detalles_de_pedido_de_urgencia")
+    private String detallesDePedidoDeUrgencia;
 
     public Long getId() {
         return id;
@@ -66,4 +71,13 @@ public class CitaHistoria {
     public void setArchivo(String archivo) {
         this.archivo = archivo;
     }
+
+    public String getDetallesDePedidoDeUrgencia() {
+        return detallesDePedidoDeUrgencia;
+    }
+
+    public void setDetallesDePedidoDeUrgencia(String detallesDePedidoDeUrgencia) {
+        this.detallesDePedidoDeUrgencia = detallesDePedidoDeUrgencia;
+    }
+
 }

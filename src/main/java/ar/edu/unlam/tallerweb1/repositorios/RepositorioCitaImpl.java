@@ -97,7 +97,7 @@ public class RepositorioCitaImpl implements RepositorioCita {
         cita.setPaciente(paciente);
         cita.setMedico(medico);
         cita.setCreated_at(Calendar.getInstance());
-        cita.setDetallesDePedidoDeUrgencia(detallesDePedidoDeUrgencia);
+
 
 
         CitaHistoria citaHistoria = new CitaHistoria();
@@ -106,6 +106,7 @@ public class RepositorioCitaImpl implements RepositorioCita {
         citaHistoria.setCita(cita);
         citaHistoria.setObservacion("Creado");
         citaHistoria.setCreated_at(Calendar.getInstance());
+        citaHistoria.setDetallesDePedidoDeUrgencia(detallesDePedidoDeUrgencia);
 
         cita.agregarHistoria(citaHistoria);
         sessionFactory.getCurrentSession().save(cita);
