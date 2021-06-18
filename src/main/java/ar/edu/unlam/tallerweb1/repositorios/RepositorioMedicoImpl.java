@@ -1,9 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import ar.edu.unlam.tallerweb1.modelo.Cita;
-import ar.edu.unlam.tallerweb1.modelo.Especialidad;
-import ar.edu.unlam.tallerweb1.modelo.Persona;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -99,6 +96,17 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
 
         return true;
 
+    }
+
+    @Override
+    public List<Agenda> obtenerAgenda(String email) {
+        final Session session = sessionFactory.getCurrentSession();
+        Usuario medico = this.obtenerMedicoPorEmail(email);
+
+        Criteria criteria = session.createCriteria(Agenda.class)
+                .add(Restrictions.eq("medico", medico));
+
+        return criteria.list();
     }
 
     public List<Cita> obtenerCitasPorFecha(String email, Date fecha){
