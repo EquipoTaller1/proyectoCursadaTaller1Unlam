@@ -88,6 +88,33 @@ public class RepositorioCitaImpl implements RepositorioCita {
     }
 
     @Override
+    public Cita guardarCita(Date fecha, Date hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente, String detallesDePedidoDeUrgencia) {
+        Cita cita = new Cita();
+        cita.setHora(hora);
+        cita.setFecha(fecha);
+        cita.setEspecialidad(especialidad);
+        cita.setTipoCita(tipoCita);
+        cita.setPaciente(paciente);
+        cita.setMedico(medico);
+        cita.setCreated_at(Calendar.getInstance());
+        cita.setDetallesDePedidoDeUrgencia(detallesDePedidoDeUrgencia);
+
+
+        CitaHistoria citaHistoria = new CitaHistoria();
+        Estado creado = sessionFactory.getCurrentSession().get(Estado.class, Long.valueOf(1));
+        citaHistoria.setEstado(creado);
+        citaHistoria.setCita(cita);
+        citaHistoria.setObservacion("Creado");
+        citaHistoria.setCreated_at(Calendar.getInstance());
+
+        cita.agregarHistoria(citaHistoria);
+        sessionFactory.getCurrentSession().save(cita);
+        sessionFactory.getCurrentSession().save(citaHistoria);
+
+        return cita;
+    }
+
+    @Override
     public Cita obtenerCita(Long idCita) {
         return (Cita) sessionFactory.getCurrentSession().createCriteria(Cita.class)
                 .add(Restrictions.eq("id", idCita))

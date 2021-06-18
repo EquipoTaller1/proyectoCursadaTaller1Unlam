@@ -35,6 +35,11 @@ public class Cita {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar updated_at;
 
+    @Column(name = "detalles_de_pedido_de_urgencia")
+    private String detallesDePedidoDeUrgencia;
+
+
+
     private float latitud;
     private float longitud;
 
@@ -124,6 +129,14 @@ public class Cita {
         return getHistorias().get(this.getHistorias().size() - 1);
     }
 
+    public String getDetallesDePedidoDeUrgencia() {
+        return detallesDePedidoDeUrgencia;
+    }
+
+    public void setDetallesDePedidoDeUrgencia(String detallesDePedidoDeUrgencia) {
+        this.detallesDePedidoDeUrgencia = detallesDePedidoDeUrgencia;
+    }
+
     public String fechaHoraFormateada(){
         SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy");
         String fechaFormateada = fechaFormato.format(fecha);
@@ -148,4 +161,6 @@ public class Cita {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+
 }

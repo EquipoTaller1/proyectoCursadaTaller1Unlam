@@ -29,8 +29,14 @@
                                         Nueva cita
                                     </a>
                                 </div>
+                                <div class="col-6 col-md-3">
+                                    <a href="${pageContext.request.contextPath}/paciente/citas/createUrgencia" class="btn btn-primary">
+                                        Urgencia
+                                    </a>
+                                </div>
                             </div>
                         </div>
+
                         <c:choose>
                             <c:when test="${not empty citas}">
                                 <c:forEach items="${citas}" var="cita">

@@ -54,6 +54,7 @@ public class RepositorioCitaTest extends SpringTest {
         Date hora = simpleDateFormat.parse(datosCita.getHora());
 
 
+
         return repositorioCita.guardarCita(fecha, hora, especialidad, tipoCita, medico, paciente);
     }
 

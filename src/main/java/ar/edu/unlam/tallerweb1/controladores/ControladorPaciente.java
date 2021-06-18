@@ -1,8 +1,10 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.modelo.formularios.DatosCita;
+import ar.edu.unlam.tallerweb1.modelo.formularios.DatosCitaUrgencia;
 import ar.edu.unlam.tallerweb1.servicios.ServicioCita;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPaciente;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -15,8 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 @RequestMapping("/paciente")
@@ -65,6 +68,15 @@ public class ControladorPaciente {
         return new ModelAndView("mis-citas/create", model);
     }
 
+    @RequestMapping("/citas/createUrgencia")
+    public ModelAndView irACrearCitaUrgencia(){
+        ModelMap model = new ModelMap();
+        model.put("datos", new DatosCitaUrgencia());
+        model.put("especialidades", servicioCita.allEspecialidades());
+
+        return new ModelAndView("mis-citas/createUrgencia", model);
+    }
+
     @RequestMapping(value = "/citas/store", method = RequestMethod.POST)
     public ModelAndView createCita(@Valid DatosCita datosCita, BindingResult result, Authentication authentication){
         ModelMap model = new ModelMap();
@@ -84,6 +96,58 @@ public class ControladorPaciente {
 
         try {
             servicioCita.create(datosCita);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("redirect:/paciente/citas/index");
+    }
+
+    @RequestMapping(value = "/citas/storeUrgencia", method = RequestMethod.POST)
+    public ModelAndView createUrgencia(@Valid DatosCitaUrgencia datosCitaUrgencia, BindingResult result, Authentication authentication){
+        ModelMap model = new ModelMap();
+        List<String> errores = new ArrayList<>();
+        User user = (User) authentication.getPrincipal();
+
+        LocalDateTime fecha = new LocalDateTime();
+
+        
+
+        int anio = fecha.getYear();
+        int mes = fecha.getMonthOfYear();
+        int dia = fecha.getDayOfYear();
+        int hora = fecha.getHourOfDay();
+        int minuto = fecha.getMinuteOfHour();
+
+        String anioFecha = String.valueOf(anio);
+        String mesFecha = String.valueOf(mes);
+        String diaFecha = String.valueOf(dia);
+        String horaFecha = String.valueOf(hora);
+        String minutoFecha = String.valueOf(minuto);
+
+        datosCitaUrgencia.setPaciente(user.getUsername());
+        datosCitaUrgencia.setTipoCita(2);
+
+
+        //el medico deberia seleccionarse dinamicamente teniendo en cuenta su ubicacion y la ubicacion del paciente
+        datosCitaUrgencia.setMedico(4);
+        datosCitaUrgencia.setHora(horaFecha + ":" + minutoFecha);
+        datosCitaUrgencia.setFecha(anioFecha + "-" + mesFecha + "-" + diaFecha);
+
+
+
+
+        if (result.hasErrors()){
+            result.getFieldErrors().forEach(error -> {
+                errores.add(error.getDefaultMessage());
+            });
+
+            model.put("errores", errores);
+            return new ModelAndView("redirect:/paciente/citas/createUrgencia", model);
+        }
+
+        try {
+            servicioCita.create(datosCitaUrgencia);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -17,6 +17,8 @@ public interface RepositorioCita {
 
     Cita guardarCita(Date fecha, Date hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente);
 
+    Cita guardarCita(Date fecha, Date hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente, String detallesDePedidoDeUrgencia);
+
     Cita obtenerCita(Long idCita);
 
     List<Usuario> medicoByEspecialidad(Long id);

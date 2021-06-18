@@ -112,16 +112,16 @@ CREATE TABLE `persona` (
 -- Dumping data for table `persona`
 --
 
-INSERT INTO `persona` (`id`, `apellido`, `matricula`, `nombre`, `numeroAfiliado`, `numeroDocumento`, `sexo`, `tipoDocumento`, `email`, `fechaNacimiento`) VALUES
-(1, 'Herrera', '123', 'Nicolas', NULL, '1321321', 'm', 'dni', '', ''),
-(82, 'Messi', '', 'Lionel', '1', '14819950', 'Masculino', 'DNI', 'lmessi@gmail.com', ''),
-(83, 'Maradon', '', 'Diego', '1010', '14819950', 'Masculino', 'DNI', 'dmaradona@gmail.com', ''),
-(84, 'Herrera', '', 'Nicolas', '3276', '32413382', 'Masculino', 'DNI', 'nherrera3276@gmail.com', ''),
-(86, 'MUNGIELLO', '', 'JOSE LUIS', '9999', '312312', 'Masculino', 'DNI', 'joselmungiello@hotmail.com', ''),
-(87, 'dasdsada', '', 'asdas', '3123123', '14819950', 'Masculino', 'DNI', 'asdasdas', ''),
-(88, 'a', '', 'a', '312321', '21312', 'Masculino', 'DNI', 'pulga@gmail.com', ''),
-(89, 'a', '', 'a', '1312312', '14819950', 'Masculino', 'DNI', 'tallerUnoPruebas@gmail.com', ''),
-(90, 'Herrera', '', 'Nicolas', '99993123', '14819950', 'Masculino', 'DNI', 'jherreradasdasdas3276@gmail.com', '29/02/2020');
+    INSERT INTO `persona` (`id`, `apellido`, `matricula`, `nombre`, `numeroAfiliado`, `numeroDocumento`, `sexo`, `tipoDocumento`, `email`, `fechaNacimiento`) VALUES
+    (1, 'Herrera', '123', 'Nicolas', NULL, '1321321', 'm', 'dni', '', ''),
+    (82, 'Messi', '', 'Lionel', '1', '14819950', 'Masculino', 'DNI', 'lmessi@gmail.com', ''),
+    (83, 'Maradon', '', 'Diego', '1010', '14819950', 'Masculino', 'DNI', 'dmaradona@gmail.com', ''),
+    (84, 'Herrera', '', 'Nicolas', '3276', '32413382', 'Masculino', 'DNI', 'nherrera3276@gmail.com', ''),
+    (86, 'MUNGIELLO', '', 'JOSE LUIS', '9999', '312312', 'Masculino', 'DNI', 'joselmungiello@hotmail.com', ''),
+    (87, 'dasdsada', '', 'asdas', '3123123', '14819950', 'Masculino', 'DNI', 'asdasdas', ''),
+    (88, 'a', '', 'a', '312321', '21312', 'Masculino', 'DNI', 'pulga@gmail.com', ''),
+    (89, 'a', '', 'a', '1312312', '14819950', 'Masculino', 'DNI', 'tallerUnoPruebas@gmail.com', ''),
+    (90, 'Herrera', '', 'Nicolas', '99993123', '14819950', 'Masculino', 'DNI', 'jherreradasdasdas3276@gmail.com', '29/02/2020');
 
 -- --------------------------------------------------------
 

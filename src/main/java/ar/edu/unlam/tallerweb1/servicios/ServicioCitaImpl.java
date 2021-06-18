@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.modelo.Especialidad;
 import ar.edu.unlam.tallerweb1.modelo.TipoCita;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.DatosCita;
+import ar.edu.unlam.tallerweb1.modelo.formularios.DatosCitaUrgencia;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioCita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,21 @@ public class ServicioCitaImpl implements ServicioCita {
         Usuario paciente = repositorioCita.userByEmail(datosCita.getPaciente());
 
         repositorioCita.guardarCita(fecha, hora, especialidad, tipoCita, medico, paciente);
+    }
+
+    @Override
+    public void create(DatosCitaUrgencia datosCitaUrgencia) throws ParseException {
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = simpleDateFormat2.parse(datosCitaUrgencia.getFecha());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        Date hora = simpleDateFormat.parse(datosCitaUrgencia.getHora());
+        Especialidad especialidad = repositorioCita.especialidadById(Long.valueOf(datosCitaUrgencia.getEspecialidad()));
+        TipoCita tipoCita = repositorioCita.tipoCitaById(Long.valueOf(datosCitaUrgencia.getTipoCita()));
+        Usuario medico = repositorioCita.userById(Long.valueOf(datosCitaUrgencia.getMedico()));
+        Usuario paciente = repositorioCita.userByEmail(datosCitaUrgencia.getPaciente());
+        String detallesDePedidoDeUrgencia = datosCitaUrgencia.getDetallesDePedidoDeUrgencia();
+
+        repositorioCita.guardarCita(fecha, hora, especialidad, tipoCita, medico, paciente, detallesDePedidoDeUrgencia);
     }
 
 
