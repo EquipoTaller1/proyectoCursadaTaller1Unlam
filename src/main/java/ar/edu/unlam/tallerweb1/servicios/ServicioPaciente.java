@@ -8,4 +8,7 @@ public interface ServicioPaciente {
     List<Cita> getCitas(String email);
 
     List<Cita> getCitasProximas(String email);
+
+    Cita getCita(String email, long idCita);
+    Cita getCita(long idCita);
 }

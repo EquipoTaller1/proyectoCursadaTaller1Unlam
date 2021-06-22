@@ -17,7 +17,7 @@ public class SendEmail {
     public JavaMailSenderImpl JavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(25);
+        mailSender.setPort(587);
 
         mailSender.setUsername("tallerUnoPruebas@gmail.com");
         mailSender.setPassword("Taller2021");

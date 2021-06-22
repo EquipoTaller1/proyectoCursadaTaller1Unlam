@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.Excepciones.ErrorCita;
+import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.formularios.DatosCita;
 import ar.edu.unlam.tallerweb1.modelo.formularios.DatosCitaUrgencia;
 import ar.edu.unlam.tallerweb1.servicios.ServicioCita;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -154,4 +157,21 @@ public class ControladorPaciente {
 
         return new ModelAndView("redirect:/paciente/citas/index");
     }
+
+    @RequestMapping(value = "/mapa_cita/{idCita}", method = RequestMethod.GET)
+    public ModelAndView irAMapaCita(@PathVariable Long idCita, Authentication authentication){
+        ModelMap model = new ModelMap();
+        List<String> errores = new ArrayList<>();
+
+        User user = (User) authentication.getPrincipal();
+        try {
+            Cita cita = servicioPaciente.getCita(user.getUsername(), idCita);
+            model.put("cita", cita);
+        }catch (ErrorCita e){
+            errores.add(e.toString());
+        }
+
+        return new ModelAndView("/mis-citas/mapa-cita", model);
+    }
+
 }
