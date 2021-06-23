@@ -12,32 +12,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 zoom: 12
             });
 
+            var lat_medico = document.getElementById("latitudHidden").innerHTML;
+            var long_medico = document.getElementById("longitudHidden").innerHTML;
+            var nombre_medico = document.getElementById("nombreMedicoHidden").innerHTML;
+            var apellido_medico = document.getElementById("apellidoMedicoHidden").innerHTML;
+            var especialidad_medico = document.getElementById("especialidadHidden").innerHTML;
+
             L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
                 maxZoom: 25,
-                attribution: 'Datos del mapa de &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imágenes © <a href="https://www.mapbox.com/">Mapbox</a>',
+                attribution: 'Jaquerman Team (c)',//'Datos del mapa de &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imágenes © <a href="https://www.mapbox.com/">Mapbox</a>',
                 id: 'mapbox/streets-v11'
             }).addTo(mymap);
 
             idCita = document.getElementById("IdCitaHidden").innerHTML;
             apiURL = '/proyecto_limpio_spring_war_exploded/api/cita/' + idCita;
 
-            axios.get(apiURL)
-                .then(response => {
+         //   axios.get(apiURL)
+         //       .then(response => {
 
                     var customIcon = new L.Icon({
                         iconUrl: '/proyecto_limpio_spring_war_exploded/imagenes/iconos/doctor.png',
                         iconSize: [40, 50]
                     });
 
-                    response.data.forEach( medico => {
+                    //response.data.forEach( medico => {
                         var markerPaciente = new L.marker([latitude, longitude]).bindPopup("Usted está aquí").openPopup();
 
-                        var markerMedico = new L.marker([medico.ubicacion.lat_actual, medico.ubicacion.long_actual], {icon: customIcon})
+                        var markerMedico = new L.marker([lat_medico, long_medico], {icon: customIcon})
 
                         var ruta = L.Routing.control({
                             waypoints: [
-                                L.latLng(medico.ubicacion.lat_actual, medico.ubicacion.long_actual),
-                                L.latLng(latitude, longitude)
+                                L.latLng(latitude, longitude),
+                                L.latLng(lat_medico, long_medico)
                             ],
                             draggableWaypoints: false, // Ruta no editable
                             lineOptions : { addWaypoints: false	}, // Ruta no editable
@@ -61,18 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
                             var distanciaTotal = Math.round(summary.totalDistance / 1000);
                             var tiempoEstimado = Math.round(summary.totalTime % 3600 / 60);
 
-                            var txtPopUp = "Dr " + medico.persona.apellido + "</br><br>" +
+                            var txtPopUp = "Dr " + apellido_medico + " " + nombre_medico +"</br><br>" +
                                 "Demora: " + tiempoEstimado + " minutos</br><br>Distancia: "
                                 + distanciaTotal + " Km</br>";
 
                             markerMedico.bindPopup(txtPopUp).openPopup();
                         });
 
-                    })
-                })
-                .catch(error => {
-                    console.log("error api")
-                })
+                    //})
+         //       })
+         //       .catch(error => {
+         //           console.log("error api")
+         //       })
         });
     }
     else {
