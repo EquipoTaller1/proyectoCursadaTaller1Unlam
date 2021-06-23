@@ -55,12 +55,14 @@ public class ControladorMedico {
 
         Usuario usuario = servicioCita.userById(idEnLong);
 
-        String latitud = usuario.getCitasPaciente().get(0).getPaciente().getUbicacion().getLat_actual();
-        String longitud = usuario.getCitasPaciente().get(0).getPaciente().getUbicacion().getLong_actual();
+        String latitud = usuario.getUbicacion().getLat_actual();
+        String longitud = usuario.getUbicacion().getLong_actual();
 
         ModelMap model = new ModelMap();
         model.put("latitud", latitud);
         model.put("longitud", longitud);
+
+
 
 
         return new ModelAndView("maps/mapaMedico", model);

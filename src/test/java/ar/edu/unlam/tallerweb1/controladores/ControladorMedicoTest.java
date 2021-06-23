@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAdministrador;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioCita;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioMedico;
@@ -33,6 +34,8 @@ public class ControladorMedicoTest {
         servicioMedico = new ServicioMedicoImpl(repositorioMedico);
         controladorMedico = new ControladorMedico(servicioMedico, servicioCita);
     }
+
+
 
     @Test
     @Transactional
