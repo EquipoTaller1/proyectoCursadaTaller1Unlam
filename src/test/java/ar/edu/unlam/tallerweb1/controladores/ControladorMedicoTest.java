@@ -23,6 +23,7 @@ public class ControladorMedicoTest {
     private ServicioMedico servicioMedico;
     private ControladorMedico controladorMedico;
 
+
     @Before
     public void init() {
         authentication = mock(Authentication.class);

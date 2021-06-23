@@ -1,15 +1,19 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.Excepciones.EspecialidadRepetida;
+import ar.edu.unlam.tallerweb1.modelo.Ubicacion;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioEspecialidades;
 import ar.edu.unlam.tallerweb1.servicios.ServicioCita;
 import ar.edu.unlam.tallerweb1.servicios.ServicioMedico;
+import ar.edu.unlam.tallerweb1.servicios.ServicioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,10 +28,14 @@ public class ControladorMedico {
     private ServicioMedico servicioMedico;
     private ServicioCita servicioCita;
 
+
+
+
     @Autowired
     public ControladorMedico(ServicioMedico servicioMedico, ServicioCita servicioCita) {
         this.servicioMedico = servicioMedico;
         this.servicioCita = servicioCita;
+
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
@@ -36,11 +44,28 @@ public class ControladorMedico {
         return new ModelAndView("home/home-medico");
     }
 
-    @RequestMapping("/mapa")
-    public ModelAndView mapaMedico(){
 
-        return new ModelAndView("maps/mapaMedico");
+
+    @RequestMapping(value = "/mapa/{id}", method = RequestMethod.POST)
+    public ModelAndView mapaMedico(@PathVariable String id){
+
+        String idEnString = id.substring(3);
+
+        Long idEnLong = Long.parseLong(idEnString);
+
+        Usuario usuario = servicioCita.userById(idEnLong);
+
+        String latitud = usuario.getCitasPaciente().get(0).getPaciente().getUbicacion().getLat_actual();
+        String longitud = usuario.getCitasPaciente().get(0).getPaciente().getUbicacion().getLong_actual();
+
+        ModelMap model = new ModelMap();
+        model.put("latitud", latitud);
+        model.put("longitud", longitud);
+
+
+        return new ModelAndView("maps/mapaMedico", model);
     }
+
 
     @RequestMapping("/citas-del-dia")
     public ModelAndView irAMisCitas(Authentication authentication) {

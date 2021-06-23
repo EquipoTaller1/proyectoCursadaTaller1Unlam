@@ -13,6 +13,8 @@ public interface ServicioCita {
 
     List<Usuario> medicosByEspecialidad(Long id);
 
+    Usuario userById(Long id);
+
     void create(DatosCita datosCita) throws ParseException;
 
     void create(DatosCitaUrgencia datosCitaUrgencia) throws ParseException;

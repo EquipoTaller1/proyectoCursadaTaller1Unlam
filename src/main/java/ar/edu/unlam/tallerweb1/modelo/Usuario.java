@@ -37,7 +37,7 @@ public class Usuario {
 	@JsonIgnore
 	private List<Especialidad> especialidades;
 
-	@OneToMany(mappedBy = "paciente")
+	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Cita> citasPaciente;
 

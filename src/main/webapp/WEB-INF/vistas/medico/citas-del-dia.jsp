@@ -13,6 +13,20 @@
     <jsp:attribute name="title">
         Mis citas
     </jsp:attribute>
+    <jsp:attribute name="style">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+              integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+              crossorigin=""/>
+        <link rel="stylesheet"
+              href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"/>
+    </jsp:attribute>
+    <jsp:attribute name="script">
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+                integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+                crossorigin=""></script>
+        <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+        <script src="${pageContext.request.contextPath}/js/maps/mapaMedico.js"></script>
+    </jsp:attribute>
     <jsp:body>
         <!-- Table -->
         <div class="row">
@@ -32,15 +46,16 @@
                                                     <div class="col">
                                                         <h3 class="card-title text-uppercase mb-0">${cita.especialidad.descripcion}</h3>
                                                         <p class="font-weight-bold text-muted mb-0">
-                                                            Paciente: ${cita.paciente.persona.apellido} ${cita.paciente.persona.nombre} <br>
+                                                            Paciente: ${cita.paciente.persona.apellido} ${cita.paciente.persona.nombre}
+                                                            <br>
                                                             Fecha y hora: ${cita.fechaHoraFormateada()}hs. <br>
-                                                            Estado: ${cita.getUltimaHistoria().estado.descripcion}
+                                                            Estado: ${cita.getUltimaHistoria().estado.descripcion}<br>
                                                         </p>
                                                     </div>
                                                     <div class="col">
                                                         <h3 class="card-title text-uppercase mb-0">Lugar</h3>
                                                         <p class="font-weight-bold text-muted mb-0">
-                                                            ${cita.tipoCita.descripcion} <br>
+                                                                ${cita.tipoCita.descripcion} <br>
                                                         </p>
                                                     </div>
                                                     <div class="col-auto">
@@ -48,6 +63,22 @@
                                                             <i class="ni ni-calendar-grid-58"></i>
                                                         </div>
                                                     </div>
+                                                    <c:if test="${cita.tipoCita.descripcion == 'urgencia'}">
+                                                        <form method="post"
+                                                              action="${pageContext.request.contextPath}/medico/mapa/id=${cita.paciente.id}">
+
+
+                                                            <div class="col-auto">
+                                                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                                                    <button type="submit">Ver mapa</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+
+                                                    </c:if>
+
+
                                                 </div>
                                             </div>
                                         </div>

@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             //coordenas de usuario
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
+
+            var latitudObtenida = document.getElementById("latitud").innerHTML;
+            var longuitudObtenida = document.getElementById("longitud").innerHTML;
+
+            var latitude = latitudObtenida;
+            var longitude = longuitudObtenida;
 
             //instanciar map
             var mymap = L.map('mapaMedico', {
@@ -19,14 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
             //agregar ruta
             L.Routing.control({
                 waypoints: [
-                    L.latLng(latitude, longitude),
-                    L.latLng(-34.6699, -58.5622) //cordenadas unlam
+                    L.latLng(latitude, longitude), //coordenadas del paciente
+                    L.latLng(-34.6699, -58.5622) //coordenadas del medico
                 ],
                 language: 'es'
             }).addTo(mymap);
         });
-    }
-    else{
+    } else {
         console.log("no funca geolocalizacion")
     }
 })

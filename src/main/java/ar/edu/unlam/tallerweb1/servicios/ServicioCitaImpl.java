@@ -34,6 +34,11 @@ public class ServicioCitaImpl implements ServicioCita {
     }
 
     @Override
+    public Usuario userById(Long id) {
+        return repositorioCita.userById(id);
+    }
+
+    @Override
     public void create(DatosCita datosCita) throws ParseException {
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = simpleDateFormat2.parse(datosCita.getFecha());

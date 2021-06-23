@@ -17,6 +17,8 @@ public class ServicioPacienteImpl implements ServicioPaciente{
         this.repositorioCita = repositorioCita;
     }
 
+
+
     @Override
     public List<Cita> getCitas(String email) {
         return repositorioCita.obtenerCitas(email);

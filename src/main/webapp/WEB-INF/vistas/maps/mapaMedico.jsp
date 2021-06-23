@@ -9,7 +9,8 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
               integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
               crossorigin=""/>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+        <link rel="stylesheet"
+              href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"/>
     </jsp:attribute>
     <jsp:attribute name="script">
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
@@ -22,6 +23,14 @@
         <div class="row">
             <div class="col">
                 <div class="card shadow">
+
+                    <div id="latitud" style="display: none">
+                            ${latitud}
+                    </div>
+                    <div id="longitud" style="display: none">
+                            ${longitud}
+                    </div>
+
                     <div class="card-header border-0">
                         <h3 class="mb-0">Hoja de ruta medico</h3>
                     </div>
