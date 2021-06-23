@@ -62,9 +62,6 @@ public class ControladorMedico {
         model.put("latitud", latitud);
         model.put("longitud", longitud);
 
-
-
-
         return new ModelAndView("maps/mapaMedico", model);
     }
 

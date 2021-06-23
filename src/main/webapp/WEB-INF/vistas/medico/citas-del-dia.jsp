@@ -66,8 +66,6 @@
                                                     <c:if test="${cita.tipoCita.descripcion == 'urgencia'}">
                                                         <form method="post"
                                                               action="${pageContext.request.contextPath}/medico/mapa/id=${cita.paciente.id}">
-
-
                                                             <div class="col-auto">
                                                                 <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
                                                                     <button type="submit">Ver mapa</button>
