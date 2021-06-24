@@ -81,16 +81,6 @@ public class ServicioMedicoTest {
         thenLaAgendaDaSeCreaConExito(agenda, medico);
     }
 
-    @Test
-    public void testPruebaLocalDate(){
-        DateTimeFormatter esDateFormatLargo = DateTimeFormatter
-                        .ofPattern("EEEE")
-                        .withLocale(new Locale("es", "ES"));
-
-        LocalDate fecha = LocalDate.parse("2021-06-25");
-        System.out.println(fecha.format(esDateFormatLargo));
-    }
-
     /*@Test
     public void testQueUnMedicoPuedaActualizarUnDiaEnLaAgenda(){
         Usuario medico = givenUsuarioMedico();
@@ -153,7 +143,7 @@ public class ServicioMedicoTest {
         List<Cita> citas = new ArrayList<>();
         Cita citaHoy2 = new Cita();
         Cita citaHoy = new Cita();
-        Date hoy = new Date();
+        LocalDate hoy = LocalDate.now();
         citaHoy.setFecha(hoy);
         citaHoy2.setFecha(hoy);
         citas.add(citaHoy);

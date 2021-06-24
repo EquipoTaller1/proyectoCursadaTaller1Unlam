@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class ControladorPaciente {
         ModelMap model = new ModelMap();
         model.put("datos", new DatosCita());
         model.put("especialidades", servicioCita.allEspecialidades());
+        model.put("fechaActual", LocalDate.now());
 
         return new ModelAndView("mis-citas/create", model);
     }

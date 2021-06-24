@@ -4,6 +4,10 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Entity
@@ -23,18 +27,12 @@ public class Cita {
     @ManyToOne()
     @JoinColumn(name = "tipoCita_id")
     private TipoCita tipoCita;
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
-    @Temporal(TemporalType.TIME)
-    private Date hora;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cita")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<CitaHistoria> historias;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar created_at;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar updated_at;
-
+    private LocalDate fecha;
+    private LocalTime hora;
+    private LocalDateTime created_at;
     private float latitud;
     private float longitud;
 
@@ -74,17 +72,17 @@ public class Cita {
         this.especialidad = especialidad;
     }
 
-    public Date getFecha() { return fecha; }
+    public LocalDate getFecha() { return fecha; }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Date getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
@@ -104,32 +102,24 @@ public class Cita {
         this.tipoCita = tipoCita;
     }
 
-    public Calendar getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Calendar created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
-    }
-
-    public Calendar getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Calendar updated_at) {
-        this.updated_at = updated_at;
     }
 
     public CitaHistoria getUltimaHistoria() {
         return getHistorias().get(this.getHistorias().size() - 1);
     }
 
-    public String fechaHoraFormateada(){
-        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaFormateada = fechaFormato.format(fecha);
-        SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm");
-        String horaFormateada = horaFormato.format(hora);
-        return fechaFormateada.concat(" " + horaFormateada);
+    public String fechaFormateada(){
+        DateTimeFormatter esDateFormatLargo = DateTimeFormatter
+                .ofPattern("EEEE, dd 'de' MMMM 'de' yyyy")
+                .withLocale(new Locale("es", "AR"));
+
+        return fecha.format(esDateFormatLargo);
     }
 
     public void agregarHistoria(CitaHistoria citaHistoria){

@@ -124,7 +124,6 @@ public class ControladorMedico {
     @RequestMapping(value = "/actualizar-agenda", method = RequestMethod.POST)
     public ModelAndView actualizarAgenda(Agenda agenda, Authentication authentication){
         User user = (User) authentication.getPrincipal();
-        ModelMap modelMap = new ModelMap();
         this.servicioMedico.actualizarAgenda(agenda, user.getUsername());
 
         return new ModelAndView("redirect:/medico/mi-agenda?success");

@@ -12,6 +12,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +26,7 @@ public class RepositorioCitaTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void testQueUnPacienteCreeUnaCita() throws ParseException {
+    public void testQueUnPacienteCreeUnaCita(){
         DatosCita datosCita = givenDatosDeCitas();
 
         Cita cita = whenCreoUnaCita(datosCita);
@@ -38,20 +40,19 @@ public class RepositorioCitaTest extends SpringTest {
         datosCita.setMedico(1);
         datosCita.setEspecialidad(1);
         datosCita.setTipoCita(1);
-        datosCita.setFecha("2021/06/25");
+        datosCita.setFecha("2021-06-25");
         datosCita.setHora("10:00");
 
         return datosCita;
     }
 
-    private Cita whenCreoUnaCita(DatosCita datosCita) throws ParseException {
+    private Cita whenCreoUnaCita(DatosCita datosCita){
         Usuario paciente = new Usuario();
         Usuario medico = new Usuario();
         Especialidad especialidad = new Especialidad();
         TipoCita tipoCita = new TipoCita();
-        Date fecha = new Date(datosCita.getFecha());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm");
-        Date hora = simpleDateFormat.parse(datosCita.getHora());
+        LocalDate fecha = LocalDate.parse(datosCita.getFecha());
+        LocalTime hora = LocalTime.parse(datosCita.getHora());
 
 
         return repositorioCita.guardarCita(fecha, hora, especialidad, tipoCita, medico, paciente);

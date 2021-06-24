@@ -27,4 +27,6 @@ public interface ServicioMedico {
     void agregarDiaAgenda(Agenda agenda);
 
     void actualizarAgenda(Agenda agenda, String username);
+
+    List<String> getHorariosDia(Long medico, String fecha);
 }

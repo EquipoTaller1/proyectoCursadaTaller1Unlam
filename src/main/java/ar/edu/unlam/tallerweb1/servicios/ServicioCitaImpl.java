@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -33,11 +35,9 @@ public class ServicioCitaImpl implements ServicioCita {
     }
 
     @Override
-    public void create(DatosCita datosCita) throws ParseException {
-        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-        Date fecha = simpleDateFormat2.parse(datosCita.getFecha());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        Date hora = simpleDateFormat.parse(datosCita.getHora());
+    public void create(DatosCita datosCita){
+        LocalDate fecha = LocalDate.parse(datosCita.getFecha());
+        LocalTime hora = LocalTime.parse(datosCita.getHora());
         Especialidad especialidad = repositorioCita.especialidadById(Long.valueOf(datosCita.getEspecialidad()));
         TipoCita tipoCita = repositorioCita.tipoCitaById(Long.valueOf(datosCita.getTipoCita()));
         Usuario medico = repositorioCita.userById(Long.valueOf(datosCita.getMedico()));

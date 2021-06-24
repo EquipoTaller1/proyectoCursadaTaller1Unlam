@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.channels.ScatteringByteChannel;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -121,7 +122,20 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
         session.update(agenda);
     }
 
-    public List<Cita> obtenerCitasPorFecha(String email, Date fecha){
+    @Override
+    public Agenda getDiaAgenda(Long medico, String dia) {
+        final Session session = sessionFactory.getCurrentSession();
+
+        Usuario userMedico = session.get(Usuario.class, medico);
+
+        Criteria criteria = session.createCriteria(Agenda.class)
+                .add(Restrictions.eq("dia", dia))
+                .add(Restrictions.eq("medico", userMedico));
+
+        return (Agenda) criteria.uniqueResult();
+    }
+
+    public List<Cita> obtenerCitasPorFecha(String email, LocalDate fecha){
         final Session session = sessionFactory.getCurrentSession();
 
         Usuario medico = (Usuario) session.createCriteria(Usuario.class)
@@ -141,18 +155,27 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
                 .add(Restrictions.eq("observacion", "Creado"))
                 .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
-        List<Cita> citas = criteria.list();
+        return (List<Cita>) criteria.list();
+    }
 
-        /*Calendar aux = Calendar.getInstance();
-        for (Cita cita : citas ) {
-            cita.getFecha().add(Calendar.DAY_OF_MONTH, 1);
-            aux.setTime(cita.getHora());
-            aux.add(Calendar.HOUR_OF_DAY, 3);
-            cita.setHora(aux.getTime());
-        }*/
+    public List<Cita> obtenerCitasPorFechaMedicoId(Long idMedico, LocalDate fecha){
+        final Session session = sessionFactory.getCurrentSession();
 
-        return citas;
+        Usuario medico = session.get(Usuario.class, idMedico);
 
+        if (medico == null)
+            return null;
+
+        Criteria criteria = session.createCriteria(Cita.class)
+                .add(Restrictions.eq("medico", medico))
+                .add(Restrictions.eq("fecha", fecha))
+                .addOrder(Order.asc("hora"))
+                .add(Restrictions.sizeEq("historias", 1))
+                .createCriteria("historias")
+                .add(Restrictions.eq("observacion", "Creado"))
+                .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+
+        return (List<Cita>) criteria.list();
     }
 
 }
