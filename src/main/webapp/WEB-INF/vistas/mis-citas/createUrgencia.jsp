@@ -41,7 +41,7 @@
                                 </form:select>
                             </div>
                             <div class="form-group">
-                                <form:textarea path = "detallesDePedidoDeUrgencia" rows = "5" cols = "30" cssClass="form-control" />
+                                <form:textarea path = "detallesDePedidoDeUrgencia" rows = "5" cols = "30" cssClass="form-control" placeholder="Describa sus sintomas" />
                             </div>
                             <button class="btn btn-primary" type="submit">
                                 Solicitar urgencia
