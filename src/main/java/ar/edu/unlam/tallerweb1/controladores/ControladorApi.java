@@ -1,14 +1,16 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.Agenda;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioCita;
 import ar.edu.unlam.tallerweb1.servicios.ServicioMapa;
+import ar.edu.unlam.tallerweb1.servicios.ServicioMedico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class ControladorApi {
     private ServicioCita servicioCita;
 
     @Autowired
-    public  ControladorApi(ServicioMapa servicioMapa, ServicioCita servicioCita){
+    public  ControladorApi(ServicioMapa servicioMapa, ServicioCita servicioCita, ServicioMedico servicioMedico){
         this.servicioMapa = servicioMapa;
         this.servicioCita = servicioCita;
     }
@@ -36,4 +38,5 @@ public class ControladorApi {
 
         return new ResponseEntity<>(servicioCita.medicosByEspecialidad(idEspecialidad), HttpStatus.OK);
     }
+
 }

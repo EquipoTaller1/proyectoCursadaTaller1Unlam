@@ -1,9 +1,8 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.modelo.Cita;
-import ar.edu.unlam.tallerweb1.modelo.Especialidad;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.*;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -15,6 +14,8 @@ import org.springframework.test.annotation.Rollback;
 import javax.transaction.Transactional;
 
 
+import java.text.ParseException;
+import java.time.LocalTime;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -45,6 +46,87 @@ public class RepositorioMedicoTest extends SpringTest {
         List<Cita> citas = whenSeObtienenLasCitasDeFechaAntigua(medico);
         thenNoSeEncuentranCitas(citas);
     }
+
+    @Test
+    @Transactional
+    public void testQueSePuedaGuardarUnaAgenda() throws ParseException {
+        FormularioRegistroMedico datosMedico = givenCreoUnMedico();
+        Usuario medico = whenCreoUnaAgenda(datosMedico);
+        thenLaAgendaSeGuardaConExito(medico);
+    }
+
+    @Test
+    @Transactional
+    public void testQueSePuedaActualizarUnDiaEnLaAgenda() throws ParseException {
+        FormularioRegistroMedico datosMedico = givenCreoUnMedico();
+        Usuario medico = whenCreoUnaAgenda(datosMedico);
+        Agenda agenda = whenActualizoLaAgenda(medico);
+        thenLaAgendaSeActualizoConExito(medico, agenda);
+    }
+
+    private void thenLaAgendaSeActualizoConExito(Usuario medico, Agenda agenda) {
+        List<Agenda> agendas = this.repositorioMedico.obtenerAgenda(medico.getEmail());
+        assertThat(agendas.get(0).getHoraHasta().toString()).isEqualTo(agenda.getHoraHasta().toString());
+    }
+
+    private Agenda whenActualizoLaAgenda(Usuario medico) {
+        Agenda agenda = this.repositorioMedico.obtenerAgenda(medico.getEmail()).get(0);
+
+        LocalTime horaHasta = LocalTime.parse("12:00:00");
+        agenda.setHoraHasta(horaHasta);
+        this.repositorioMedico.actualizarAgenda(agenda);
+
+        return agenda;
+    }
+
+    private FormularioRegistroMedico givenCreoUnMedico() throws ParseException {
+        Persona persona = new Persona();
+        persona.setNombre("enzo");
+        persona.setEmail("medico@medico.com");
+        persona.setApellido("jimenez");
+        persona.setFechaNacimiento("18/04/1997");
+        persona.setMatricula("1234");
+        persona.setSexo("Masculino");
+        persona.setNumeroDocumento("40258515");
+        persona.setTipoDocumento("Dni");
+        persona.setNumeroAfiliado("1234567");
+        this.repositorioAdministrador.registrar(persona);
+
+        FormularioRegistroMedico formularioRegistroMedico = new FormularioRegistroMedico();
+        formularioRegistroMedico.setEmail("medico@medico.com");
+        formularioRegistroMedico.setMatricula("1234");
+        formularioRegistroMedico.setPassword("bla");
+        formularioRegistroMedico.setPasswordRepet("bla");
+
+        this.repositorioMedico.registrarMedico(formularioRegistroMedico, persona);
+
+        return formularioRegistroMedico;
+    }
+
+    private Usuario whenCreoUnaAgenda(FormularioRegistroMedico datosMedico) {
+        LocalTime horaDesde = LocalTime.now();
+        LocalTime horaHasta = horaDesde.plusHours(8);
+
+        Usuario medico = this.repositorioMedico.obtenerMedicoPorEmail(datosMedico.getEmail());
+
+        Agenda agenda = new Agenda();
+        agenda.setActivo(true);
+        agenda.setDia("lunes");
+        agenda.setMedico(medico);
+        agenda.setHoraDesde(horaDesde);
+        agenda.setHoraHasta(horaHasta);
+
+        this.repositorioMedico.guardarAgenda(agenda);
+
+        return medico;
+    }
+
+    private void thenLaAgendaSeGuardaConExito(Usuario medico) {
+        List<Agenda> agendas = this.repositorioMedico.obtenerAgenda(medico.getEmail());
+
+        assertThat(agendas).isNotEmpty();
+    }
+
 
     private void thenNoSeEncuentranCitas(List<Cita> citas) {
         //assertThat(citas).hasSize(0);

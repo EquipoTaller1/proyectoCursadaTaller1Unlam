@@ -25,5 +25,9 @@ public interface RepositorioMedico {
     boolean addEspecialidad(Usuario medico, int especialidad);
 
     List<Agenda> obtenerAgenda(String email);
+
+    void guardarAgenda(Agenda agenda);
+
+    void actualizarAgenda(Agenda agenda);
 }
 

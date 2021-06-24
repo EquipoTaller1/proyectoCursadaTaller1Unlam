@@ -27,6 +27,10 @@
 								href="${pageContext.request.contextPath}/medico/agregar-especialidad"> <i
 				class="ni ni-bullet-list-67 text-blue"></i> Mis especialidades
 		</a></li>
+		<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/medico/mi-agenda"> <i
+				class="ni ni-bullet-list-67 text-blue"></i> Mi agenda
+		</a></li>
 
 	</sec:authorize>
 	<sec:authorize access="hasRole('Paciente')">

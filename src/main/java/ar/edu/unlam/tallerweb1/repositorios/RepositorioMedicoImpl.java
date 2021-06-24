@@ -109,6 +109,18 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
         return criteria.list();
     }
 
+    @Override
+    public void guardarAgenda(Agenda agenda) {
+        final Session session = sessionFactory.getCurrentSession();
+        session.save(agenda);
+    }
+
+    @Override
+    public void actualizarAgenda(Agenda agenda) {
+        final Session session = sessionFactory.getCurrentSession();
+        session.update(agenda);
+    }
+
     public List<Cita> obtenerCitasPorFecha(String email, Date fecha){
         final Session session = sessionFactory.getCurrentSession();
 

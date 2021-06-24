@@ -25,4 +25,6 @@ public interface ServicioMedico {
     List<Agenda> getAgenda(String email);
 
     void agregarDiaAgenda(Agenda agenda);
+
+    void actualizarAgenda(Agenda agenda, String username);
 }

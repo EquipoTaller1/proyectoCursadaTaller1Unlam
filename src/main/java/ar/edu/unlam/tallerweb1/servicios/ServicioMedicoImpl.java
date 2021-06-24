@@ -69,4 +69,16 @@ public class ServicioMedicoImpl implements ServicioMedico {
 
     }
 
+    @Override
+    public void actualizarAgenda(Agenda agenda, String username) {
+        agenda.setMedico(this.consultarMedicoPorEmail(username));
+        if (agenda.getActivo() == null) {
+            agenda.setActivo(false);
+        } else {
+            agenda.setActivo(true);
+        }
+
+        this.repositorioMedico.actualizarAgenda(agenda);
+    }
+
 }
