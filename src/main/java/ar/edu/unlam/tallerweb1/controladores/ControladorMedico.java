@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -127,6 +128,23 @@ public class ControladorMedico {
 
 // Se regresa a la vista con la información de Especialidades actualizada
         return new ModelAndView("medico/agregar-especialidad", model);
+    }
+
+    @RequestMapping(path = "/borrar_especialidad/{especialidadId}")
+    public ModelAndView borrarEspecialidad(@PathVariable long especialidadId, Authentication authentication){
+        List<String> errores = new ArrayList<>();
+        ModelMap model = new ModelMap();
+        User user = (User) authentication.getPrincipal();
+
+        try {
+            servicioMedico.deleteEspecilidad(user.getUsername(), especialidadId);
+        }
+        catch (RuntimeException e) {
+            errores.add(e.getMessage());
+            model.put("errores", errores);
+        }
+
+        return new ModelAndView("redirect:/medico/agregar-especialidad",model);
     }
 
 }

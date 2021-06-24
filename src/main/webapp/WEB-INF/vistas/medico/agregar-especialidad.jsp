@@ -71,6 +71,13 @@
                                                     <div class="col">
                                                         <h3 class="card-title text-uppercase mb-0">${especialidad.descripcion}</h3>
                                                     </div>
+                                                    <div class="col-auto">
+                                                        <div class=" bg-danger text-white shadow">
+                                                            <a style="color:inherit" href="${pageContext.request.contextPath}/medico/borrar_especialidad/${especialidad.id}">
+                                                                <div>- Eliminar -</div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

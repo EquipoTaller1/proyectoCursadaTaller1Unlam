@@ -24,6 +24,8 @@ public interface RepositorioMedico {
 
     boolean addEspecialidad(Usuario medico, int especialidad);
 
+    boolean deleteEspecialidad(String emailMedico, long especialidad);
+
     List<Agenda> obtenerAgenda(String email);
 }
 

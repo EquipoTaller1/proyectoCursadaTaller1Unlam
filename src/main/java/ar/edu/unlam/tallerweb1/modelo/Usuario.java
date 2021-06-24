@@ -1,6 +1,9 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -35,6 +38,7 @@ public class Usuario {
 			joinColumns=@JoinColumn(name="medico_id"),
 			inverseJoinColumns=@JoinColumn(name="especialidad_id"))
 	@JsonIgnore
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Especialidad> especialidades;
 
 	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

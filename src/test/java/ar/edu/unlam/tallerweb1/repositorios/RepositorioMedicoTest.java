@@ -3,7 +3,11 @@ package ar.edu.unlam.tallerweb1.repositorios;
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Especialidad;
+import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -22,6 +26,9 @@ import static org.assertj.core.api.Assertions.*;
 public class RepositorioMedicoTest extends SpringTest {
 
     @Autowired
+    private SessionFactory sessionFactory;
+
+    @Autowired
     private  RepositorioMedico repositorioMedico;
 
     @Autowired
@@ -29,6 +36,15 @@ public class RepositorioMedicoTest extends SpringTest {
 
     @Autowired
     private RepositorioAdministrador repositorioAdministrador;
+
+    @Test
+    @Transactional
+    @Rollback
+    public void seEliminaEspecialidadExistente(){
+        Usuario medico = givenMedicoExistente();
+        whenSeEliminaEspecialidadExistente(medico);
+        thenElMedicoYanoTieneEsaEspecialidad(medico);
+    }
 
     @Test
     @Transactional
@@ -41,26 +57,58 @@ public class RepositorioMedicoTest extends SpringTest {
     @Test
     @Transactional
     public void noSeObtienenCitasDelMedicoEnFechaAntigua(){
-        String medico = givenMedicoExistente();
+        Usuario medico = givenMedicoExistente();
         List<Cita> citas = whenSeObtienenLasCitasDeFechaAntigua(medico);
         thenNoSeEncuentranCitas(citas);
     }
 
     private void thenNoSeEncuentranCitas(List<Cita> citas) {
-        //assertThat(citas).hasSize(0);
+        assertThat(citas).hasSize(0);
     }
 
 
-    private List<Cita> whenSeObtienenLasCitasDeFechaAntigua(String medico) {
+    private List<Cita> whenSeObtienenLasCitasDeFechaAntigua(Usuario medico) {
         /*Calendar fecha = Calendar.getInstance();
         fecha.setTime(new Date("1900/01/01"));*/
-        return repositorioMedico.obtenerCitasPorFecha(medico, new Date("1900/01/01"));
+        return repositorioMedico.obtenerCitasPorFecha(medico.getEmail(), new Date("1900/01/01"));
     }
 
-    private String givenMedicoExistente() {
-        return "dmaradona@gmail.com";
-    }
 
+    private Usuario givenMedicoExistente(){
+// Se registra persona Médico
+        Persona persona = new Persona();
+        persona.setNombre("Juan");
+        persona.setApellido("Perez");
+        persona.setEmail("javier.terranova_2310@gmail.com");
+        persona.setTipoDocumento("DNI");
+        persona.setNumeroDocumento("4836646");
+        String dateInString = "23/10/1985";
+        persona.setFechaNacimiento(dateInString);
+        persona.setSexo("Masculino");
+        persona.setMatricula("3123122310");
+        repositorioAdministrador.registrarMedico(persona);
+
+// Se registra el usuario medico
+        FormularioRegistroMedico formulario = new FormularioRegistroMedico();
+        formulario.setMatricula("3123122310");
+        formulario.setEmail("javier.terranova_2310@gmail.com");
+        formulario.setPassword("123456");
+        formulario.setPasswordRepet("123456");
+        repositorioMedico.registrarMedico(formulario, persona);
+
+        Usuario medico = repositorioMedico.obtenerMedicoPorEmail("javier.terranova_2310@gmail.com");
+
+// Se agrega especialidad 1
+        final Session session = sessionFactory.getCurrentSession();
+        Especialidad especialidad = new Especialidad();
+        long idEspecialidad = new Long(1);
+        especialidad.setId(idEspecialidad);
+        especialidad.setDescripcion("Test");
+        session.save(especialidad);
+        repositorioMedico.addEspecialidad(medico, 1);
+
+        return medico;
+    }
 
     private void thenLasCitasObtenidasSonLasCorrectas(List<Cita> citas) {
        // assertThat(citas).hasSize(2);
@@ -85,6 +133,14 @@ public class RepositorioMedicoTest extends SpringTest {
 
         repositorioAdministrador.registrarMedico(medico);
         repositorioCita.guardarCita();*/
+    }
+
+    private void thenElMedicoYanoTieneEsaEspecialidad(Usuario medico) {
+        assertThat(medico.getEspecialidades()).hasSize(0);
+    }
+
+    private void whenSeEliminaEspecialidadExistente(Usuario medico) {
+        repositorioMedico.deleteEspecialidad(medico.getEmail(), 1);
     }
 
 }
