@@ -33,7 +33,8 @@
                                                         <h3 class="card-title text-uppercase mb-0">${cita.especialidad.descripcion}</h3>
                                                         <p class="font-weight-bold text-muted mb-0">
                                                             Medico: ${cita.medico.persona.apellido} ${cita.medico.persona.nombre} <br>
-                                                            Fecha y hora: ${cita.fechaHoraFormateada()}hs. <br>
+                                                            Fecha: ${cita.fechaFormateada()} <br>
+                                                            Hora: ${cita.hora}hs <br>
                                                             Estado: ${cita.getUltimaHistoria().estado.descripcion}
                                                         </p>
                                                     </div>

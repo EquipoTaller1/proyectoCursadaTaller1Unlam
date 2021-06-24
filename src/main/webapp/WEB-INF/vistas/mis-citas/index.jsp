@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 d-flex">
-                                <div class="col-6 col-md-3">
+                                <div class="col-6 col-md-3 mb-2">
                                     <a href="${pageContext.request.contextPath}/paciente/citas/create" class="btn btn-primary">
                                         Nueva cita
                                     </a>
@@ -48,7 +48,8 @@
                                                         <h3 class="card-title text-uppercase mb-0">${cita.especialidad.descripcion}</h3>
                                                         <p class="font-weight-bold text-muted mb-0">
                                                             Medico: ${cita.medico.persona.apellido} ${cita.medico.persona.nombre} <br>
-                                                            Fecha y hora: ${cita.fechaHoraFormateada()}hs. <br>
+                                                            Fecha: ${cita.fechaFormateada()} <br>
+                                                            Hora: ${cita.hora}hs <br>
                                                             Estado: ${cita.getUltimaHistoria().estado.descripcion}
                                                         </p>
                                                     </div>

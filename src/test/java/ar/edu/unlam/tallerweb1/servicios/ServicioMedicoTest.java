@@ -16,6 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.mockito.Mockito.*;
@@ -78,6 +81,13 @@ public class ServicioMedicoTest {
         thenLaAgendaDaSeCreaConExito(agenda, medico);
     }
 
+    /*@Test
+    public void testQueUnMedicoPuedaActualizarUnDiaEnLaAgenda(){
+        Usuario medico = givenUsuarioMedico();
+        Agenda agenda = whenCreoUnDiaEnLaAgenda(medico);
+
+    }*/
+
     private void thenLaAgendaDaSeCreaConExito(Agenda agenda, Usuario medico) {
         when(_repositorioMedico.obtenerAgenda(medico.getEmail())).thenReturn(Arrays.asList(agenda));
         _servicioMedico.agregarDiaAgenda(agenda);
@@ -88,14 +98,12 @@ public class ServicioMedicoTest {
     }
 
     private Agenda whenCreoUnDiaEnLaAgenda(Usuario medico) {
-        Calendar calendar = Calendar.getInstance();
-        Date horaDesde = calendar.getTime();
-        calendar.set(Calendar.HOUR, calendar.get(Calendar.HOUR) + 2);
-        Date horaHasta = calendar.getTime();
+        LocalTime horaDesde = LocalTime.now();
+        LocalTime horaHasta = horaDesde.plusHours(8);
 
         Agenda agenda = new Agenda();
         agenda.setMedico(medico);
-        agenda.setDia("Lunes");
+        agenda.setDia("lunes");
         agenda.setActivo(true);
         agenda.setHoraDesde(horaDesde);
         agenda.setHoraHasta(horaHasta);
@@ -135,7 +143,7 @@ public class ServicioMedicoTest {
         List<Cita> citas = new ArrayList<>();
         Cita citaHoy2 = new Cita();
         Cita citaHoy = new Cita();
-        Date hoy = new Date();
+        LocalDate hoy = LocalDate.now();
         citaHoy.setFecha(hoy);
         citaHoy2.setFecha(hoy);
         citas.add(citaHoy);

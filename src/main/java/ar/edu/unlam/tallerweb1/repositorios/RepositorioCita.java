@@ -4,6 +4,9 @@ import ar.edu.unlam.tallerweb1.modelo.Cita;
 import ar.edu.unlam.tallerweb1.modelo.Especialidad;
 import ar.edu.unlam.tallerweb1.modelo.TipoCita;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,9 +18,9 @@ public interface RepositorioCita {
 
     List<Cita> obtenerCitasProximas(String email);
 
-    Cita guardarCita(Date fecha, Date hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente);
+    Cita guardarCita(LocalDate fecha, LocalTime hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente);
 
-    Cita guardarCita(Date fecha, Date hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente, String detallesDePedidoDeUrgencia);
+    Cita guardarCita(LocalDate fecha, LocalTime hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente, String detallesDePedidoDeUrgencia);
 
     Cita obtenerCita(Long idCita);
 

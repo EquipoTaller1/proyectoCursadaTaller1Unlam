@@ -20,9 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/paciente")
@@ -67,6 +68,7 @@ public class ControladorPaciente {
         ModelMap model = new ModelMap();
         model.put("datos", new DatosCita());
         model.put("especialidades", servicioCita.allEspecialidades());
+        model.put("fechaActual", LocalDate.now());
 
         return new ModelAndView("mis-citas/create", model);
     }
@@ -114,9 +116,10 @@ public class ControladorPaciente {
         List<String> errores = new ArrayList<>();
         User user = (User) authentication.getPrincipal();
 
-        LocalDateTime fecha = new LocalDateTime();
+        LocalDate fecha = LocalDate.now();
+        LocalTime hora = LocalTime.now();
 
-        int anio = fecha.getYear();
+        /*int anio = fecha.getYear();
         int mes = fecha.getMonthOfYear();
         int dia = fecha.getDayOfYear();
         int hora = fecha.getHourOfDay();
@@ -126,15 +129,15 @@ public class ControladorPaciente {
         String mesFecha = String.valueOf(mes);
         String diaFecha = String.valueOf(dia);
         String horaFecha = String.valueOf(hora);
-        String minutoFecha = String.valueOf(minuto);
+        String minutoFecha = String.valueOf(minuto);*/
 
         datosCitaUrgencia.setPaciente(user.getUsername());
         datosCitaUrgencia.setTipoCita(2);
 
         //aca el medico en una futura version se deberia seleccionar segun otros criterios, por ejemplo la distancia, o si se encuentra o no de guardia.
         datosCitaUrgencia.setMedico(4);
-        datosCitaUrgencia.setHora(horaFecha + ":" + minutoFecha);
-        datosCitaUrgencia.setFecha(anioFecha + "-" + mesFecha + "-" + diaFecha);
+        datosCitaUrgencia.setHora(hora);
+        datosCitaUrgencia.setFecha(fecha);
 
 
         if (result.hasErrors()){

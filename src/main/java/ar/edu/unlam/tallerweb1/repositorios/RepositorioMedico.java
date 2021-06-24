@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.modelo.Persona;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.formularios.FormularioRegistroMedico;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ public interface RepositorioMedico {
 
     void registrarMedico(FormularioRegistroMedico formulario, Persona persona);
 
-    List<Cita> obtenerCitasPorFecha(String email, Date fecha);
+    List<Cita> obtenerCitasPorFecha(String email, LocalDate fecha);
 
     Usuario obtenerMedicoPorEmail(String email);
 
@@ -27,5 +28,13 @@ public interface RepositorioMedico {
     boolean deleteEspecialidad(String emailMedico, long especialidad);
 
     List<Agenda> obtenerAgenda(String email);
+
+    void guardarAgenda(Agenda agenda);
+
+    void actualizarAgenda(Agenda agenda);
+
+    Agenda getDiaAgenda(Long medico, String dia);
+
+    List<Cita> obtenerCitasPorFechaMedicoId(Long idMedico, LocalDate fecha);
 }
 

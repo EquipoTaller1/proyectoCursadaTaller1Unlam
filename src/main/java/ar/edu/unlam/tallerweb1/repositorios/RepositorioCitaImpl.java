@@ -10,8 +10,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -63,7 +64,13 @@ public class RepositorioCitaImpl implements RepositorioCita {
     }
 
     @Override
-    public Cita guardarCita(Date fecha, Date hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente) {
+    public Cita guardarCita(LocalDate fecha, LocalTime hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente) {
+        CitaHistoria citaHistoria = new CitaHistoria();
+        Estado creado = sessionFactory.getCurrentSession().get(Estado.class, Long.valueOf(1));
+        citaHistoria.setEstado(creado);
+        citaHistoria.setObservacion("Creado");
+        citaHistoria.setCreated_at(LocalDateTime.now());
+
         Cita cita = new Cita();
         cita.setHora(hora);
         cita.setFecha(fecha);
@@ -71,24 +78,15 @@ public class RepositorioCitaImpl implements RepositorioCita {
         cita.setTipoCita(tipoCita);
         cita.setPaciente(paciente);
         cita.setMedico(medico);
-        cita.setCreated_at(Calendar.getInstance());
-
-        CitaHistoria citaHistoria = new CitaHistoria();
-        Estado creado = sessionFactory.getCurrentSession().get(Estado.class, Long.valueOf(1));
-        citaHistoria.setEstado(creado);
-        citaHistoria.setCita(cita);
-        citaHistoria.setObservacion("Creado");
-        citaHistoria.setCreated_at(Calendar.getInstance());
-
         cita.agregarHistoria(citaHistoria);
+        cita.setCreated_at(LocalDateTime.now());
         sessionFactory.getCurrentSession().save(cita);
-        sessionFactory.getCurrentSession().save(citaHistoria);
 
         return cita;
     }
 
     @Override
-    public Cita guardarCita(Date fecha, Date hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente, String detallesDePedidoDeUrgencia) {
+    public Cita guardarCita(LocalDate fecha, LocalTime hora, Especialidad especialidad, TipoCita tipoCita, Usuario medico, Usuario paciente, String detallesDePedidoDeUrgencia) {
         Cita cita = new Cita();
         cita.setHora(hora);
         cita.setFecha(fecha);
@@ -96,7 +94,7 @@ public class RepositorioCitaImpl implements RepositorioCita {
         cita.setTipoCita(tipoCita);
         cita.setPaciente(paciente);
         cita.setMedico(medico);
-        cita.setCreated_at(Calendar.getInstance());
+        cita.setCreated_at(LocalDateTime.now());
 
 
 
@@ -105,7 +103,7 @@ public class RepositorioCitaImpl implements RepositorioCita {
         citaHistoria.setEstado(creado);
         citaHistoria.setCita(cita);
         citaHistoria.setObservacion("Creado");
-        citaHistoria.setCreated_at(Calendar.getInstance());
+        citaHistoria.setCreated_at(LocalDateTime.now());
         citaHistoria.setDetallesDePedidoDeUrgencia(detallesDePedidoDeUrgencia);
 
         cita.agregarHistoria(citaHistoria);

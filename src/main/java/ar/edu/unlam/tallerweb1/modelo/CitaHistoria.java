@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 @Entity
 public class CitaHistoria {
@@ -16,11 +16,7 @@ public class CitaHistoria {
     private Estado estado;
     private String observacion;
     private String archivo;
-
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar created_at;
-
+    private LocalDateTime created_at;
     @Column(name = "detalles_de_pedido_de_urgencia")
     private String detallesDePedidoDeUrgencia;
 
@@ -56,11 +52,11 @@ public class CitaHistoria {
         this.observacion = observacion;
     }
 
-    public Calendar getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Calendar created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 

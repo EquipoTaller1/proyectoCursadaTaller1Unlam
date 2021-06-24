@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo.formularios;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class DatosCitaUrgencia {
     private String paciente;
@@ -9,10 +11,10 @@ public class DatosCitaUrgencia {
     @NotNull(message = "Tenes que seleccionar una especialidad")
     private int especialidad;
 
-    private String hora;
+    private LocalTime hora;
     private int tipoCita;
 
-    private String fecha;
+    private LocalDate fecha;
 
     private String detallesDePedidoDeUrgencia;
 
@@ -40,11 +42,11 @@ public class DatosCitaUrgencia {
         return especialidad;
     }
 
-    public void setHora(String hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
@@ -56,11 +58,11 @@ public class DatosCitaUrgencia {
         return tipoCita;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public String getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 

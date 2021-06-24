@@ -1,40 +1,66 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalTime;
 
 @Entity
-public class Agenda {
+public class Agenda{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.TIME)
-    private Date horaHasta;
-    @Temporal(TemporalType.TIME)
-    private Date horaDesde;
     @ManyToOne
     private Usuario medico;
     private String dia;
-    private boolean activo;
+    private Boolean activo;
+    private LocalTime horaHasta;
+    private LocalTime horaDesde;
 
-    public void setHoraHasta(Date horaHasta) {
-        this.horaHasta = horaHasta;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getMedico() {
+        return medico;
     }
 
     public void setMedico(Usuario medico) {
         this.medico = medico;
     }
 
+    public String getDia() {
+        return dia;
+    }
+
     public void setDia(String dia) {
         this.dia = dia;
     }
 
-    public void setActivo(boolean b) {
-        this.activo = b;
+    public Boolean getActivo() {
+        return activo;
     }
 
-    public void setHoraDesde(Date horaDesde) {
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    public LocalTime getHoraHasta() {
+        return horaHasta;
+    }
+
+    public void setHoraHasta(LocalTime horaHasta) {
+        this.horaHasta = horaHasta;
+    }
+
+    public LocalTime getHoraDesde() {
+        return horaDesde;
+    }
+
+    public void setHoraDesde(LocalTime horaDesde) {
         this.horaDesde = horaDesde;
     }
 }

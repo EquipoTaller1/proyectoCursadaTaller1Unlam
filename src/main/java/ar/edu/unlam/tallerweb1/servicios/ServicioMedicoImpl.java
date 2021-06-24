@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -40,7 +43,7 @@ public class ServicioMedicoImpl implements ServicioMedico {
     {
 
       try {
-          Date hoy = new Date();
+          LocalDate hoy = LocalDate.now();
           return repositorioMedico.obtenerCitasPorFecha(email, hoy);
       }catch (Exception e)
       {
@@ -74,6 +77,51 @@ public class ServicioMedicoImpl implements ServicioMedico {
     @Override
     public void agregarDiaAgenda(Agenda agenda) {
 
+    }
+
+    @Override
+    public void actualizarAgenda(Agenda agenda, String username) {
+        agenda.setMedico(this.consultarMedicoPorEmail(username));
+        if (agenda.getActivo() == null) {
+            agenda.setActivo(false);
+        } else {
+            agenda.setActivo(true);
+        }
+
+        this.repositorioMedico.actualizarAgenda(agenda);
+    }
+
+    @Override
+    public List<String> getHorariosDia(Long medico, String fecha) {
+        DateTimeFormatter formatoDia = DateTimeFormatter
+                .ofPattern("EEEE")
+                .withLocale(new Locale("es", "AR"));
+        LocalDate fechaLocal = LocalDate.parse(fecha);
+        String dia = fechaLocal.format(formatoDia);
+
+        Agenda agenda = this.repositorioMedico.getDiaAgenda(medico, dia);
+        List<String> intervalos = new ArrayList<>();
+        if (!agenda.getActivo()){
+            return intervalos;
+        }
+
+        LocalTime interIni = agenda.getHoraDesde();
+        LocalTime interFin = agenda.getHoraHasta();
+        intervalos.add(interIni.toString());
+
+        List<Cita> citasDeLaFecha = this.repositorioMedico.obtenerCitasPorFechaMedicoId(medico, fechaLocal);
+        List<String> horariosNoDisponibles = new ArrayList<>();
+        for (Cita c:citasDeLaFecha){
+            horariosNoDisponibles.add(c.getHora().toString());
+        }
+
+        while (interIni.isBefore(interFin)){
+            interIni = interIni.plusMinutes(40);
+            if (!horariosNoDisponibles.contains(interIni.toString()))
+                intervalos.add(interIni.toString());
+        }
+
+        return intervalos;
     }
 
 }

@@ -40,7 +40,7 @@
                         </div>
                         <form:form action="${pageContext.request.contextPath}/paciente/citas/store" method="post" modelAttribute="datos">
                             <div class="form-group">
-                                <label for="selectEspecialidad">Especialidad</label>
+                                <label for="selectEspecialidad" class="form-control-label">Especialidad</label>
                                 <form:select path="especialidad" id="selectEspecialidad" cssClass="form-control">
                                     <option value="" disabled selected>Seleccione una especialidad</option>
                                     <form:options items="${especialidades}" itemLabel="descripcion" itemValue="id" />
@@ -54,11 +54,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="fecha" class="form-control-label">Fecha</label>
-                                <form:input path="fecha" type="date" id="fecha" cssClass="form-control" />
+                                <form:input path="fecha" type="date" id="fecha" cssClass="form-control" min="${fechaActual.toString()}" />
                             </div>
                             <div class="form-group">
-                                <label for="hora" class="form-control-label">Hora</label>
-                                <form:input path="hora" cssClass="form-control" type="time" />
+                                <label class="form-control-label">Horario</label>
+                                <small>Seleccione el medico y la fecha, para poder seleccionar un horario</small>
+
+                                <div class="alert alert-warning" role="alert" id="alertHorario">
+
+                                </div>
+                                <div id="contenedorRadio">
+
+                                </div>
                             </div>
 
                             <button class="btn btn-primary" type="submit">
