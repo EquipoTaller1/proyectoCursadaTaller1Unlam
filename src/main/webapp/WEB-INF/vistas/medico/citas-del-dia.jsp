@@ -46,10 +46,10 @@
                                                     <div class="col">
                                                         <h3 class="card-title text-uppercase mb-0">${cita.especialidad.descripcion}</h3>
                                                         <p class="font-weight-bold text-muted mb-0">
-                                                            Paciente: ${cita.paciente.persona.apellido} ${cita.paciente.persona.nombre}
-                                                            <br>
-                                                            Fecha y hora: ${cita.fechaHoraFormateada()}hs. <br>
-                                                            Estado: ${cita.getUltimaHistoria().estado.descripcion}<br>
+                                                            Paciente: ${cita.paciente.persona.apellido} ${cita.paciente.persona.nombre}<br>
+                                                            Fecha: ${cita.fechaFormateada()} <br>
+                                                            Hora: ${cita.hora}hs <br>
+                                                            Estado: ${cita.getUltimaHistoria().estado.descripcion}
                                                         </p>
                                                     </div>
                                                     <div class="col">
