@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.channels.ScatteringByteChannel;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,62 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
         usuario.setPassword(new BCryptPasswordEncoder().encode(formularioRegistroPaciente.getPassword()));
         usuario.setPersona(persona);
         session.save(usuario);
+
+        Agenda lunes = new Agenda();
+        lunes.setActivo(true);
+        lunes.setHoraDesde(LocalTime.parse("08:00"));
+        lunes.setHoraHasta(LocalTime.parse("16:00"));
+        lunes.setDia("lunes");
+        lunes.setMedico(usuario);
+        session.save(lunes);
+
+        Agenda martes = new Agenda();
+        martes.setActivo(true);
+        martes.setHoraDesde(LocalTime.parse("08:00"));
+        martes.setHoraHasta(LocalTime.parse("16:00"));
+        martes.setDia("martes");
+        martes.setMedico(usuario);
+        session.save(martes);
+
+        Agenda miercoles = new Agenda();
+        miercoles.setActivo(true);
+        miercoles.setHoraDesde(LocalTime.parse("08:00"));
+        miercoles.setHoraHasta(LocalTime.parse("16:00"));
+        miercoles.setDia("miércoles");
+        miercoles.setMedico(usuario);
+        session.save(miercoles);
+
+        Agenda jueves = new Agenda();
+        jueves.setActivo(true);
+        jueves.setHoraDesde(LocalTime.parse("08:00"));
+        jueves.setHoraHasta(LocalTime.parse("16:00"));
+        jueves.setDia("jueves");
+        jueves.setMedico(usuario);
+        session.save(jueves);
+
+        Agenda viernes = new Agenda();
+        viernes.setActivo(true);
+        viernes.setHoraDesde(LocalTime.parse("08:00"));
+        viernes.setHoraHasta(LocalTime.parse("16:00"));
+        viernes.setDia("viernes");
+        viernes.setMedico(usuario);
+        session.save(viernes);
+
+        Agenda sabado = new Agenda();
+        sabado.setActivo(false);
+        sabado.setHoraDesde(LocalTime.parse("08:00"));
+        sabado.setHoraHasta(LocalTime.parse("16:00"));
+        sabado.setDia("sábado");
+        sabado.setMedico(usuario);
+        session.save(sabado);
+
+        Agenda domingo = new Agenda();
+        domingo.setActivo(false);
+        domingo.setHoraDesde(LocalTime.parse("08:00"));
+        domingo.setHoraHasta(LocalTime.parse("16:00"));
+        domingo.setDia("domingo");
+        domingo.setMedico(usuario);
+        session.save(domingo);
     }
 
     @Override

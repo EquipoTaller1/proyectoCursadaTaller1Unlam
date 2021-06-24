@@ -3,7 +3,6 @@ package ar.edu.unlam.tallerweb1.modelo;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,7 +26,7 @@ public class Cita {
     @ManyToOne()
     @JoinColumn(name = "tipoCita_id")
     private TipoCita tipoCita;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cita")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "cita")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<CitaHistoria> historias;
     private LocalDate fecha;
@@ -123,6 +122,7 @@ public class Cita {
     }
 
     public void agregarHistoria(CitaHistoria citaHistoria){
+        citaHistoria.setCita(this);
         this.getHistorias().add(citaHistoria);
     }
 
