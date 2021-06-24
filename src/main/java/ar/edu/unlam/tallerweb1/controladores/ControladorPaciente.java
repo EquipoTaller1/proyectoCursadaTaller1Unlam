@@ -71,14 +71,7 @@ public class ControladorPaciente {
         return new ModelAndView("mis-citas/create", model);
     }
 
-    @RequestMapping("/citas/createUrgencia")
-    public ModelAndView irACrearCitaUrgencia(){
-        ModelMap model = new ModelMap();
-        model.put("datos", new DatosCitaUrgencia());
-        model.put("especialidades", servicioCita.allEspecialidades());
 
-        return new ModelAndView("mis-citas/createUrgencia", model);
-    }
 
     @RequestMapping(value = "/citas/store", method = RequestMethod.POST)
     public ModelAndView createCita(@Valid DatosCita datosCita, BindingResult result, Authentication authentication){
@@ -106,6 +99,15 @@ public class ControladorPaciente {
         return new ModelAndView("redirect:/paciente/citas/index");
     }
 
+    @RequestMapping("/citas/createUrgencia")
+    public ModelAndView irACrearCitaUrgencia(){
+        ModelMap model = new ModelMap();
+        model.put("datos", new DatosCitaUrgencia());
+        model.put("especialidades", servicioCita.allEspecialidades());
+
+        return new ModelAndView("mis-citas/createUrgencia", model);
+    }
+
     @RequestMapping(value = "/citas/storeUrgencia", method = RequestMethod.POST)
     public ModelAndView createUrgencia(@Valid DatosCitaUrgencia datosCitaUrgencia, BindingResult result, Authentication authentication){
         ModelMap model = new ModelMap();
@@ -113,8 +115,6 @@ public class ControladorPaciente {
         User user = (User) authentication.getPrincipal();
 
         LocalDateTime fecha = new LocalDateTime();
-
-        
 
         int anio = fecha.getYear();
         int mes = fecha.getMonthOfYear();
@@ -131,13 +131,10 @@ public class ControladorPaciente {
         datosCitaUrgencia.setPaciente(user.getUsername());
         datosCitaUrgencia.setTipoCita(2);
 
-
-        //el medico deberia seleccionarse dinamicamente teniendo en cuenta su ubicacion y la ubicacion del paciente
+        //aca el medico en una futura version se deberia seleccionar segun otros criterios, por ejemplo la distancia, o si se encuentra o no de guardia.
         datosCitaUrgencia.setMedico(4);
         datosCitaUrgencia.setHora(horaFecha + ":" + minutoFecha);
         datosCitaUrgencia.setFecha(anioFecha + "-" + mesFecha + "-" + diaFecha);
-
-
 
 
         if (result.hasErrors()){

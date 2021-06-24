@@ -63,13 +63,13 @@ public class ControladorMedicoTest{
         return usuario;
     }
 
-    @Test
+   /* @Test
     @Transactional
     @Rollback
     public void testIrARegistrarPersona() {
-/*        ModelAndView mav = controladorMedico.irAMisCitas(authentication);
+        ModelAndView mav = controladorMedico.irAMisCitas(authentication);
         assertThat(mav.getViewName()).isEqualTo("medico/citas-del-dia");
-        assertThat(mav.getModel().get("citas")).isNotNull();*/
-    }
+        assertThat(mav.getModel().get("citas")).isNotNull();
+    }*/
 
 }
