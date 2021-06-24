@@ -47,7 +47,7 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
         final Session session = sessionFactory.getCurrentSession();
 
         Usuario medico = (Usuario) session.createCriteria(Usuario.class)
-                        .setFetchMode("especialidades", FetchMode.JOIN)
+                      //  .setFetchMode("especialidades", FetchMode.JOIN)
                         .add(Restrictions.eq("rol", "Medico"))
                         .add(Restrictions.eq("email", email))
                         .uniqueResult();
@@ -96,6 +96,30 @@ public class RepositorioMedicoImpl implements RepositorioMedico {
 
         return true;
 
+    }
+
+    @Override
+    public boolean deleteEspecialidad(String emailMedico, long especialidad){
+
+        Usuario medico = this.obtenerMedicoPorEmail(emailMedico);
+        if (medico == null)
+            return  false;
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        Especialidad especialidadBorrar = (Especialidad) session.createCriteria(Especialidad.class)
+                .add(Restrictions.eq("id", especialidad))
+                .uniqueResult();
+
+        for (Especialidad esp : medico.getEspecialidades()) {
+            if (esp.getId().equals(especialidadBorrar.getId()))
+            {
+                medico.getEspecialidades().remove(especialidadBorrar);
+                sessionFactory.getCurrentSession().update(medico);
+                return true; //Se borró la especialidad
+            }
+        }
+        return false;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.Excepciones.ErrorEspecialidad;
 import ar.edu.unlam.tallerweb1.Excepciones.EspecialidadRepetida;
 import ar.edu.unlam.tallerweb1.Excepciones.ObtenerCitasDelDiaException;
 import ar.edu.unlam.tallerweb1.modelo.Agenda;
@@ -57,6 +58,12 @@ public class ServicioMedicoImpl implements ServicioMedico {
     public void addEspecialidad(Usuario medico, int especialidad) throws EspecialidadRepetida {
         if (!repositorioMedico.addEspecialidad(medico, especialidad))
             throw new EspecialidadRepetida("Ya tiene registrada esa especialidad");
+    }
+
+    @Override
+    public void deleteEspecilidad(String emailMedico, long especialidad) throws ErrorEspecialidad {
+        if (!repositorioMedico.deleteEspecialidad(emailMedico, especialidad))
+            throw new ErrorEspecialidad("No se puede borrar la especialidad");
     }
 
     @Override
